@@ -16,5 +16,5 @@ The full text of the license is available at http://www.gnu.org/copyleft/lesser.
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     
     <!-- the path in this variable needs to be replaced by the path to the root directory of this project -->
-    <xsl:variable name="projectsDir">D:/XSLT/BTDv1</xsl:variable>
+    <xsl:variable name="projectsDir">file:///D:/XSLT/BTDv1</xsl:variable>
 </xsl:stylesheet>
