@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/hl7_2_ada/zibs2020/payload/uni-Medicatieafspraak.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/hl7-2-ada/env/zibs/2020/payload/uni-Medicatieafspraak.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -22,7 +22,8 @@
    <xsl:variable name="templateId-medicatieafspraak"
                  as="xs:string*"
                  select="'2.16.840.1.113883.2.4.3.11.60.20.77.10.9431', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9430', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9429', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9325', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9324', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9323', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9275', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9233', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9235', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9241', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9216'"/>
-   <xsl:variable name="template-id-rel-ma">2.16.840.1.113883.2.4.3.11.60.20.77.10.9086</xsl:variable>
+   <xsl:variable name="template-id-rel-ma"
+                 select="'2.16.840.1.113883.2.4.3.11.60.20.77.10.9086'"/>
    <xsl:variable name="templateId-redenVanVoorschrijven"
                  as="xs:string*"
                  select="'2.16.840.1.113883.2.4.3.11.60.121.10.24', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9316', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9160'"/>
@@ -123,7 +124,8 @@
             <xsl:apply-templates select="hl7:author"
                                  mode="uni-Medicatieafspraak"/>
             <!-- reden wijzigen of staken -->
-            <xsl:variable name="ada-elemName">reden_wijzigen_of_staken</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'reden_wijzigen_of_staken'"/>
             <xsl:call-template name="handleCV">
                <xsl:with-param name="in"
                                select="hl7:entryRelationship/*[hl7:templateId/@root = $templateId-redenWijzigenOfStaken]/hl7:value"/>
@@ -288,7 +290,8 @@
             <xsl:apply-templates select="hl7:author"
                                  mode="uni-Medicatieafspraak"/>
             <!-- reden wijzigen of staken -->
-            <xsl:variable name="ada-elemName">reden_wijzigen_of_staken</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'reden_wijzigen_of_staken'"/>
             <xsl:call-template name="handleCV">
                <xsl:with-param name="in"
                                select="hl7:entryRelationship/*[hl7:templateId/@root = $templateId-redenWijzigenOfStaken]/hl7:value"/>

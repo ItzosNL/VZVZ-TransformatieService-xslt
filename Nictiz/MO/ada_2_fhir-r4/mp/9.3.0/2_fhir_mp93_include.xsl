@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/ada_2_fhir-r4/mp/9.3.0/2_fhir_mp93_include.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/ada-2-fhir-r4/env/mp/9.3.0/2_fhir_mp93_include.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -9,15 +9,37 @@
                 xmlns:util="urn:hl7:utilities"
                 xmlns:f="http://hl7.org/fhir"
                 xmlns:nf="http://www.nictiz.nl/functions"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
                 xmlns:uuid="http://www.uuid.org"
+                xmlns:local="#local.2024102208230950858220200"
                 xmlns:nm="http://www.nictiz.nl/mappings"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <!-- ================================================================== -->
+   <!--
+        TBD
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
    <xsl:import href="payload/mp9_latest_package.xsl"/>
    <xsl:output method="xml"
                indent="yes"/>
    <xsl:strip-space elements="*"/>
+   <!-- ======================================================================= -->
    <xsl:param name="referById"
               as="xs:boolean"
               select="false()"/>
@@ -34,9 +56,6 @@
    <!-- The meta tag to be added. Optional. Typical use case is 'actionable' for prescriptions or proposals. Empty for informational purposes. -->
    <xsl:param name="metaTag"
               as="xs:string?"/>
-   <xd:doc>
-      <xd:desc>Build the metadata for all the FHIR resources that are to be generated from the current input.</xd:desc>
-   </xd:doc>
    <xsl:param name="fhirMetadata"
               as="element()*">
       <xsl:call-template name="buildFhirMetadata">
@@ -507,20 +526,18 @@
          </entry>
       </xsl:for-each>
    </xsl:variable>
-   <xd:doc>
-      <xd:desc> override date xslt template to allow for T-dates, TODO temp solution, should be done outside of normal xslt's </xd:desc>
-      <xd:param name="in">the ada date(time) element, may have any name but should have ada datatype date(time)</xd:param>
-      <xd:param name="inputDateT"
-                as="xs:date">The T date (if applicable) that 
-<xd:ref name="in"
-                 type="parameter"/> is relative to</xd:param>
-   </xd:doc>
+   <!-- ================================================================== -->
    <xsl:template name="date-to-datetime">
+      <!--  override date xslt template to allow for T-dates, TODO temp solution, should be done outside of normal xslt's  -->
       <xsl:param name="in"
                  as="element()?"
-                 select="."/>
+                 select=".">
+         <!-- the ada date(time) element, may have any name but should have ada datatype date(time) -->
+      </xsl:param>
       <xsl:param name="inputDateT"
-                 as="xs:date?"/>
+                 as="xs:date?">
+         <!-- The T date (if applicable) that  is relative to -->
+      </xsl:param>
       <xsl:attribute name="value">
          <xsl:call-template name="format2FHIRDate">
             <xsl:with-param name="dateTime"

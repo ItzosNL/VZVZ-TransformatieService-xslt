@@ -112,7 +112,7 @@
             <xsl:when test="$type = 'f' or $type = 'fhir'">
                 <meta xmlns="http://hl7.org/fhir">
                     <security>
-                        <system value="http://terminology.hl7.org/CodeSystem/v3-ObservationValue"/>
+                        <system value="http://hl7.org/fhir/v3/ObservationValue"/>
                         <code value="SYNTAC"/>
                     </security>
                     <tag>

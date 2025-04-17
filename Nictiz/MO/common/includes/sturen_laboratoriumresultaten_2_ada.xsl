@@ -1,24 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/fhir_2_ada-r4/lab/3.0.0/sturen_laboratoriumresultaten/payload/sturen_laboratoriumresultaten_2_ada.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/fhir-2-ada-r4/env/lab/3.0.0/sturen_laboratoriumresultaten/payload/sturen_laboratoriumresultaten_2_ada.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:util="urn:hl7:utilities"
                 xmlns:f="http://hl7.org/fhir"
                 xmlns:nf="http://www.nictiz.nl/functions"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
                 xmlns:local="urn:fhir:stu3:functions">
-   <xsl:import href="all_zibs-d913e394.xsl"/>
+   <!-- ================================================================== -->
+   <!--
+        TBD
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
+   <xsl:import href="all_zibs-d551e234.xsl"/>
    <xsl:output indent="yes"
                omit-xml-declaration="yes"/>
-   <xd:doc>
-      <xd:desc>Base template for the main interaction.</xd:desc>
-   </xd:doc>
+   <!-- ================================================================== -->
    <xsl:template name="ada_sturen_laboratoriumresultaten"
                  match="/">
+      <!-- Base template for the main interaction. -->
       <xsl:variable name="allObservations"
                     select="f:Bundle/f:entry/f:resource/f:Observation[not(f:code//@value = ($bodyHeightLOINCcode, $bodyWeightLOINCcode))]"/>
       <xsl:variable name="topLevelObservations"

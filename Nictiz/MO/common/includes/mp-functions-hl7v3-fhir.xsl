@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- == Provenance: YATC-shared/xsl/util/mp-functions-hl7v3-fhir.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -101,7 +101,7 @@
             </xsl:for-each>
             <xsl:for-each select="zo_nodig/maximale_dosering[.//(@value | @code)]">
                <maxDoseQuantity>
-                  <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9064_20160601000000"/>
+                  <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9456_20231219114825"/>
                </maxDoseQuantity>
             </xsl:for-each>
          </xsl:for-each>

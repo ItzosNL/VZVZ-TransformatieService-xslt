@@ -1,46 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/hl7_2_ada/mp/payload/uni-Voorstelgegevens.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/hl7-2-ada/env/mp/payload/uni-Voorstelgegevens.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:hl7="urn:hl7-org:v3"
                 xmlns:sdtc="urn:hl7-org:sdtc"
                 xmlns:nf="http://www.nictiz.nl/functions"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
                 xmlns:uuid="http://www.uuid.org"
                 xmlns:local="urn:fhir:stu3:functions"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <!-- ================================================================== -->
+   <!--
+        TBD
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
    <xsl:output method="xml"
                indent="yes"/>
    <xsl:strip-space elements="*"/>
-   <xd:doc>
-      <xd:desc>Do not convert hl7:author/hl7:time into ada medicatieafspraak_datum_tijd, hl7:author in voorschrijver.
-            Those elements will be converted into ada voorstelgegevens</xd:desc>
-   </xd:doc>
+   <!-- ================================================================== -->
    <xsl:template match="hl7:author/hl7:time | hl7:author"
-                 mode="uni-Medicatieafspraak"/>
-   <xd:doc>
-      <xd:desc>Do not convert hl7:author/hl7:time into ada medicatieafspraak_datum_tijd, hl7:author in voorschrijver.
-            Those elements will be converted into ada voorstelgegevens</xd:desc>
-   </xd:doc>
+                 mode="uni-Medicatieafspraak">
+      <!-- Do not convert hl7:author/hl7:time into ada medicatieafspraak_datum_tijd, hl7:author in voorschrijver.
+            Those elements will be converted into ada voorstelgegevens -->
+   </xsl:template>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="hl7:author/hl7:time | hl7:author"
-                 mode="uni-Verstrekkingsverzoek"/>
-   <xd:doc>
-      <xd:desc>Helper template to create ada voorstel from an hl7 container (ClinicalDocument or organizer) and the proposal component.</xd:desc>
-      <xd:param name="inContainer">The hl7 container in which the component and proposal data is wrapped. Typically ClinicalDocument or organizer</xd:param>
-      <xd:param name="inComponent">The hl7 component that is proposed, typically a substanceAdministration in moodCode PRP or a dispenseRequest.</xd:param>
-      <xd:param name="mbhAdaId">The ada reference value that this voorstel must relate to.</xd:param>
-   </xd:doc>
+                 mode="uni-Verstrekkingsverzoek">
+      <!-- Do not convert hl7:author/hl7:time into ada medicatieafspraak_datum_tijd, hl7:author in voorschrijver.
+            Those elements will be converted into ada voorstelgegevens -->
+   </xsl:template>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template name="uni-Voorstel">
+      <!-- Helper template to create ada voorstel from an hl7 container (ClinicalDocument or organizer) and the proposal component. -->
       <xsl:param name="inContainer"
-                 as="element()?"/>
+                 as="element()?">
+         <!-- The hl7 container in which the component and proposal data is wrapped. Typically ClinicalDocument or organizer -->
+      </xsl:param>
       <xsl:param name="inComponent"
-                 as="element()?"/>
+                 as="element()?">
+         <!-- The hl7 component that is proposed, typically a substanceAdministration in moodCode PRP or a dispenseRequest. -->
+      </xsl:param>
       <xsl:param name="mbhAdaId"
-                 as="xs:string?"/>
+                 as="xs:string?">
+         <!-- The ada reference value that this voorstel must relate to. -->
+      </xsl:param>
       <voorstel>
          <xsl:for-each select="$inContainer/hl7:id">
             <xsl:call-template name="handleII">
@@ -101,16 +123,17 @@
          </xsl:for-each-group>
       </voorstel>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Helper template to create ada voorstel from an hl7 container (ClinicalDocument or organizer) and the proposal component.</xd:desc>
-      <xd:param name="inContainer">The hl7 container in which the answer to proposal data is wrapped. Typically ClinicalDocument or organizer</xd:param>
-      <xd:param name="inComponent">The hl7 component containing the answer.</xd:param>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template name="uni-Antwoord">
+      <!-- Helper template to create ada voorstel from an hl7 container (ClinicalDocument or organizer) and the proposal component. -->
       <xsl:param name="inContainer"
-                 as="element()?"/>
+                 as="element()?">
+         <!-- The hl7 container in which the answer to proposal data is wrapped. Typically ClinicalDocument or organizer -->
+      </xsl:param>
       <xsl:param name="inComponent"
-                 as="element()?"/>
+                 as="element()?">
+         <!-- The hl7 component containing the answer. -->
+      </xsl:param>
       <antwoord>
          <xsl:for-each select="$inContainer/hl7:id">
             <xsl:call-template name="handleII">
@@ -152,7 +175,7 @@
             </auteur>
          </xsl:for-each>
          <!-- relatie_voorstel_gegevens -->
-         <xsl:for-each select="$inComponent/hl7:entryRelationship/hl7:organizer[hl7:code[@code = ('104','107')][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.4']]">
+         <xsl:for-each select="$inComponent/hl7:entryRelationship/hl7:organizer[hl7:code[@code = ('104', '107')][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.4']]">
             <relatie_voorstel_gegevens>
                <xsl:call-template name="handleII">
                   <xsl:with-param name="in"

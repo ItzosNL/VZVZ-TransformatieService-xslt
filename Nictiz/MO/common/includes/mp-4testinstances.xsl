@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- == Provenance: YATC-shared/xsl/util/mp-4testinstances.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -293,7 +293,8 @@
                         <!-- AWE, MP-515 new default text for interval -->
                         <xsl:choose>
                            <xsl:when test="$interval">- gelijke tussenpozen aanhouden</xsl:when>
-                           <xsl:when test="toedieningsschema/is_flexibel/@value = 'false'">- let op, tijden exact aanhouden</xsl:when>
+                           <!-- AWE, https://nictiz.atlassian.net/browse/MP-515, new default text for non-flexibel administration times -->
+                           <xsl:when test="toedieningsschema/is_flexibel/@value = 'false'">- let op, exacte toedientijd(en)</xsl:when>
                         </xsl:choose>
                      </xsl:variable>
                      <xsl:value-of select="normalize-space(concat(string-join($zo-nodig, ' '), ' ', string-join($weekdag-string, ' '), ' ', string-join($frequentie-string, ' '), $interval-string, ' ', string-join($toedientijd-string, ' '), ' ', string-join($keerdosis-string, ' '), ' ', string-join($dagdeel-string, ' '), ' ', $toedieningsduur-string, ' ', string-join($toedieningssnelheid-string, ' '), string-join($maxdose-string, ' '), $isFlexible))"/>

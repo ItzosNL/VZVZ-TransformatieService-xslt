@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/ada_2_fhir-r4/mp/9.3.0/payload/2.0.0-beta.5/mp-VariableDosingRegimen.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/ada-2-fhir-r4/env/mp/9.3.0/payload/2.0.0-beta.5/mp-VariableDosingRegimen.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -9,39 +9,60 @@
                 xmlns:util="urn:hl7:utilities"
                 xmlns:f="http://hl7.org/fhir"
                 xmlns:nf="http://www.nictiz.nl/functions"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
                 xmlns:uuid="http://www.uuid.org"
+                xmlns:local="#local.2024102208231515289120200"
                 xmlns:nm="http://www.nictiz.nl/mappings">
+   <!-- ================================================================== -->
+   <!--
+        Converts ADA wisselend_doseerschema to FHIR MedicationRequest conforming to profile mp-VariableDosingRegimen
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
    <xsl:output method="xml"
                indent="yes"/>
    <xsl:strip-space elements="*"/>
-   <xd:doc scope="stylesheet">
-      <xd:desc>Converts ADA wisselend_doseerschema to FHIR MedicationRequest conforming to profile mp-VariableDosingRegimen</xd:desc>
-   </xd:doc>
-   <xd:doc>
-      <xd:desc>Create an mp-VariableDosingRegimen instance as a MedicationRequest FHIR instance from ADA wisselend_doseerschema.</xd:desc>
-      <xd:param name="in">ADA element as input. Defaults to self.</xd:param>
-      <xd:param name="subject">The MedicationRequest.subject as ADA element or reference.</xd:param>
-      <xd:param name="medicationReference">The MedicationRequest.medicationReference as ADA element or reference.</xd:param>
-      <xd:param name="requester">The MedicationRequest.requester as ADA element or reference.</xd:param>
-   </xd:doc>
+   <!-- ================================================================== -->
    <xsl:template name="mp-VariableDosingRegimen"
                  mode="mp-VariableDosingRegimen"
                  match="wisselend_doseerschema"
                  as="element(f:MedicationRequest)?">
+      <!-- Create an mp-VariableDosingRegimen instance as a MedicationRequest FHIR instance from ADA wisselend_doseerschema. -->
       <xsl:param name="in"
                  as="element()?"
-                 select="."/>
+                 select=".">
+         <!-- ADA element as input. Defaults to self. -->
+      </xsl:param>
       <xsl:param name="subject"
                  select="patient/*"
-                 as="element()?"/>
+                 as="element()?">
+         <!-- The MedicationRequest.subject as ADA element or reference. -->
+      </xsl:param>
       <xsl:param name="medicationReference"
                  select="(afgesprokengeneesmiddel | afgesproken_geneesmiddel)/farmaceutisch_product"
-                 as="element()?"/>
+                 as="element()?">
+         <!-- The MedicationRequest.medicationReference as ADA element or reference. -->
+      </xsl:param>
       <xsl:param name="requester"
                  select="auteur"
-                 as="element()?"/>
+                 as="element()?">
+         <!-- The MedicationRequest.requester as ADA element or reference. -->
+      </xsl:param>
       <xsl:for-each select="$in">
          <MedicationRequest>
             <xsl:call-template name="insertLogicalId"/>
@@ -186,11 +207,10 @@
          </MedicationRequest>
       </xsl:for-each>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to generate a unique id to identify this instance.</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="wisselend_doseerschema"
                  mode="_generateId">
+      <!-- Template to generate a unique id to identify this instance. -->
       <xsl:variable name="uniqueString"
                     as="xs:string?">
          <xsl:choose>
@@ -211,11 +231,10 @@
                          select="$uniqueString"/>
       </xsl:call-template>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to generate a display that can be shown when referencing this instance.</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="wisselend_doseerschema"
                  mode="_generateDisplay">
+      <!-- Template to generate a display that can be shown when referencing this instance. -->
       <xsl:variable name="parts">
          <xsl:value-of select="'Variable dosing regimen '"/>
          <xsl:value-of select="afgesprokengeneesmiddel/@displayName"/>

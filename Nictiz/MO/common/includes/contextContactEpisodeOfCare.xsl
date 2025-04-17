@@ -1,21 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/fhir_2_ada-r4/zibs2020/payload/0.8.0-beta.1/contextContactEpisodeOfCare.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/fhir-2-ada-r4/env/zibs/2020/payload/0.8.0-beta.1/contextContactEpisodeOfCare.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:util="urn:hl7:utilities"
                 xmlns:f="http://hl7.org/fhir"
                 xmlns:nf="http://www.nictiz.nl/functions"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
                 xmlns:local="urn:fhir:stu3:functions">
-   <xd:doc>
-      <xd:desc>Template to convert f:context to relatie_contact and/or relatie_zorgepisode based on identifier or reference.</xd:desc>
-   </xd:doc>
+   <!-- ================================================================== -->
+   <!--
+        TBD
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
+   <!-- ================================================================== -->
    <xsl:template match="f:context | f:encounter | f:extension[@url = $urlExtContextEpisodeOfCare]/f:valueReference"
                  mode="contextContactEpisodeOfCare">
+      <!-- Template to convert f:context to relatie_contact and/or relatie_zorgepisode based on identifier or reference. -->
       <!-- relatie_contact -  resource: Encounter -->
       <!-- relatie_zorgepisode - resource: EpisodeOfCare -->
       <!-- first try to find the referenced resource with f:reference or f:identifier, can only be found in this Bundle -->

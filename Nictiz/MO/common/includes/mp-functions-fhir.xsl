@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- == Provenance: YATC-shared/xsl/util/mp-functions-fhir.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -84,111 +84,6 @@
                      </xsl:with-param>
                   </xsl:call-template>
                </xsl:for-each>
-               <!-- TODO remove comments when finished testing MP-1817 -->
-               <!--               <!-\- exact / is_flexibel -\->
-                    <xsl:for-each select="is_flexibel[@value | @nullFlavor]">
-                        <extension url="http://hl7.org/fhir/StructureDefinition/timing-exact">
-                            <valueBoolean>
-                                <xsl:choose>
-                                    <xsl:when test="@value">
-                                        <xsl:attribute name="value" select="@value = 'false'"/>
-                                    </xsl:when>
-                                    <xsl:when test="@nullFlavor">
-                                        <extension url="{$urlExtHL7NullFlavor}">
-                                            <valueCode value="{@nullFlavor}"/>
-                                        </extension>
-                                    </xsl:when>
-                                </xsl:choose>
-                            </valueBoolean>
-                        </extension>
-                    </xsl:for-each>
-
-                    <xsl:if test="not(is_flexibel[@value | @nullFlavor]) and interval[@value | @unit]">
-                        <!-\- interval is not flexible -\->
-                        <extension url="http://hl7.org/fhir/StructureDefinition/timing-exact">
-                            <valueBoolean value="true"/>
-                        </extension>
-                    </xsl:if>
-
-                    <!-\- doseerduur -\->
-                    <xsl:for-each select="$inDoseerduur[@value]">
-                        <boundsDuration>
-                            <xsl:call-template name="hoeveelheid-to-Duration">
-                                <xsl:with-param name="in" select="."/>
-                            </xsl:call-template>
-                        </boundsDuration>
-                    </xsl:for-each>
-
-                    <!-\- toedieningsduur -\->
-                    <xsl:for-each select="($inToedieningsduur[@value | @unit] | $inToedieningsduur/tijds_duur[@value | @unit])">
-                        <duration value="{@value}"/>
-                        <durationUnit value="{nf:convertTime_ADA_unit2UCUM_FHIR(@unit)}"/>
-                    </xsl:for-each>
-
-                    <!-\- frequentie -\->
-                    <xsl:for-each select="frequentie/aantal/(vaste_waarde | min | nominale_waarde | minimum_waarde)[@value]">
-                        <frequency value="{@value}"/>
-                    </xsl:for-each>
-                    <xsl:for-each select="frequentie/aantal/(max | maximum_waarde)[@value]">
-                        <frequencyMax value="{@value}"/>
-                    </xsl:for-each>
-
-                    <!-\- frequentie/tijdseenheid -\->
-                    <xsl:for-each select="frequentie/tijdseenheid">
-                        <period value="{@value}"/>
-                        <periodUnit value="{nf:convertTime_ADA_unit2UCUM_FHIR(@unit)}"/>
-                    </xsl:for-each>
-
-                    <!-\- interval -\->
-                    <xsl:for-each select="interval">
-                        <!-\- FHIR states: If no frequency is stated, the assumption is that the event occurs once per period, but systems SHOULD always be specific about this -\->
-                        <!-\- so let's be specific -\->
-                        <frequency value="1"/>
-                        <period value="{@value}"/>
-                        <periodUnit value="{nf:convertTime_ADA_unit2UCUM_FHIR(@unit)}"/>
-                    </xsl:for-each>
-
-                    <!-\- weekdag -\->
-                    <xsl:for-each select="weekdag">
-                        <dayOfWeek>
-                            <xsl:attribute name="value">
-                                <xsl:value-of select="$weekdayMap[@code = current()/@code][@codeSystem = current()/@codeSystem]/@fhirDayOfWeek"/>
-                            </xsl:attribute>
-                        </dayOfWeek>
-                    </xsl:for-each>
-
-                    <!-\- toedientijd -\->
-                    <xsl:for-each select="toedientijd[@value]">
-                        <xsl:choose>
-                            <xsl:when test="nf:add-Amsterdam-timezone-to-dateTimeString(@value) castable as xs:dateTime">
-                                <timeOfDay value="{format-dateTime(xs:dateTime(nf:add-Amsterdam-timezone-to-dateTimeString(@value)), '[H01]:[m01]:[s01]')}"/>
-                            </xsl:when>
-                            <xsl:when test="nf:add-Amsterdam-timezone-to-dateTimeString(@value) castable as xs:time">
-                                <timeOfDay value="{format-time(xs:time(nf:add-Amsterdam-timezone-to-dateTimeString(@value)), '[H01]:[m01]:[s01]')}"/>
-                            </xsl:when>
-                            <!-\- not a dateTime or Time as input, let's check for an ada T date -\->
-                            <xsl:when test="nf:calculate-t-date(@value, xs:date('1970-01-01')) castable as xs:dateTime">
-                                <!-\- ada T date as input (T+0D{08:00:00}), lets convert it to a proper dateTime using date 1 Jan 1970, 
-                                        this date is not relevant for toedientijd -\->
-                                <timeOfDay value="{format-dateTime(xs:dateTime(nf:calculate-t-date(@value, xs:date('1970-01-01'))), '[H01]:[m01]:[s01]')}"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <!-\- Should not happen, let's at least make it visible and output the unexpected ada value in FHIR timeOfDay -\->
-                                <!-\- Will most likely cause invalid FHIR, but at least that will be noticed -\->
-                                <timeOfDay value="{@value}"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:for-each>
-
-                    <!-\- dagdeel -\->
-                    <xsl:for-each select="dagdeel[@code][not(@codeSystem = $oidHL7NullFlavor)]">
-                        <when>
-                            <xsl:attribute name="value">
-                                <xsl:value-of select="$daypartMap[@code = current()/@code][@codeSystem = current()/@codeSystem]/@fhirWhen"/>
-                            </xsl:attribute>
-                        </when>
-                    </xsl:for-each>
--->
             </repeat>
          </xsl:if>
       </xsl:for-each>

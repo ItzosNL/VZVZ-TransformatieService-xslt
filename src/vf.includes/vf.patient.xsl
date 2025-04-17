@@ -208,7 +208,14 @@
                     </extension>
                 </line>
                 <city value="{$Stad}"/>
-                <postalCode value="{$Postcode}"/>
+                <xsl:choose>
+                  <xsl:when test="exists($fhirVersion) and $fhirVersion='STU3'">
+                    <postalCode value="{replace($Postcode, ' ', '')}"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <postalCode value="{$Postcode}"/>                    
+                  </xsl:otherwise>
+                </xsl:choose>
             </address>
         </xsl:if>
     </xsl:template>

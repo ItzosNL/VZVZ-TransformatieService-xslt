@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- == Provenance: YATC-internal/ada-2-hl7/env/hl7/2_hl7_hl7_include.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -40,6 +40,7 @@
    <xsl:import href="datetime.xsl"/>
    <xsl:import href="utilities.xsl"/>
    <xsl:import href="units.xsl"/>
+   <xsl:import href="uuid.xsl"/>
    <!-- only give dateT a value if you want conversion of relative T dates -->
    <xsl:param name="dateT"
               as="xs:date?"/>
@@ -179,8 +180,8 @@
       <xsl:for-each select="$in[@datatype]">
          <xsl:variable name="dataType"
                        select="$in/@datatype"/>
-         <xsl:variable name="notSupported">template makeAny: ada datatype 
-<xsl:value-of select="$dataType"/> not supported</xsl:variable>
+         <xsl:variable name="notSupported"
+                       select="concat('template makeAny: ada datatype ', $dataType, ' not supported')"/>
          <xsl:choose>
             <xsl:when test="$dataType = ('blob', 'complex', 'duration', 'ordinal', 'reference')">
                <!-- could argue this is reason to terminate, however not in case of MP voorschrift... -->

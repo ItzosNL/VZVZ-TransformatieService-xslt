@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/ada_2_fhir-r4/mp/9.3.0/payload/2.0.0-beta.2/mp-InstructionsForUse.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/ada-2-fhir-r4/env/mp/9.3.0/payload/2.0.0-beta.2/mp-InstructionsForUse.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -9,27 +9,45 @@
                 xmlns:util="urn:hl7:utilities"
                 xmlns:f="http://hl7.org/fhir"
                 xmlns:nf="http://www.nictiz.nl/functions"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
                 xmlns:uuid="http://www.uuid.org"
+                xmlns:local="#local.2024102208231500621430200"
                 xmlns:nm="http://www.nictiz.nl/mappings">
+   <!-- ================================================================== -->
+   <!--
+        Converts ADA InstructionsForUse to the various FHIR parts representing this zib.
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
    <xsl:output method="xml"
                indent="yes"/>
    <xsl:strip-space elements="*"/>
-   <xd:doc scope="stylesheet">
-      <xd:desc>Converts ADA InstructionsForUse to the various FHIR parts representing this zib.</xd:desc>
-   </xd:doc>
-   <xd:doc>
-      <xd:desc>Create the ext-RenderedDosageInstruction extension from ADA InstructionsForUse.</xd:desc>
-      <xd:param name="in">The ADA instance to extract the rendered dosage instruction from</xd:param>
-   </xd:doc>
+   <!-- ================================================================== -->
    <xsl:template name="ext-RenderedDosageInstruction"
                  mode="ext-RenderedDosageInstruction"
                  match="gebruiksinstructie"
                  as="element(f:extension)?">
+      <!-- Create the ext-RenderedDosageInstruction extension from ADA InstructionsForUse. -->
       <xsl:param name="in"
                  as="element()?"
-                 select="."/>
+                 select=".">
+         <!-- The ADA instance to extract the rendered dosage instruction from -->
+      </xsl:param>
       <xsl:for-each select="$in">
          <xsl:for-each select="omschrijving[@value != '']">
             <extension url="http://nictiz.nl/fhir/StructureDefinition/ext-RenderedDosageInstruction">
@@ -41,17 +59,17 @@
          </xsl:for-each>
       </xsl:for-each>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Create the ext-InstructionsForUse.RepeatPeriodCyclicalSchedule extension from ADA InstructionsForUse.</xd:desc>
-      <xd:param name="in">The ADA instance to extract the rendered dosage instruction from</xd:param>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template name="ext-InstructionsForUse.RepeatPeriodCyclicalSchedule"
                  mode="ext-InstructionsForUse.RepeatPeriodCyclicalSchedule"
                  match="gebruiks_instructie"
                  as="element(f:modifierExtension)?">
+      <!-- Create the ext-InstructionsForUse.RepeatPeriodCyclicalSchedule extension from ADA InstructionsForUse. -->
       <xsl:param name="in"
                  as="element()?"
-                 select="."/>
+                 select=".">
+         <!-- The ADA instance to extract the rendered dosage instruction from -->
+      </xsl:param>
       <xsl:for-each select="$in">
          <xsl:for-each select="herhaalperiode_cyclisch_schema[@value != '']">
             <modifierExtension url="http://nictiz.nl/fhir/StructureDefinition/ext-InstructionsForUse.RepeatPeriodCyclicalSchedule">
@@ -62,22 +80,22 @@
          </xsl:for-each>
       </xsl:for-each>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Create the FHIR 
-<xd:i>contents</xd:i> of the mp-InstructionsForUse.DosageInstruction datatype profile FHIR instance from ADA InstructionsForUse.</xd:desc>
-      <xd:param name="in">The ADA instance to extract the rendered dosage instruction from</xd:param>
-      <xd:param name="wrapIn">Calling this template will not always result in output. If output is generated and this parameter is supplied, the result will be wrapped in an element with this name. Optional.</xd:param>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template name="mp-InstructionsForUse.DosageInstruction"
                  mode="mp-InstructionsForUse.DosageInstruction"
                  match="gebruiks_instructie | gebruiksinstructie"
                  as="element()*">
+      <!-- Create the FHIR contents of the mp-InstructionsForUse.DosageInstruction datatype profile FHIR instance from ADA InstructionsForUse. -->
       <xsl:param name="in"
                  as="element()?"
-                 select="."/>
+                 select=".">
+         <!-- The ADA instance to extract the rendered dosage instruction from -->
+      </xsl:param>
       <xsl:param name="wrapIn"
                  as="xs:string"
-                 select="''"/>
+                 select="''">
+         <!-- Calling this template will not always result in output. If output is generated and this parameter is supplied, the result will be wrapped in an element with this name. Optional. -->
+      </xsl:param>
       <xsl:for-each select="$in">
          <xsl:variable name="content"
                        as="element()*">
@@ -475,14 +493,14 @@
          </xsl:if>
       </xsl:for-each>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Helper template to build the Dosage.timing.repeat content for the current Dosage.</xd:desc>
-      <xd:param name="boundsDuration">An optionally pre-rendered boundsDuration element.</xd:param>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template name="_buildTimingRepeat"
                  as="element()*">
+      <!-- Helper template to build the Dosage.timing.repeat content for the current Dosage. -->
       <xsl:param name="boundsDuration"
-                 as="element(f:boundsDuration)?"/>
+                 as="element(f:boundsDuration)?">
+         <!-- An optionally pre-rendered boundsDuration element. -->
+      </xsl:param>
       <xsl:for-each select="toedieningsschema">
          <xsl:if test="interval[@value] and not(is_flexibel[@value])">
             <extension url="http://hl7.org/fhir/StructureDefinition/timing-exact">

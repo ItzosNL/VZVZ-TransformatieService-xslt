@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/hl7_2_ada/hl7/hl7_2_ada_hl7_include.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/hl7-2-ada/env/hl7/hl7_2_ada_hl7_include.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -976,6 +976,7 @@
          <xsl:variable name="currentAddress"
                        select="."/>
          <!-- output an address for each type, but also one address when there is no type, which is why we put a nullFlavor in that variable -->
+         <!-- however an address type is in the attribute use in HL7v3 which cannot be nullFlavored, therefore we do not want to output a nullFlavor address type -->
          <xsl:for-each select="$addressType">
             <xsl:variable name="currentAddressType"
                           select="."/>
@@ -1164,29 +1165,31 @@
                      </xsl:element>
                   </xsl:when>
                   <xsl:otherwise>
-                     <xsl:element name="{$elmAddressInformation}">
-                        <xsl:choose>
-                           <xsl:when test=".!=''">
-                              <!-- No address parts... submit as street -->
+                     <xsl:choose>
+                        <xsl:when test=". != ''">
+                           <xsl:element name="{$elmAddressInformation}">
+                              <!-- No address parts, but we do have an unstructured string... submit as street -->
                               <xsl:element name="{$elmStreet}">
                                  <xsl:attribute name="value"
                                                 select="."/>
                               </xsl:element>
-                              <xsl:copy-of select="$currentAddressType"/>
-                           </xsl:when>
-                           <xsl:when test=".=''">
-                              <!-- No string value in address, omit the street and only copy addressType -->
-                              <xsl:copy-of select="$currentAddressType"/>
-                              <xsl:call-template name="util:logMessage">
-                                 <xsl:with-param name="level"
-                                                 select="$logWARN"/>
-                                 <xsl:with-param name="msg">Address element empty 
-<xsl:value-of select="name()"/>
-                                 </xsl:with-param>
-                              </xsl:call-template>
-                           </xsl:when>
-                        </xsl:choose>
-                     </xsl:element>
+                              <!-- we do not want to output a nullFlavor address type, but will output the address type otherwise -->
+                              <xsl:copy-of select="$currentAddressType[not(@nullFlavor)]"/>
+                           </xsl:element>
+                        </xsl:when>
+                        <xsl:when test=". = '' and $currentAddressType[not(@nullFlavor)]">
+                           <!-- No string value in address, omit the street and only copy addressType if it does not have an artifical nullFlavor-->
+                           <xsl:element name="{$elmAddressInformation}">
+                              <xsl:copy-of select="$currentAddressType[not(@nullFlavor)]"/>
+                           </xsl:element>
+                           <xsl:call-template name="util:logMessage">
+                              <xsl:with-param name="level"
+                                              select="$logWARN"/>
+                              <xsl:with-param name="msg">Encountered an empty 
+<xsl:value-of select="local-name()"/> element</xsl:with-param>
+                           </xsl:call-template>
+                        </xsl:when>
+                     </xsl:choose>
                   </xsl:otherwise>
                </xsl:choose>
             </xsl:for-each>

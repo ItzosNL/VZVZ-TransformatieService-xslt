@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/hl7_2_ada/mp/9.3.0/sturen_medicatievoorschrift/payload/sturen_medicatievoorschrift_hl7_2_ada.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/hl7-2-ada/env/mp/9.3.0/sturen_medicatievoorschrift/payload/sturen_medicatievoorschrift_hl7_2_ada.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -10,10 +10,31 @@
                 xmlns:sdtc="urn:hl7-org:sdtc"
                 xmlns:nf="http://www.nictiz.nl/functions"
                 xmlns:hl7nl="urn:hl7-nl:v3"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
+                xmlns:local="#local.2024120415184412553310100"
                 xmlns:pharm="urn:ihe:pharm:medication"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <!-- ================================================================== -->
+   <!--
+        TBD
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
    <xsl:import href="../../../../../common/includes/all-zibs.xsl"/>
    <xsl:import href="../../../../../common/includes/mp-handle-bouwstenen.xsl"/>
    <xsl:output method="xml"
@@ -35,7 +56,7 @@
    <xsl:variable name="medicatiegegevens-lijst"
                  select="//hl7:organizer[@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.4'] | //hl7:ClinicalDocument"/>
    <xsl:variable name="filename"
-                 select="tokenize(document-uri(/), '/')[last()]"/>
+                 select="tokenize(base-uri(/), '/')[last()]"/>
    <xsl:variable name="extension"
                  select="tokenize($filename, '\.')[last()]"/>
    <xsl:variable name="idBasedOnFilename"
@@ -56,11 +77,10 @@
    </xsl:param>
    <!-- MP-1161, make sure to not select the patient that is part of the lab transaction that may also be in an joint XML message such as the PVMV -->
    <xsl:param name="theMPPatient"
-              select="//(hl7:organizer[hl7:code[@code='95'][@codeSystem='2.16.840.1.113883.2.4.3.11.60.20.77.4']] | hl7:ClinicalDocument[hl7:code[@code='440545006'][@codeSystem=$oidSNOMEDCT]])/hl7:recordTarget/hl7:patientRole"/>
-   <xd:doc>
-      <xd:desc>Template to start conversion for stand alone use. </xd:desc>
-   </xd:doc>
+              select="//(hl7:organizer[hl7:code[@code = '95'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.4']] | hl7:ClinicalDocument[hl7:code[@code = '440545006'][@codeSystem = $oidSNOMEDCT]])/hl7:recordTarget/hl7:patientRole"/>
+   <!-- ================================================================== -->
    <xsl:template match="/">
+      <!-- Template to start conversion for stand alone use.  -->
       <xsl:variable name="patient-recordTarget"
                     select="$theMPPatient"/>
       <xsl:call-template name="Voorschrift-9-ADA">
@@ -68,13 +88,13 @@
                          select="$patient-recordTarget"/>
       </xsl:call-template>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Create adaxml for transaction voorschrift</xd:desc>
-      <xd:param name="patient">HL7 patient</xd:param>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template name="Voorschrift-9-ADA">
+      <!-- Create adaxml for transaction voorschrift -->
       <xsl:param name="patient"
-                 select="$theMPPatient"/>
+                 select="$theMPPatient">
+         <!-- HL7 patient -->
+      </xsl:param>
       <xsl:call-template name="doGeneratedComment">
          <xsl:with-param name="in"
                          select="//*[hl7:ControlActProcess]"/>
@@ -126,7 +146,8 @@
                      <!-- medicamenteuze_behandeling -->
                      <medicamenteuze_behandeling>
                         <xsl:for-each select="hl7:entryRelationship/hl7:procedure[hl7:templateId/@root = $templateId-medicamenteuze-behandeling]/hl7:id">
-                           <xsl:variable name="elemName">identificatie</xsl:variable>
+                           <xsl:variable name="elemName"
+                                         select="'identificatie'"/>
                            <xsl:element name="{$elemName}">
                               <xsl:for-each select="@extension">
                                  <xsl:attribute name="value"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- == Provenance: YATC-shared/xsl/util/mp-functions.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -46,7 +46,8 @@
                  as="xs:string*"
                  select="('16076005', '33633005')"/>
    <xsl:variable name="maCodeMP920"
-                 as="xs:string">33633005</xsl:variable>
+                 as="xs:string"
+                 select="'33633005'"/>
    <xsl:variable name="wdsCode"
                  as="xs:string*"
                  select="('395067002')"/>
@@ -65,10 +66,14 @@
    <xsl:variable name="mtdCode"
                  as="xs:string*"
                  select="('18629005')"/>
-   <xsl:variable name="genericMBHidPRK">2.16.840.1.113883.2.4.3.11.61.2</xsl:variable>
-   <xsl:variable name="genericMBHidHPK">2.16.840.1.113883.2.4.3.11.61.3</xsl:variable>
-   <xsl:variable name="concatOidMBH">1.3.6.1.4.1.58606.1.2.</xsl:variable>
-   <xsl:variable name="concatOidTA">1.3.6.1.4.1.58606.1.1.</xsl:variable>
+   <xsl:variable name="genericMBHidPRK"
+                 select="'2.16.840.1.113883.2.4.3.11.61.2'"/>
+   <xsl:variable name="genericMBHidHPK"
+                 select="'2.16.840.1.113883.2.4.3.11.61.3'"/>
+   <xsl:variable name="concatOidMBH"
+                 select="'1.3.6.1.4.1.58606.1.2.'"/>
+   <xsl:variable name="concatOidTA"
+                 select="'1.3.6.1.4.1.58606.1.1.'"/>
    <xsl:variable name="stoptypeMap"
                  as="element()+">
       <map stoptype="onderbroken"
@@ -208,6 +213,44 @@
             </xsl:choose>
          </xsl:otherwise>
       </xsl:choose>
+   </xsl:function>
+   <xsl:function name="nf:duur-in-dagen4tijdsinterval"
+                 as="xs:decimal?">
+      <!-- ada element for tijdsinterval -->
+      <xsl:param name="tijdsinterval"
+                 as="element()?"/>
+      <xsl:for-each select="$tijdsinterval[.//@value | @unit]">
+         <xsl:choose>
+            <xsl:when test="tijds_duur[@value | @unit]">
+               <xsl:value-of select="nf:calculate_Duur_In_Dagen(tijds_duur/@value, nf:convertTime_ADA_unit2UCUM(tijds_duur/@unit))"/>
+            </xsl:when>
+            <xsl:when test="start_datum_tijd[@value] and eind_datum_tijd[@value]">
+               <xsl:value-of select="nf:duur-in-dagen(xs:dateTime(start_datum_tijd/@value), xs:dateTime(eind_datum_tijd/@value))"/>
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:call-template name="util:logMessage">
+                  <xsl:with-param name="level"
+                                  select="$logINFO"/>
+                  <xsl:with-param name="msg">Encountered infinite tijdsinterval, could not compute duration (nf:duur-in-dagen4tijdsinterval).</xsl:with-param>
+               </xsl:call-template>
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:for-each>
+   </xsl:function>
+   <xsl:function name="nf:duur-in-dagen"
+                 as="xs:decimal?">
+      <xsl:param name="startDateTime"
+                 as="xs:dateTime?"/>
+      <xsl:param name="enddateTime"
+                 as="xs:dateTime?"/>
+      <xsl:if test="exists($startDateTime) and exists($enddateTime)">
+         <xsl:variable name="duur"
+                       select="xs:dayTimeDuration(xs:dateTime($enddateTime) - xs:dateTime($startDateTime))"/>
+         <!-- more precision than hours really not needed for expressing this in days -->
+         <xsl:variable name="duurInDagen"
+                       select="round((days-from-duration($duur) + hours-from-duration($duur) div 24) * 10) div 10"/>
+         <xsl:value-of select="$duurInDagen"/>
+      </xsl:if>
    </xsl:function>
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:function name="nf:calculate_Duur_In_Dagen">

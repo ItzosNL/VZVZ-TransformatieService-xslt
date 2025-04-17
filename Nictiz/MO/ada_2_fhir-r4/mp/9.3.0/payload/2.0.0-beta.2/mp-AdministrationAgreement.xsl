@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/ada_2_fhir-r4/mp/9.3.0/payload/2.0.0-beta.2/mp-AdministrationAgreement.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/ada-2-fhir-r4/env/mp/9.3.0/payload/2.0.0-beta.2/mp-AdministrationAgreement.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -9,48 +9,71 @@
                 xmlns:util="urn:hl7:utilities"
                 xmlns:f="http://hl7.org/fhir"
                 xmlns:nf="http://www.nictiz.nl/functions"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
                 xmlns:uuid="http://www.uuid.org"
+                xmlns:local="#local.2024102208231499525450200"
                 xmlns:nm="http://www.nictiz.nl/mappings">
+   <!-- ================================================================== -->
+   <!--
+        Converts ADA toedienings_afsrpaak to FHIR MedicationDispense conforming to profile mp-AdministrationAgreement.
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
    <xsl:output method="xml"
                indent="yes"/>
    <xsl:strip-space elements="*"/>
-   <xd:doc scope="stylesheet">
-      <xd:desc>Converts ADA toedienings_afsrpaak to FHIR MedicationDispense conforming to profile mp-AdministrationAgreement.</xd:desc>
-   </xd:doc>
    <xsl:variable name="taCode930"
                  select="$taCode[1]"/>
-   <xd:doc>
-      <xd:desc>Create an mp-AdministrationAgreement instance as a MedicationDispense FHIR instance from ADA toedienings_afspraak.</xd:desc>
-      <xd:param name="in">ADA element as input. Defaults to self.</xd:param>
-      <xd:param name="metaTag">The meta tag to be added. Optional. Typical use case is 'actionable' for prescriptions or proposals. Empty for informational purposes.</xd:param>
-      <xd:param name="subject">The MedicationDispense.subject as ADA element or reference.</xd:param>
-      <xd:param name="medicationReference">The MedicationDispense.medicationReference as ADA element or reference.</xd:param>
-      <xd:param name="performer">The MedicationDispense.performer as ADA element or reference.</xd:param>
-      <xd:param name="authorizingPrescription">The MedicationDispense.authorizingPrescription as ADA element or reference.</xd:param>
-   </xd:doc>
+   <!-- ================================================================== -->
    <xsl:template name="mp-AdministrationAgreement"
                  mode="mp-AdministrationAgreement"
                  match="toedieningsafspraak"
                  as="element(f:MedicationDispense)?">
+      <!-- Create an mp-AdministrationAgreement instance as a MedicationDispense FHIR instance from ADA toedienings_afspraak. -->
       <xsl:param name="in"
                  as="element()?"
-                 select="."/>
+                 select=".">
+         <!-- ADA element as input. Defaults to self. -->
+      </xsl:param>
       <xsl:param name="metaTag"
-                 as="xs:string?"/>
+                 as="xs:string?">
+         <!-- The meta tag to be added. Optional. Typical use case is 'actionable' for prescriptions or proposals. Empty for informational purposes. -->
+      </xsl:param>
       <xsl:param name="subject"
                  select="patient/*"
-                 as="element()?"/>
+                 as="element()?">
+         <!-- The MedicationDispense.subject as ADA element or reference. -->
+      </xsl:param>
       <xsl:param name="medicationReference"
                  select="(geneesmiddel_bij_toedienings_afspraak | geneesmiddel_bij_toedieningsafspraak)/farmaceutisch_product"
-                 as="element()?"/>
+                 as="element()?">
+         <!-- The MedicationDispense.medicationReference as ADA element or reference. -->
+      </xsl:param>
       <xsl:param name="performer"
                  select="verstrekker/zorgaanbieder"
-                 as="element()?"/>
+                 as="element()?">
+         <!-- The MedicationDispense.performer as ADA element or reference. -->
+      </xsl:param>
       <xsl:param name="authorizingPrescription"
                  select="medicatieafspraak/medicatieafspraak"
-                 as="element()?"/>
+                 as="element()?">
+         <!-- The MedicationDispense.authorizingPrescription as ADA element or reference. -->
+      </xsl:param>
       <xsl:for-each select="$in">
          <MedicationDispense>
             <xsl:call-template name="insertLogicalId"/>
@@ -227,11 +250,10 @@
          </MedicationDispense>
       </xsl:for-each>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to generate a unique id to identify this instance.</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="toedieningsafspraak"
                  mode="_generateId">
+      <!-- Template to generate a unique id to identify this instance. -->
       <xsl:variable name="uniqueString"
                     as="xs:string?">
          <xsl:choose>
@@ -252,11 +274,10 @@
                          select="$uniqueString"/>
       </xsl:call-template>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to generate a display that can be shown when referencing this instance.</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="toedieningsafspraak"
                  mode="_generateDisplay">
+      <!-- Template to generate a display that can be shown when referencing this instance. -->
       <xsl:choose>
          <xsl:when test="identificatie[@value | @root]">
             <xsl:for-each select="identificatie[@value | @root][1]">

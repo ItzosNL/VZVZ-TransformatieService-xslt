@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/hl7_2_ada/zibs2020/payload/uni-Toedieningsafspraak.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/hl7-2-ada/env/zibs/2020/payload/uni-Toedieningsafspraak.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -22,7 +22,8 @@
    <xsl:variable name="templateId-toedieningsafspraak"
                  as="xs:string*"
                  select="'2.16.840.1.113883.2.4.3.11.60.20.77.10.9417', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9416', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9415', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9332', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9327', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9326', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9299', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9259', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9256'"/>
-   <xsl:variable name="template-id-rel-ta">2.16.840.1.113883.2.4.3.11.60.20.77.10.9101</xsl:variable>
+   <xsl:variable name="template-id-rel-ta"
+                 select="'2.16.840.1.113883.2.4.3.11.60.20.77.10.9101'"/>
    <xd:doc>
       <xd:desc> Toedieningsafspraak MP9 2.0</xd:desc>
       <xd:param name="in">HL7 substanceAdministration for toedieningsafspraak</xd:param>
@@ -110,7 +111,8 @@
             </xsl:call-template>
             <!-- distributievorm -->
             <xsl:for-each select="hl7:entryRelationship/hl7:act[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9097']/hl7:code">
-               <xsl:variable name="elemName">distributievorm</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'distributievorm'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -253,7 +255,8 @@
             </xsl:call-template>
             <!-- distributievorm -->
             <xsl:for-each select="hl7:entryRelationship/hl7:act[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9097']/hl7:code">
-               <xsl:variable name="elemName">distributievorm</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'distributievorm'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>

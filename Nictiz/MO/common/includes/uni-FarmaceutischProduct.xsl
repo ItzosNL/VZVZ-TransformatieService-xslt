@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/hl7_2_ada/zibs2020/payload/uni-FarmaceutischProduct.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/hl7-2-ada/env/zibs/2020/payload/uni-FarmaceutischProduct.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -38,7 +38,8 @@
             </xsl:attribute>
          </xsl:if>
          <!-- product_code -->
-         <xsl:variable name="ada-elemName">product_code</xsl:variable>
+         <xsl:variable name="ada-elemName"
+                       select="'product_code'"/>
          <xsl:call-template name="handleCV">
             <xsl:with-param name="in"
                             select="hl7:code | hl7:code/hl7:translation"/>
@@ -47,10 +48,12 @@
          </xsl:call-template>
          <!-- product_specificatie -->
          <xsl:if test="not(hl7:code) or hl7:code/following-sibling::*">
-            <xsl:variable name="ada-elemName">product_specificatie</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'product_specificatie'"/>
             <xsl:element name="{$ada-elemName}">
                <!-- product_naam -->
-               <xsl:variable name="ada-elemName">product_naam</xsl:variable>
+               <xsl:variable name="ada-elemName"
+                             select="'product_naam'"/>
                <xsl:call-template name="handleST">
                   <xsl:with-param name="in"
                                   select="hl7:name"/>
@@ -58,7 +61,8 @@
                                   select="$ada-elemName"/>
                </xsl:call-template>
                <!-- omschrijving -->
-               <xsl:variable name="ada-elemName">omschrijving</xsl:variable>
+               <xsl:variable name="ada-elemName"
+                             select="'omschrijving'"/>
                <xsl:call-template name="handleST">
                   <xsl:with-param name="in"
                                   select="pharm:desc"/>
@@ -66,7 +70,8 @@
                                   select="$ada-elemName"/>
                </xsl:call-template>
                <!-- farmaceutische vorm -->
-               <xsl:variable name="ada-elemName">farmaceutische_vorm</xsl:variable>
+               <xsl:variable name="ada-elemName"
+                             select="'farmaceutische_vorm'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="in"
                                   select="pharm:formCode"/>
@@ -75,7 +80,8 @@
                </xsl:call-template>
                <!-- ingredient -->
                <xsl:for-each select="./pharm:ingredient">
-                  <xsl:variable name="ada-elemName">ingredient</xsl:variable>
+                  <xsl:variable name="ada-elemName"
+                                select="'ingredient'"/>
                   <xsl:element name="{$ada-elemName}">
                      <!-- ingredient_code -->
                      <xsl:for-each select="pharm:ingredient/pharm:code">
@@ -88,7 +94,8 @@
                      </xsl:for-each>
                      <!-- sterkte -->
                      <xsl:for-each select="./pharm:quantity">
-                        <xsl:variable name="ada-elemName">sterkte</xsl:variable>
+                        <xsl:variable name="ada-elemName"
+                                      select="'sterkte'"/>
                         <xsl:element name="{$ada-elemName}">
                            <!-- hoeveelheid_ingredient -->
                            <xsl:for-each select="hl7:numerator[.//@value | @nullFlavor]">
@@ -124,14 +131,16 @@
       <xsl:param name="hl7-num-or-denom"/>
       <!-- waarde -->
       <xsl:for-each select="$hl7-num-or-denom">
-         <xsl:variable name="ada-elemName">waarde</xsl:variable>
+         <xsl:variable name="ada-elemName"
+                       select="'waarde'"/>
          <xsl:element name="{$ada-elemName}">
             <xsl:call-template name="mp9-ingredient-waarde">
                <xsl:with-param name="hl7-num-or-denom"
                                select="$hl7-num-or-denom"/>
             </xsl:call-template>
          </xsl:element>
-         <xsl:variable name="ada-elemName">eenheid</xsl:variable>
+         <xsl:variable name="ada-elemName"
+                       select="'eenheid'"/>
          <xsl:element name="{$ada-elemName}">
             <xsl:call-template name="mp9-ingredient-eenheid">
                <xsl:with-param name="hl7-num-or-denom"

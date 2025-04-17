@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- == Provenance: YATC-internal/ada-2-hl7/env/mp/2_hl7_mp_include.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -568,6 +568,8 @@
    <xsl:template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9064_20160601000000">
       <!-- maxDoseQuantity -->
       <numerator>
+         <xsl:attribute name="xsi:type"
+                        select="'PQ'"/>
          <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9164_20170118000000_2">
             <xsl:with-param name="Gstd_value"
                             select="aantal/@value"/>
@@ -576,6 +578,8 @@
          </xsl:call-template>
       </numerator>
       <denominator>
+         <xsl:attribute name="xsi:type"
+                        select="'PQ'"/>
          <xsl:attribute name="value"
                         select="./tijdseenheid/@value"/>
          <xsl:attribute name="unit"
@@ -4064,6 +4068,24 @@
             </xsl:when>
          </xsl:choose>
       </observation>
+   </xsl:template>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+   <xsl:template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9456_20231219114825">
+      <!-- maxDoseQuantity in CDA -->
+      <numerator>
+         <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9164_20170118000000_2">
+            <xsl:with-param name="Gstd_value"
+                            select="aantal/@value"/>
+            <xsl:with-param name="Gstd_unit"
+                            select="eenheid"/>
+         </xsl:call-template>
+      </numerator>
+      <denominator>
+         <xsl:attribute name="value"
+                        select="tijdseenheid/@value"/>
+         <xsl:attribute name="unit"
+                        select="nf:convertTime_ADA_unit2UCUM(tijdseenheid/@unit)"/>
+      </denominator>
    </xsl:template>
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:function name="nf:convertUnit_ADA2UCUM"

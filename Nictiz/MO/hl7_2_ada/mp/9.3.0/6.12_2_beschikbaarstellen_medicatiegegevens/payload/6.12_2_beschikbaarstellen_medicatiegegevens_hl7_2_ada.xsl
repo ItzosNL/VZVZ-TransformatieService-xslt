@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/hl7_2_ada/mp/9.3.0/6.12_2_beschikbaarstellen_medicatiegegevens/payload/6.12_2_beschikbaarstellen_medicatiegegevens_hl7_2_ada.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/hl7-2-ada/env/mp/9.3.0/6.12_2_beschikbaarstellen_medicatiegegevens/payload/6.12_2_beschikbaarstellen_medicatiegegevens_hl7_2_ada.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -9,10 +9,31 @@
                 xmlns:util="urn:hl7:utilities"
                 xmlns:nf="http://www.nictiz.nl/functions"
                 xmlns:hl7nl="urn:hl7-nl:v3"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
+                xmlns:local="#local.202412041518439035630100"
                 xmlns:pharm="urn:ihe:pharm:medication"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <!-- ================================================================== -->
+   <!--
+        TBD
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
    <xsl:import href="../../../../../common/includes/hl7_2_ada_mp_include.xsl"/>
    <xsl:output method="xml"
                indent="yes"/>
@@ -22,16 +43,20 @@
               select="true()"/>
    <xsl:variable name="logLevel"
                  select="$logDEBUG"/>
-   <xsl:variable name="transactionName">beschikbaarstellen_medicatiegegevens</xsl:variable>
-   <xsl:variable name="transactionOid">2.16.840.1.113883.2.4.3.11.60.20.77.4.301</xsl:variable>
+   <xsl:variable name="transactionName"
+                 select="'beschikbaarstellen_medicatiegegevens'"/>
+   <xsl:variable name="transactionOid"
+                 select="'2.16.840.1.113883.2.4.3.11.60.20.77.4.301'"/>
    <xsl:variable name="transactionEffectiveDate"
-                 as="xs:dateTime">2022-02-07T00:00:00</xsl:variable>
-   <xsl:variable name="adaFormname">medicatiegegevens</xsl:variable>
-   <xsl:variable name="mpVersion">mp93</xsl:variable>
-   <xd:doc>
-      <xd:desc>Template voor converteren van de 6.12 XML</xd:desc>
-   </xd:doc>
+                 as="xs:dateTime"
+                 select="xs:dateTime('2022-02-07T00:00:00')"/>
+   <xsl:variable name="adaFormname"
+                 select="'medicatiegegevens'"/>
+   <xsl:variable name="mpVersion"
+                 select="'mp93'"/>
+   <!-- ================================================================== -->
    <xsl:template match="/">
+      <!-- Template voor converteren van de 6.12 XML -->
       <xsl:variable name="verstrekkingslijst-612"
                     select="//hl7:QURX_IN990113NL/hl7:ControlActProcess/hl7:subject/hl7:MedicationDispenseList"/>
       <xsl:choose>
@@ -54,11 +79,9 @@
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Converteert een verstrekkingenlijst</xd:desc>
-      <xd:param name="dispense-lists"/>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template name="Verstrekking_612">
+      <!-- Converteert een verstrekkingenlijst -->
       <xsl:param name="dispense-lists"
                  as="element()*"/>
       <xsl:variable name="adaXml">
@@ -127,16 +150,15 @@
       <xsl:apply-templates select="$adaXmlWithBouwstenen"
                            mode="handleMP92AdaNameChanges"/>
    </xsl:template>
-   <xd:doc>
-      <xd:desc> Medication Dispense Event 6.12 </xd:desc>
-      <xd:param name="current-dispense-event"/>
-      <xd:param name="transaction">Which transaction is the context of this translation. Currently known: beschikbaarstellen_medicatiegegevens or beschikbaarstellen_verstrekkingenvertaling </xd:param>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.110_20130521000000_2_MP93">
+      <!--  Medication Dispense Event 6.12  -->
       <xsl:param name="current-dispense-event"
                  select="."/>
       <xsl:param name="transaction"
-                 select="$transactionName"/>
+                 select="$transactionName">
+         <!-- Which transaction is the context of this translation. Currently known: beschikbaarstellen_medicatiegegevens or beschikbaarstellen_verstrekkingenvertaling  -->
+      </xsl:param>
       <medicamenteuze_behandeling>
          <!-- mbh id is not known in 6.12. We fake it using https://bits.nictiz.nl/browse/MP-572 -->
          <xsl:variable name="PRK"
@@ -173,19 +195,20 @@
          </xsl:call-template>
       </medicamenteuze_behandeling>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Handle an hl7 dispenseEvent and create an ada toedieningsafspraak element.</xd:desc>
-      <xd:param name="current-dispense-event">The input hl7 dispenseEvent, defaults to context.</xd:param>
-      <xd:param name="transaction">Which transaction is the context of this translation. Currently known: beschikbaarstellen_medicatiegegevens or beschikbaarstellen_verstrekkingenvertaling </xd:param>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template name="mp9-toedieningsafspraak-from-mp612-MP93"
                  match="hl7:medicationDispenseEvent"
                  mode="MP93">
+      <!-- Handle an hl7 dispenseEvent and create an ada toedieningsafspraak element. -->
       <xsl:param name="current-dispense-event"
                  select="."
-                 as="element()?"/>
+                 as="element()?">
+         <!-- The input hl7 dispenseEvent, defaults to context. -->
+      </xsl:param>
       <xsl:param name="transaction"
-                 select="$transactionName"/>
+                 select="$transactionName">
+         <!-- Which transaction is the context of this translation. Currently known: beschikbaarstellen_medicatiegegevens or beschikbaarstellen_verstrekkingenvertaling  -->
+      </xsl:param>
       <!-- let's sort the available hl7:medicationAdministrationRequest's in chronological order -->
       <!-- mar = medicationAdministrationRequest  -->
       <xsl:variable name="mar-sorted"
@@ -197,7 +220,13 @@
                   but takes the input order from the input xml -->
             <!-- the xslt2 perform-sort function has the same result (probably for same reason, since it uses sequence as well) -->
             <!-- so we are using copy-of here to preserve order, even though it is known to perform worse -->
-            <xsl:copy-of select="."/>
+            <!-- so we are using copy-of here to preserve order, even though it is known to perform worse -->
+            <!-- ES 20250121: Newer version of Saxon do something different. However, if I change the copy-of below into a sequence instruction, things go the same... 
+                                  I must admit that I don't understand what's going on. The code is extremely complicated here and without any functional
+                                  knowledge of what's going on very hard to even trace. I leave this to this serendipitous finding.
+                -->
+            <!--<xsl:copy-of select="."/>-->
+            <xsl:sequence select="."/>
          </xsl:for-each>
       </xsl:variable>
       <!--issue MP-371 copy-of (in $mar-sorted) causes namespace-uri-from-QName to fail, use a regex instead -->

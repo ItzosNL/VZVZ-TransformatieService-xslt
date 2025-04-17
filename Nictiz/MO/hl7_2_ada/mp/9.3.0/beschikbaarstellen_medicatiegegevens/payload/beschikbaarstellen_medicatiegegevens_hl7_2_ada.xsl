@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/hl7_2_ada/mp/9.3.0/beschikbaarstellen_medicatiegegevens/payload/beschikbaarstellen_medicatiegegevens_hl7_2_ada.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/hl7-2-ada/env/mp/9.3.0/beschikbaarstellen_medicatiegegevens/payload/beschikbaarstellen_medicatiegegevens_hl7_2_ada.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -10,15 +10,33 @@
                 xmlns:f="http://hl7.org/fhir"
                 xmlns:nf="http://www.nictiz.nl/functions"
                 xmlns:hl7nl="urn:hl7-nl:v3"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
+                xmlns:local="#local.2024120415184394357190100"
                 xmlns:pharm="urn:ihe:pharm:medication"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <!-- ================================================================== -->
+   <!--
+        TBD
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
    <xsl:import href="../../../../../common/includes/all-zibs.xsl"/>
    <xsl:import href="../../../../../common/includes/mp-handle-bouwstenen.xsl"/>
-   <xd:doc>
-      <xd:desc>Dit is een conversie voor MP 9 3.0 van HL7v3 naar ADA beschikbaarstellen medicatiegegevens</xd:desc>
-   </xd:doc>
    <xsl:output method="xml"
                indent="yes"
                exclude-result-prefixes="#all"
@@ -37,7 +55,7 @@
    <xsl:variable name="medicatiegegevens-lijst-93"
                  select="//hl7:organizer[hl7:code[@code = '102'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.4']] | //hl7:organizer[hl7:code[@code = '419891008'][@codeSystem = '2.16.840.1.113883.6.96']] | hl7:ClinicalDocument[hl7:code[@code = '52981000146104'][@codeSystem = '2.16.840.1.113883.6.96']]"/>
    <xsl:variable name="filename"
-                 select="tokenize(document-uri(/), '/')[last()]"/>
+                 select="tokenize(base-uri(/), '/')[last()]"/>
    <xsl:variable name="extension"
                  select="tokenize($filename, '\.')[last()]"/>
    <xsl:variable name="idBasedOnFilename"
@@ -56,22 +74,21 @@
          </xsl:otherwise>
       </xsl:choose>
    </xsl:param>
-   <xd:doc>
-      <xd:desc> if this xslt is used stand alone the template below could be used. </xd:desc>
-   </xd:doc>
+   <!-- ================================================================== -->
    <xsl:template match="/">
+      <!--  if this xslt is used stand alone the template below could be used.  -->
       <xsl:call-template name="Medicatiegegevens-93-ADA">
          <xsl:with-param name="medicatiegegevens-lijst"
                          select="$medicatiegegevens-lijst-93"/>
       </xsl:call-template>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Handles HL7 9 3.0 medication information, transforms it to ada.</xd:desc>
-      <xd:param name="medicatiegegevens-lijst">HL7 9 3.0 organizer/CDA with medication information.</xd:param>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template name="Medicatiegegevens-93-ADA">
+      <!-- Handles HL7 9 3.0 medication information, transforms it to ada. -->
       <xsl:param name="medicatiegegevens-lijst"
-                 select="$medicatiegegevens-lijst-93"/>
+                 select="$medicatiegegevens-lijst-93">
+         <!-- HL7 9 3.0 organizer/CDA with medication information. -->
+      </xsl:param>
       <xsl:call-template name="doGeneratedComment">
          <xsl:with-param name="in"
                          select="$medicatiegegevens-lijst/ancestor::*[hl7:ControlActProcess]"/>

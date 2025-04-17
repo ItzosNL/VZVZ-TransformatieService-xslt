@@ -1,23 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/fhir_2_ada-r4/mp/9.3.0/payload/2.0.0-beta.5/mp-MedicationAdministration.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/fhir-2-ada-r4/env/mp/9.3.0/payload/2.0.0-beta.5/mp-MedicationAdministration.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:util="urn:hl7:utilities"
                 xmlns:f="http://hl7.org/fhir"
                 xmlns:nf="http://www.nictiz.nl/functions"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
                 xmlns:local="urn:fhir:stu3:functions">
-   <xsl:variable name="urlMpMedicationAdministration">
-      <xsl:value-of select="$urlBaseNictizProfile"/>mp-MedicationAdministration</xsl:variable>
-   <xd:doc>
-      <xd:desc>Template to convert f:MedicationAdministration to ADA medicatietoediening</xd:desc>
-   </xd:doc>
+   <!-- ================================================================== -->
+   <!--
+        TBD
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
+   <xsl:variable name="urlMpMedicationAdministration"
+                 select="concat($urlBaseNictizProfile, 'mp-MedicationAdministration')"/>
+   <!-- MP-1392 LR: medicatie_toediening_status nolonger supported from MP 9.3 beta.3 onwards but due to its cardinality in FHIR (1..1) the value 'unknown' will result in medicatie_toediening_status being absent in ada -->
+   <!-- MP-1408 LR: afgesproken_datum_tijd no longer part of the transactions from MP 9.3 beta.3 onwards but kept in stylesheet due to backwards compatibility-->
+   <!-- ================================================================== -->
    <xsl:template match="f:MedicationAdministration"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:MedicationAdministration to ADA medicatietoediening -->
       <medicatietoediening>
          <!-- identificatie -->
          <xsl:apply-templates select="f:identifier"
@@ -91,11 +112,10 @@
                               mode="nl-core-Note"/>
       </medicatietoediening>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:extension $urlExtAsAgreedIndicator to volgens_afspraak_indicator element.</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:extension[@url = $urlExtAsAgreedIndicator]"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:extension $urlExtAsAgreedIndicator to volgens_afspraak_indicator element. -->
       <volgens_afspraak_indicator>
          <xsl:call-template name="boolean-to-boolean">
             <xsl:with-param name="in"
@@ -103,11 +123,10 @@
          </xsl:call-template>
       </volgens_afspraak_indicator>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:extension injection patch site to prik_plak_locatie element.</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:extension[@url = $urlExtMedicationAdministration2InjectionPatchSite]"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:extension injection patch site to prik_plak_locatie element. -->
       <prik_plak_locatie>
          <anatomische_locatie>
             <xsl:call-template name="CodeableConcept-to-code">
@@ -129,11 +148,10 @@
          </anatomische_locatie>
       </prik_plak_locatie>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:extension reason for deviation to medicatie_toediening_reden_van_afwijken element.</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:extension[@url = $urlExtMedicationAdministration2ReasonForDeviation]"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:extension reason for deviation to medicatie_toediening_reden_van_afwijken element. -->
       <xsl:call-template name="CodeableConcept-to-code">
          <xsl:with-param name="in"
                          select="f:valueCodeableConcept"/>
@@ -142,18 +160,16 @@
                          select="f:valueCodeableConcept/f:text/@value"/>
       </xsl:call-template>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:identifier to identificatie</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:identifier"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:identifier to identificatie -->
       <xsl:call-template name="Identifier-to-identificatie"/>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:medicationReference to afgesproken_geneesmiddel</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:medicationReference"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:medicationReference to afgesproken_geneesmiddel -->
       <xsl:variable name="referenceValue"
                     select="f:reference/@value"/>
       <toedienings_product>
@@ -161,38 +177,33 @@
                                 datatype="reference"/>
       </toedienings_product>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:dosage/f:dose to toegediende_hoeveelheid aantal and eenheid element.</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:dosage/f:dose"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:dosage/f:dose to toegediende_hoeveelheid aantal and eenheid element. -->
       <toegediende_hoeveelheid>
          <xsl:call-template name="GstdQuantity2ada"/>
       </toegediende_hoeveelheid>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:dosage/f:site/f:text to prik_plak_locatie</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:dosage/f:site/f:text"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:dosage/f:site/f:text to prik_plak_locatie -->
       <prik_plak_locatie value="{@value}"/>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:effectiveDateTime to toedienings_datum_tijd</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:effectiveDateTime"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:effectiveDateTime to toedienings_datum_tijd -->
       <xsl:call-template name="datetime-to-datetime">
          <xsl:with-param name="adaElementName">toedienings_datum_tijd</xsl:with-param>
          <xsl:with-param name="adaDatatype">datetime</xsl:with-param>
       </xsl:call-template>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:status to geannuleerd_indicator. Only the FHIR status value 'entered-in-error' is used in this mapping.</xd:desc>
-   </xd:doc>
-   <!-- MP-1392 LR: medicatie_toediening_status nolonger supported from MP 9.3 beta.3 onwards but due to its cardinality in FHIR (1..1) the value 'unknown' will result in medicatie_toediening_status being absent in ada -->
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:status"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:status to geannuleerd_indicator. Only the FHIR status value 'entered-in-error' is used in this mapping. -->
       <xsl:choose>
          <xsl:when test="@value = 'entered-in-error'">
             <geannuleerd_indicator value="true"/>
@@ -240,11 +251,10 @@
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:performer to toediener</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:performer"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:performer to toediener -->
       <toediener>
          <xsl:for-each select="f:actor">
             <xsl:variable name="resource"
@@ -279,24 +289,24 @@
          </xsl:for-each>
       </toediener>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:rateQuantity to toedieningssnelheid</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:rateQuantity"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:rateQuantity to toedieningssnelheid -->
       <toedieningssnelheid>
          <xsl:apply-templates select="."
                               mode="mp-InstructionsForUse"/>
       </toedieningssnelheid>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:request to relatie_medicatieafspraak or relatie_wisselend_doseerschema. Due to sequence in dataset we output one based on param</xd:desc>
-      <xd:param name="outputMaOrWds">Whether to output relatie_medicatieafspraak ('ma') or relatie_wisselend_doseerschema ('wds'). Defaults to 'ma'</xd:param>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:request"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:request to relatie_medicatieafspraak or relatie_wisselend_doseerschema. Due to sequence in dataset we output one based on param -->
       <xsl:param name="outputMaOrWds"
-                 as="xs:string">ma</xsl:param>
+                 as="xs:string"
+                 select="'ma'">
+         <!-- Whether to output relatie_medicatieafspraak ('ma') or relatie_wisselend_doseerschema ('wds'). Defaults to 'ma' -->
+      </xsl:param>
       <xsl:variable name="resourceCategory"
                     select="f:extension[@url = $urlExtResourceCategory]/f:valueCodeableConcept/f:coding[f:system/@value = $oidMap[@oid = $oidSNOMEDCT]/@uri]/f:code/@value"/>
       <xsl:choose>
@@ -329,21 +339,18 @@
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:supportingInformation to relatie_toedieningsafspraak</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:supportingInformation"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:supportingInformation to relatie_toedieningsafspraak -->
       <relatie_toedieningsafspraak>
          <xsl:call-template name="Reference-to-identificatie"/>
       </relatie_toedieningsafspraak>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:extension with extension url "$extMedicationAdministration2AgreedDateTime" to afgesproken_datum_tijd</xd:desc>
-   </xd:doc>
-   <!-- MP-1408 LR: afgesproken_datum_tijd no longer part of the transactions from MP 9.3 beta.3 onwards but kept in stylesheet due to backwards compatibility-->
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:extension[@url = $urlExtMedicationAdministration2AgreedDateTime]"
                  mode="mp-MedicationAdministration">
+      <!-- Template to convert f:extension with extension url "$extMedicationAdministration2AgreedDateTime" to afgesproken_datum_tijd -->
       <xsl:for-each select="f:valueDateTime">
          <xsl:call-template name="datetime-to-datetime">
             <xsl:with-param name="adaElementName">afgesproken_datum_tijd</xsl:with-param>

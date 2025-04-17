@@ -1,3 +1,17 @@
+# 2025-04-16 v1.6.0
+
+- Nictiz MO distributie v1.0.10
+- opgeloste issues:
+  - MOPOC-203, MP-1606 en MP-584
+  - MP-1853
+  - MP-584
+  - MP-1606
+  - MP-1853
+  - MP-1917
+  - het maken van een OperationOutcome gaat niet goed
+  - fhir validatie van de DocumentManifest en de DocumentReference berichten (MedMij) leveren fouten op
+
+
 # 2025-01-29 v1.5.0-rc2
 
 - Nictiz MO distributie v1.0.6 (met beta4)

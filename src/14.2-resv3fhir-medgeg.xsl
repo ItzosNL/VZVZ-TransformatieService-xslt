@@ -53,7 +53,7 @@ The full text of the license is available at http://www.gnu.org/copyleft/lesser.
             <xd:p>Parameter = response v3 ACK message</xd:p>
             <xd:p>Response should be:<br/>
                 <ul>
-                    <li>if ACK = OK then output is fhir bundle type=transaction.response</li>
+                    <li>if ACK = OK then output is fhir bundle type=transaction-response</li>
                     <li>if ACK = NOK then output is OperationOutcome</li>
                 </ul>
             </xd:p>

@@ -322,7 +322,7 @@
     <translation key="languageCommunication">
         <comment>Label: LanguageCommunication</comment>
         <value lang="en-us">Language Communication</value>
-        <value lang="nl-nl">Taal</value>
+        <value lang="nl-nl">Taalvaardigheid</value>
     </translation>
     <translation key="preferredLanguage">
         <comment>Label: preferredLanguage</comment>
@@ -9442,6 +9442,16 @@
         <value lang="en-us">Indication</value>
         <value lang="nl-nl">Indicatie</value>
     </translation>
+    <translation key="Indication by">
+        <comment>As in: Indication by</comment>
+        <value lang="en-us">Indication by</value>
+        <value lang="nl-nl">Indicatie door</value>
+    </translation>
+    <translation key="Initiated or implanted by">
+        <comment>As in: Initiated or implanted by</comment>
+        <value lang="en-us">Initiated or implanted by</value>
+        <value lang="nl-nl">Geïniteerd of geïmplanteerd door</value>
+    </translation>
     <translation key="UDI">
         <comment>As in: UDI</comment>
         <value lang="en-us">UDI</value>
@@ -9535,6 +9545,11 @@
         <comment>As in: When</comment>
         <value lang="en-us">When</value>
         <value lang="nl-nl">Wanneer</value>
+    </translation>
+    <translation key="What">
+        <comment>As in: What</comment>
+        <value lang="en-us">What</value>
+        <value lang="nl-nl">Wat</value>
     </translation>
     <translation key="Jurisdiction">
         <comment>As in: Jurisdiction</comment>
@@ -11812,5 +11827,30 @@
         <comment>Label: Hidden from display</comment>
         <value lang="en-us">Hidden from display</value>
         <value lang="nl-nl">Verborgen van weergave</value>
+    </translation>
+    <translation key="Contact person">
+        <comment>Label: Contact person</comment>
+        <value lang="en-us">Contact person</value>
+        <value lang="nl-nl">Contactpersoon</value>
+    </translation>
+    <translation key="Gender Identity">
+        <comment>Label: Gender Identity</comment>
+        <value lang="en-us">Gender Identity</value>
+        <value lang="nl-nl">Genderidentiteit</value>
+    </translation>
+    <translation key="Identifier">
+        <comment>Identifier</comment>
+        <value lang="en-us">Identifier</value>
+        <value lang="nl-nl">Identificatie</value>
+    </translation>
+    <translation key="Born As">
+        <comment>Born As</comment>
+        <value lang="en-us">Born As</value>
+        <value lang="nl-nl">Geboren als</value>
+    </translation>
+    <translation key="Morphology">
+        <comment>Morphology</comment>
+        <value lang="en-us">Morphology</value>
+        <value lang="nl-nl">Morfologie</value>
     </translation>
 </translations>

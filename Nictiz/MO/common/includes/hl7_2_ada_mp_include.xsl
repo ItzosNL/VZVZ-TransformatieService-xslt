@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/hl7_2_ada/mp/hl7_2_ada_mp_include.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/hl7-2-ada/env/mp/hl7_2_ada_mp_include.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -17,7 +17,7 @@
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <xsl:import href="mp-functions.xsl"/>
    <xsl:import href="comment.xsl"/>
-   <xsl:import href="fhir_2_ada_fhir_include-d913e283.xsl"/>
+   <xsl:import href="fhir_2_ada_fhir_include-d551e117.xsl"/>
    <xsl:import href="hl7_2_ada_hl7_include.xsl"/>
    <xsl:output method="xml"
                indent="yes"/>
@@ -57,7 +57,8 @@
    <xsl:variable name="templateId-medicatiegebruik"
                  as="xs:string*"
                  select="'2.16.840.1.113883.2.4.3.11.60.20.77.10.9322', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9279', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9250', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9246', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9208'"/>
-   <xsl:variable name="templateId-medicamenteuze-behandeling">2.16.840.1.113883.2.4.3.11.60.20.77.10.9084</xsl:variable>
+   <xsl:variable name="templateId-medicamenteuze-behandeling"
+                 select="'2.16.840.1.113883.2.4.3.11.60.20.77.10.9084'"/>
    <xsl:variable name="templateId-lichaamsgewicht"
                  as="xs:string*"
                  select="'2.16.840.1.113883.2.4.3.11.60.121.10.19', '2.16.840.1.113883.2.4.3.11.60.7.10.28', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9123'"/>
@@ -90,9 +91,12 @@
                  as="xs:string*"
                  select="'2.16.840.1.113883.2.4.3.11.60.20.77.10.9359', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9319', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9309', '2.16.840.1.113883.2.4.3.11.60.20.77.10.9149'"/>
    <!-- relatie_naar_afspraak_of_gebruik -->
-   <xsl:variable name="template-id-rel-ma">2.16.840.1.113883.2.4.3.11.60.20.77.10.9086</xsl:variable>
-   <xsl:variable name="template-id-rel-ta">2.16.840.1.113883.2.4.3.11.60.20.77.10.9101</xsl:variable>
-   <xsl:variable name="template-id-rel-gb">2.16.840.1.113883.2.4.3.11.60.20.77.10.9176</xsl:variable>
+   <xsl:variable name="template-id-rel-ma"
+                 select="'2.16.840.1.113883.2.4.3.11.60.20.77.10.9086'"/>
+   <xsl:variable name="template-id-rel-ta"
+                 select="'2.16.840.1.113883.2.4.3.11.60.20.77.10.9101'"/>
+   <xsl:variable name="template-id-rel-gb"
+                 select="'2.16.840.1.113883.2.4.3.11.60.20.77.10.9176'"/>
    <xsl:variable name="template-id-rel-afspr-gebr"
                  select="($template-id-rel-ma, $template-id-rel-ta, $template-id-rel-gb)"/>
    <xd:doc>
@@ -100,7 +104,8 @@
    </xd:doc>
    <xsl:template name="_verstrekkerContents907">
       <xsl:for-each select="hl7:id">
-         <xsl:variable name="elemName">zorgaanbieder_identificatie_nummer</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'zorgaanbieder_identificatie_nummer'"/>
          <xsl:call-template name="handleII">
             <xsl:with-param name="elemName"
                             select="$elemName"/>
@@ -108,7 +113,8 @@
       </xsl:for-each>
       <!-- organisatienaam has 1..1 R in MP 9 ADA transactions, but is not always present in HL7 input messages.  -->
       <!-- fill with nullFlavor if necessary -->
-      <xsl:variable name="elemName">organisatie_naam</xsl:variable>
+      <xsl:variable name="elemName"
+                    select="'organisatie_naam'"/>
       <xsl:element name="{$elemName}">
          <xsl:choose>
             <xsl:when test="hl7:name">
@@ -143,7 +149,8 @@
    </xd:doc>
    <xsl:template name="_zorgaanbieder-contents">
       <xsl:for-each select="hl7:id">
-         <xsl:variable name="elemName">zorgaanbieder_identificatienummer</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'zorgaanbieder_identificatienummer'"/>
          <xsl:call-template name="handleII">
             <xsl:with-param name="elemName"
                             select="$elemName"/>
@@ -151,7 +158,8 @@
       </xsl:for-each>
       <!-- organisatienaam has 1..1 R in MP 9 ADA transactions, but is not always present in HL7 input messages.  -->
       <!-- fill with nullFlavor if necessary -->
-      <xsl:variable name="elemName">organisatie_naam</xsl:variable>
+      <xsl:variable name="elemName"
+                    select="'organisatie_naam'"/>
       <xsl:element name="{$elemName}">
          <xsl:choose>
             <xsl:when test="hl7:name">
@@ -833,7 +841,8 @@
                  select="."/>
       <xsl:for-each select="$in">
          <!-- still can refactor with new generic functions -->
-         <xsl:variable name="elemName">gebruiksinstructie</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'gebruiksinstructie'"/>
          <xsl:element name="{$elemName}">
             <!-- omschrijving -->
             <xsl:for-each select="hl7:text">
@@ -841,7 +850,8 @@
             </xsl:for-each>
             <!-- toedieningsweg -->
             <xsl:for-each select="hl7:routeCode">
-               <xsl:variable name="elemName">toedieningsweg</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'toedieningsweg'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -849,7 +859,8 @@
             </xsl:for-each>
             <!-- aanvullende_instructie -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9085']/hl7:code">
-               <xsl:variable name="elemName">aanvullende_instructie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'aanvullende_instructie'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -860,7 +871,8 @@
             <!-- herhaalperiode_cyclisch_schema -->
             <!-- er mag er maar eentje zijn -->
             <xsl:for-each select="$hl7Doseerinstructie/hl7:substanceAdministration/hl7:effectiveTime[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-org:v3', 'SXPR_TS')]/hl7:comp[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-nl:v3', 'PIVL_TS')][not(@alignment)][hl7nl:phase[hl7nl:width]]/hl7nl:period">
-               <xsl:variable name="elemName">herhaalperiode_cyclisch_schema</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'herhaalperiode_cyclisch_schema'"/>
                <xsl:call-template name="handlePQ">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -868,18 +880,21 @@
             </xsl:for-each>
             <!-- doseerinstructie -->
             <xsl:for-each select="$hl7Doseerinstructie">
-               <xsl:variable name="elemName">doseerinstructie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'doseerinstructie'"/>
                <xsl:element name="{$elemName}">
                   <!-- volgnummer -->
                   <xsl:for-each select="hl7:sequenceNumber">
-                     <xsl:variable name="elemName">volgnummer</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'volgnummer'"/>
                      <xsl:call-template name="handleINT">
                         <xsl:with-param name="elemName"
                                         select="$elemName"/>
                      </xsl:call-template>
                   </xsl:for-each>
                   <!-- doseerduur -->
-                  <xsl:variable name="elemName">doseerduur</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'doseerduur'"/>
                   <xsl:choose>
                      <!-- doseerduur in Cyclisch doseerschema. -->
                      <xsl:when test="hl7:substanceAdministration/hl7:effectiveTime[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-org:v3', 'SXPR_TS')][hl7:comp[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-nl:v3', 'PIVL_TS')][not(@alignment)][hl7nl:period][hl7nl:phase[hl7nl:width]]]/hl7:comp/hl7nl:phase/hl7nl:width">
@@ -902,14 +917,17 @@
                   </xsl:choose>
                   <!-- dosering -->
                   <xsl:for-each select="hl7:substanceAdministration">
-                     <xsl:variable name="elemName">dosering</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'dosering'"/>
                      <xsl:element name="{$elemName}">
                         <!-- keerdosis -->
                         <xsl:for-each select="hl7:doseQuantity">
-                           <xsl:variable name="elemName">keerdosis</xsl:variable>
+                           <xsl:variable name="elemName"
+                                         select="'keerdosis'"/>
                            <xsl:element name="{$elemName}">
                               <!-- aantal -->
-                              <xsl:variable name="elemName">aantal</xsl:variable>
+                              <xsl:variable name="elemName"
+                                            select="'aantal'"/>
                               <xsl:element name="{$elemName}">
                                  <xsl:for-each select="hl7:low/hl7:translation[@codeSystem = $oidGStandaardBST902THES2]">
                                     <min value="{@value}"/>
@@ -934,7 +952,8 @@
                         <!-- toedieningsschema -->
                         <!-- er moet een PIVL_TS zijn om een toedieningsschema te maken -->
                         <xsl:if test=".//*[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-nl:v3', 'PIVL_TS')]">
-                           <xsl:variable name="elemName">toedieningsschema</xsl:variable>
+                           <xsl:variable name="elemName"
+                                         select="'toedieningsschema'"/>
                            <xsl:element name="{$elemName}">
                               <!-- eenvoudig doseerschema met alleen één frequentie of X tot Y keer per dag -->
                               <xsl:for-each select="hl7:effectiveTime[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-nl:v3', 'PIVL_TS')][xs:string(@isFlexible) = 'true' or hl7nl:frequency/hl7nl:numerator/hl7nl:uncertainRange][not(@alignment)][hl7nl:frequency][not(hl7nl:phase)]">
@@ -955,7 +974,8 @@
                               <!-- Eenvoudig doseerschema met alleen één interval.-->
                               <xsl:for-each select="hl7:effectiveTime[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-nl:v3', 'PIVL_TS')][(xs:string(@isFlexible) = 'false' or not(@isFlexible))][not(@alignment)][hl7nl:frequency[hl7nl:numerator/@value]]">
                                  <!-- interval -->
-                                 <xsl:variable name="elemName">interval</xsl:variable>
+                                 <xsl:variable name="elemName"
+                                               select="'interval'"/>
                                  <xsl:variable name="interval-value"
                                                select="format-number(number(hl7nl:frequency/hl7nl:denominator/@value) div number(./hl7nl:frequency/hl7nl:numerator/@value), '0.####')"/>
                                  <xsl:element name="{$elemName}">
@@ -978,7 +998,8 @@
                                  <is_flexibel>
                                     <xsl:copy-of select="nf:getIsFlexible(.)"/>
                                  </is_flexibel>
-                                 <xsl:variable name="elemName">toedientijd</xsl:variable>
+                                 <xsl:variable name="elemName"
+                                               select="'toedientijd'"/>
                                  <xsl:call-template name="handleTS">
                                     <xsl:with-param name="in"
                                                     select="hl7nl:phase/hl7nl:low"/>
@@ -996,7 +1017,8 @@
                                  <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9162_20161110120339"/>
                                  <xsl:for-each select="hl7nl:phase/hl7nl:low">
                                     <!-- output the toedieningstijd -->
-                                    <xsl:variable name="elemName">toedientijd</xsl:variable>
+                                    <xsl:variable name="elemName"
+                                                  select="'toedientijd'"/>
                                     <xsl:call-template name="handleTS">
                                        <xsl:with-param name="in"
                                                        select="."/>
@@ -1371,7 +1393,8 @@
             </xsl:for-each>
             <!-- toedieningsweg -->
             <xsl:for-each select="hl7:routeCode">
-               <xsl:variable name="elemName">toedieningsweg</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'toedieningsweg'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -1379,7 +1402,8 @@
             </xsl:for-each>
             <!-- aanvullende_instructie -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9085']/hl7:code">
-               <xsl:variable name="elemName">aanvullende_instructie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'aanvullende_instructie'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -1396,8 +1420,11 @@
                <xsl:choose>
                   <xsl:when test="last() gt 1">
                      <!-- we found more than one herhaalperiode_cyclisch_schema, that should not have happened, ouch! -->
-                     <xsl:variable name="message">Found more than one herhaalperiode_cyclisch_schema (
-<xsl:value-of select="string-join($hl7HerhaalPeriod/(@value | @unit), ' ')"/>) in one usage instruction, that should not have happened. We can't output it. Please check your HL7.</xsl:variable>
+                     <xsl:variable name="message">
+                        <xsl:text>Found more than one herhaalperiode_cyclisch_schema (</xsl:text>
+                        <xsl:value-of select="string-join($hl7HerhaalPeriod/(@value | @unit), ' ')"/>
+                        <xsl:text>) in one usage instruction, that should not have happened. We can't output it. Please check your HL7.</xsl:text>
+                     </xsl:variable>
                      <xsl:if test="position() = 1">
                         <xsl:call-template name="util:logMessage">
                            <xsl:with-param name="msg"
@@ -1432,7 +1459,8 @@
                      </xsl:call-template>
                   </xsl:for-each>
                   <!-- doseerduur -->
-                  <xsl:variable name="elemName">doseerduur</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'doseerduur'"/>
                   <xsl:variable name="hl7Doseerduur"
                                 select="$hl7Doseerinstructie/hl7:substanceAdministration/hl7:effectiveTime/hl7:width"/>
                   <xsl:variable name="hl7DoseerduurCyclisch"
@@ -1462,10 +1490,12 @@
                      <dosering>
                         <!-- keerdosis -->
                         <xsl:for-each select="hl7:doseQuantity">
-                           <xsl:variable name="elemName">keerdosis</xsl:variable>
+                           <xsl:variable name="elemName"
+                                         select="'keerdosis'"/>
                            <xsl:element name="{$elemName}">
                               <!-- aantal -->
-                              <xsl:variable name="elemName">aantal</xsl:variable>
+                              <xsl:variable name="elemName"
+                                            select="'aantal'"/>
                               <xsl:element name="{$elemName}">
                                  <xsl:for-each select="hl7:low/hl7:translation[@codeSystem = $oidGStandaardBST902THES2]">
                                     <min value="{@value}"/>
@@ -1531,8 +1561,11 @@
                                  <xsl:for-each select="$PivlEffectiveTime[not(@alignment)][hl7nl:phase[hl7nl:low][not(hl7nl:width)]][hl7nl:period]">
                                     <xsl:if test="not(hl7nl:period[@value = 1][@unit = 'd'])">
                                        <!-- Hmmm, officially unexpected stuff -->
-                                       <xsl:variable name="message">Unexpected period which is not compliant with templates. Expected period to be 1 day but found: 
-<xsl:value-of select="string-join(hl7nl:period/(@value | @unit), ' ')"/>. Please check your HL7. However, since there is only one period, we can output this information in ada frequentie to prevent information loss.</xsl:variable>
+                                       <xsl:variable name="message">
+                                          <xsl:text>Unexpected period which is not compliant with templates. Expected period to be 1 day but found: </xsl:text>
+                                          <xsl:value-of select="string-join(hl7nl:period/(@value | @unit), ' ')"/>
+                                          <xsl:text>. Please check your HL7. However, since there is only one period, we can output this information in ada frequentie to prevent information loss.</xsl:text>
+                                       </xsl:variable>
                                        <xsl:call-template name="util:logMessage">
                                           <xsl:with-param name="msg"
                                                           select="$message"/>
@@ -1696,7 +1729,7 @@
                                             <!-\- output the toedieningstijd -\->
                                             <xsl:variable name="hl7Toedientijd" as="element(hl7nl:low)*" select="$doseSchema/hl7nl:phase/hl7nl:low[string-length(@value) gt 9]"/>
                                             <xsl:for-each select="$hl7Toedientijd">
-                                                <xsl:variable name="elemName">toedientijd</xsl:variable>
+                                                <xsl:variable name="elemName" select="'toedientijd'"/>
                                                 <xsl:call-template name="handleTS">
                                                     <xsl:with-param name="in" select="."/>
                                                     <xsl:with-param name="elemName" select="$elemName"/>
@@ -1920,9 +1953,13 @@
                                     <xsl:choose>
                                        <xsl:when test="not(hl7nl:period[@value = 1][@unit = 'd'])">
                                           <!-- Hmmm, unexpected stuff -->
-                                          <xsl:variable name="message">Unexpected period which is not compliant with templates. Expected period to be 1 day but found: 
-<xsl:value-of select="string-join(hl7nl:period/(@value | @unit), ' ')"/>. Please check your HL7. Cannot output this toedientijd (
-<xsl:value-of select="hl7nl:phase/hl7nl:low/@value"/>).</xsl:variable>
+                                          <xsl:variable name="message">
+                                             <xsl:text>Unexpected period which is not compliant with templates. Expected period to be 1 day but found: </xsl:text>
+                                             <xsl:value-of select="string-join(hl7nl:period/(@value | @unit), ' ')"/>
+                                             <xsl:text>. Please check your HL7. Cannot output this toedientijd (</xsl:text>
+                                             <xsl:value-of select="hl7nl:phase/hl7nl:low/@value"/>
+                                             <xsl:text>).</xsl:text>
+                                          </xsl:variable>
                                           <xsl:call-template name="util:logMessage">
                                              <xsl:with-param name="msg"
                                                              select="$message"/>
@@ -2098,7 +2135,8 @@
    <xsl:template name="mp9-geslacht">
       <xsl:param name="current-administrativeGenderCode"
                  select="."/>
-      <xsl:variable name="concept-id-ada-geslacht">2.16.840.1.113883.2.4.3.11.60.20.77.2.3.19831</xsl:variable>
+      <xsl:variable name="concept-id-ada-geslacht"
+                    select="'2.16.840.1.113883.2.4.3.11.60.20.77.2.3.19831'"/>
       <xsl:call-template name="handleCV">
          <xsl:with-param name="in"
                          select="."/>
@@ -2215,14 +2253,16 @@
       <xsl:param name="hl7-num-or-denom"/>
       <!-- waarde -->
       <xsl:for-each select="$hl7-num-or-denom">
-         <xsl:variable name="ada-elemName">waarde</xsl:variable>
+         <xsl:variable name="ada-elemName"
+                       select="'waarde'"/>
          <xsl:element name="{$ada-elemName}">
             <xsl:call-template name="mp9-ingredient-waarde">
                <xsl:with-param name="hl7-num-or-denom"
                                select="$hl7-num-or-denom"/>
             </xsl:call-template>
          </xsl:element>
-         <xsl:variable name="ada-elemName">eenheid</xsl:variable>
+         <xsl:variable name="ada-elemName"
+                       select="'eenheid'"/>
          <xsl:element name="{$ada-elemName}">
             <xsl:call-template name="mp9-ingredient-eenheid">
                <xsl:with-param name="hl7-num-or-denom"
@@ -3053,10 +3093,12 @@
                   </frequentie>
                </xsl:when>
                <xsl:otherwise>
-                  <xsl:variable name="message">The period cannot be properly converted to a frequency integer. Period = 
-<xsl:value-of select="./@value"/>
-                     <xsl:value-of select="./@unit"/> resulting in frequency/aantal rounded to one decimal of: 
-<xsl:value-of select="$vaste_frequentie_one_decimal"/>
+                  <xsl:variable name="message">
+                     <xsl:text>The period cannot be properly converted to a frequency integer. Period = </xsl:text>
+                     <xsl:value-of select="./@value"/>
+                     <xsl:value-of select="./@unit"/>
+                     <xsl:text> resulting in frequency/aantal rounded to one decimal of: </xsl:text>
+                     <xsl:value-of select="$vaste_frequentie_one_decimal"/>
                   </xsl:variable>
                   <xsl:if test="$logLevel = $logDEBUG">
                      <xsl:comment>
@@ -3414,7 +3456,8 @@
                  as="xs:boolean?"
                  select="false()"/>
       <xsl:for-each select="$in">
-         <xsl:variable name="elemName">zorgaanbieder</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'zorgaanbieder'"/>
          <xsl:element name="{$elemName}">
             <!-- is er een geneste extra zorgaanbieder groep in ada? -->
             <xsl:choose>
@@ -3443,7 +3486,8 @@
                  as="xs:boolean?"
                  select="false()"/>
       <xsl:for-each select="$in">
-         <xsl:variable name="elemName">zorgaanbieder</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'zorgaanbieder'"/>
          <xsl:element name="{$elemName}">
             <!-- is er een geneste extra zorgaanbieder groep in ada? -->
             <xsl:choose>
@@ -3960,8 +4004,11 @@
                <!-- Do nothing, no need to output frequency of once a day -->
             </xsl:when>
             <xsl:when test="hl7:period[not(@unit = 'd')]">
-               <xsl:variable name="message">Found a schedule with a specific time and an interval unequal to 'd' (
-<xsl:value-of select="string-join(hl7:period[not(@unit = 'd')]/@unit, ' ')"/>). This is not allowed.</xsl:variable>
+               <xsl:variable name="message">
+                  <xsl:text>Found a schedule with a specific time and an interval unequal to 'd' (</xsl:text>
+                  <xsl:value-of select="string-join(hl7:period[not(@unit = 'd')]/@unit, ' ')"/>
+                  <xsl:text>). This is not allowed.</xsl:text>
+               </xsl:variable>
                <xsl:call-template name="util:logMessage">
                   <xsl:with-param name="msg"
                                   select="$message"/>
@@ -4000,7 +4047,8 @@
          <xsl:choose>
             <xsl:when test="hl7:period[@value castable as xs:integer and @value &gt;= 1][@unit = 'd']">
                <!-- output the toedieningstijd -->
-               <xsl:variable name="elemName">toedientijd</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'toedientijd'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="hl7nl:phase/hl7:center"/>
@@ -4077,19 +4125,23 @@
                  as="xs:boolean?"
                  select="false()"/>
       <xsl:for-each select="$in/hl7:assignedAuthor">
-         <xsl:variable name="elemName">zorgverlener</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'zorgverlener'"/>
          <zorgverlener>
             <xsl:for-each select="hl7:id">
-               <xsl:variable name="elemName">zorgverlener_identificatienummer</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'zorgverlener_identificatienummer'"/>
                <xsl:call-template name="handleII">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
                </xsl:call-template>
             </xsl:for-each>
             <xsl:for-each select="hl7:assignedPerson/hl7:name">
-               <xsl:variable name="elemName">naamgegevens</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'naamgegevens'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">naamgegevens</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'naamgegevens'"/>
                   <!-- naamgegevens -->
                   <xsl:call-template name="handleENtoNameInformation">
                      <xsl:with-param name="in"
@@ -4104,7 +4156,8 @@
             </xsl:for-each>
             <!-- specialisme -->
             <xsl:for-each select="hl7:code">
-               <xsl:variable name="elemName">specialisme</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'specialisme'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -4174,10 +4227,12 @@
       <xsl:param name="product-hl7"
                  select="."/>
       <!-- product -->
-      <xsl:variable name="ada-elemName">product</xsl:variable>
+      <xsl:variable name="ada-elemName"
+                    select="'product'"/>
       <xsl:element name="{$ada-elemName}">
          <!-- product_code -->
-         <xsl:variable name="ada-elemName">product_code</xsl:variable>
+         <xsl:variable name="ada-elemName"
+                       select="'product_code'"/>
          <xsl:call-template name="handleCV">
             <xsl:with-param name="in"
                             select="hl7:code | hl7:code/hl7:translation"/>
@@ -4186,10 +4241,12 @@
          </xsl:call-template>
          <!-- product_specificatie -->
          <xsl:if test="not(hl7:code) or hl7:code/following-sibling::*">
-            <xsl:variable name="ada-elemName">product_specificatie</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'product_specificatie'"/>
             <xsl:element name="{$ada-elemName}">
                <!-- product_naam -->
-               <xsl:variable name="ada-elemName">product_naam</xsl:variable>
+               <xsl:variable name="ada-elemName"
+                             select="'product_naam'"/>
                <xsl:call-template name="handleST">
                   <xsl:with-param name="in"
                                   select="hl7:name"/>
@@ -4197,7 +4254,8 @@
                                   select="$ada-elemName"/>
                </xsl:call-template>
                <!-- omschrijving -->
-               <xsl:variable name="ada-elemName">omschrijving</xsl:variable>
+               <xsl:variable name="ada-elemName"
+                             select="'omschrijving'"/>
                <xsl:call-template name="handleST">
                   <xsl:with-param name="in"
                                   select="pharm:desc"/>
@@ -4205,7 +4263,8 @@
                                   select="$ada-elemName"/>
                </xsl:call-template>
                <!-- farmaceutische vorm -->
-               <xsl:variable name="ada-elemName">farmaceutische_vorm</xsl:variable>
+               <xsl:variable name="ada-elemName"
+                             select="'farmaceutische_vorm'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="in"
                                   select="pharm:formCode"/>
@@ -4214,15 +4273,18 @@
                </xsl:call-template>
                <!-- ingredient -->
                <xsl:for-each select="./pharm:ingredient">
-                  <xsl:variable name="ada-elemName">ingredient</xsl:variable>
+                  <xsl:variable name="ada-elemName"
+                                select="'ingredient'"/>
                   <xsl:element name="{$ada-elemName}">
                      <!-- sterkte -->
                      <xsl:for-each select="./pharm:quantity">
-                        <xsl:variable name="ada-elemName">sterkte</xsl:variable>
+                        <xsl:variable name="ada-elemName"
+                                      select="'sterkte'"/>
                         <xsl:element name="{$ada-elemName}">
                            <!-- hoeveelheid_ingredient -->
                            <xsl:for-each select="hl7:numerator[.//@value | @nullFlavor]">
-                              <xsl:variable name="ada-elemName">hoeveelheid_ingredient</xsl:variable>
+                              <xsl:variable name="ada-elemName"
+                                            select="'hoeveelheid_ingredient'"/>
                               <xsl:element name="{$ada-elemName}">
                                  <xsl:call-template name="mp-ingredient-waarde-en-eenheid">
                                     <xsl:with-param name="hl7-num-or-denom"
@@ -4279,7 +4341,8 @@
          <!-- toedientijd indien van toepassing -->
          <xsl:if test="string-length(./@value) &gt; 8">
             <!-- output the toedieningstijd -->
-            <xsl:variable name="elemName">toedientijd</xsl:variable>
+            <xsl:variable name="elemName"
+                          select="'toedientijd'"/>
             <xsl:call-template name="handleTS">
                <xsl:with-param name="in"
                                select="."/>
@@ -4337,10 +4400,12 @@
       <xsl:param name="in"
                  select="."/>
       <xsl:for-each select="$in">
-         <xsl:variable name="elemName">zorgverlener</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'zorgverlener'"/>
          <xsl:element name="{$elemName}">
             <xsl:for-each select="hl7:id">
-               <xsl:variable name="elemName">zorgverlener_identificatienummer</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'zorgverlener_identificatienummer'"/>
                <xsl:call-template name="handleII">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -4383,7 +4448,8 @@
             </xsl:for-each>
             <!-- specialisme -->
             <xsl:for-each select="hl7:code">
-               <xsl:variable name="elemName">specialisme</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'specialisme'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -4394,7 +4460,8 @@
             <!-- adresgegevens -->
             <!-- address information -->
             <xsl:for-each select="hl7:addr">
-               <xsl:variable name="elemName">adresgegevens</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'adresgegevens'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="handleADtoAddressInformation">
                      <xsl:with-param name="in"
@@ -4405,7 +4472,8 @@
                </xsl:element>
             </xsl:for-each>
             <xsl:for-each select="hl7:representedOrganization">
-               <xsl:variable name="elemName">zorgaanbieder</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'zorgaanbieder'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="mp910-zorgaanbieder">
                      <xsl:with-param name="in"
@@ -4569,13 +4637,15 @@
       <xsl:param name="in"
                  select="."/>
       <xsl:for-each select="$in">
-         <xsl:variable name="elemName">medicatieafspraak</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'medicatieafspraak'"/>
          <xsl:element name="{$elemName}">
             <xsl:variable name="IVL_TS"
                           select="hl7:effectiveTime[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-org:v3', 'IVL_TS')]"/>
             <!-- gebruiksperiode_start -->
             <xsl:for-each select="$IVL_TS/hl7:low[@value]">
-               <xsl:variable name="elemName">gebruiksperiode_start</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiksperiode_start'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -4587,7 +4657,8 @@
             </xsl:for-each>
             <!-- gebruiksperiode_eind -->
             <xsl:for-each select="$IVL_TS/hl7:high[@value]">
-               <xsl:variable name="elemName">gebruiksperiode_eind</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiksperiode_eind'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -4599,7 +4670,8 @@
             </xsl:for-each>
             <!-- identificatie -->
             <xsl:for-each select="hl7:id">
-               <xsl:variable name="elemName">identificatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'identificatie'"/>
                <xsl:call-template name="handleII">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -4607,7 +4679,8 @@
             </xsl:for-each>
             <!-- afspraak_datum_tijd -->
             <xsl:for-each select="hl7:author/hl7:time[@value | @nullFlavor]">
-               <xsl:variable name="elemName">afspraak_datum_tijd</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'afspraak_datum_tijd'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -4621,7 +4694,8 @@
             </xsl:for-each>
             <!-- stoptype -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = $templateId-stoptype]/hl7:value[@code | @nullFlavor]">
-               <xsl:variable name="elemName">stoptype</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'stoptype'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -4630,9 +4704,11 @@
             <!-- relatie_naar_afspraak_of_gebruik -->
             <!-- relatie_naar ma -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9086']/hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">relatie_naar_afspraak_of_gebruik</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'relatie_naar_afspraak_of_gebruik'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>
@@ -4641,9 +4717,11 @@
             </xsl:for-each>
             <!-- relatie_naar ta -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9101']/hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">relatie_naar_afspraak_of_gebruik</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'relatie_naar_afspraak_of_gebruik'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie_23288</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie_23288'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>
@@ -4652,9 +4730,11 @@
             </xsl:for-each>
             <!-- relatie_naar gb -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9176']/hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">relatie_naar_afspraak_of_gebruik</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'relatie_naar_afspraak_of_gebruik'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie_23289</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie_23289'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>
@@ -4663,7 +4743,8 @@
             </xsl:for-each>
             <!-- voorschrijver -->
             <xsl:for-each select="hl7:author">
-               <xsl:variable name="elemName">voorschrijver</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'voorschrijver'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9066_20181205174210">
                      <xsl:with-param name="in"
@@ -4673,7 +4754,8 @@
             </xsl:for-each>
             <!-- reden_wijzigen_of_staken -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:code[@code = '2'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2']]/hl7:value">
-               <xsl:variable name="elemName">reden_wijzigen_of_staken</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'reden_wijzigen_of_staken'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -4694,7 +4776,8 @@
             </xsl:for-each>
             <!-- afgesproken_geneesmiddel -->
             <xsl:for-each select="hl7:consumable/hl7:manufacturedProduct/hl7:manufacturedMaterial">
-               <xsl:variable name="elemName">afgesproken_geneesmiddel</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'afgesproken_geneesmiddel'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9070_20160618193427">
                      <xsl:with-param name="product-hl7"
@@ -4717,7 +4800,8 @@
                </aanvullende_informatie>
             </xsl:for-each>
             <!-- kopie_indicator -->
-            <xsl:variable name="elemName">kopie_indicator</xsl:variable>
+            <xsl:variable name="elemName"
+                          select="'kopie_indicator'"/>
             <xsl:call-template name="handleBL">
                <xsl:with-param name="in"
                                select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9200']/hl7:value"/>
@@ -4726,7 +4810,8 @@
             </xsl:call-template>
             <!-- toelichting -->
             <xsl:for-each select="hl7:entryRelationship/hl7:act[hl7:code[@code = '48767-8'][@codeSystem = $oidLOINC]]/hl7:text">
-               <xsl:variable name="elemName">toelichting</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'toelichting'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value"
                                  select="text()"/>
@@ -4745,13 +4830,15 @@
       <xsl:param name="in"
                  select="."/>
       <xsl:for-each select="$in">
-         <xsl:variable name="elemName">medicatieafspraak</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'medicatieafspraak'"/>
          <xsl:element name="{$elemName}">
             <xsl:variable name="IVL_TS"
                           select="hl7:effectiveTime[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-org:v3', 'IVL_TS')]"/>
             <!-- gebruiksperiode_start -->
             <xsl:for-each select="$IVL_TS/hl7:low[@value]">
-               <xsl:variable name="elemName">gebruiksperiode_start</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiksperiode_start'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -4763,7 +4850,8 @@
             </xsl:for-each>
             <!-- gebruiksperiode_eind -->
             <xsl:for-each select="$IVL_TS/hl7:high[@value]">
-               <xsl:variable name="elemName">gebruiksperiode_eind</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiksperiode_eind'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -4781,7 +4869,8 @@
             </xsl:for-each>
             <!-- stoptype -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = $templateId-stoptype or hl7:code[@code = '274512008'][@codeSystem = $oidSNOMEDCT]]/hl7:value[@code | @nullFlavor]">
-               <xsl:variable name="elemName">stoptype</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'stoptype'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -4790,9 +4879,11 @@
             <!-- relatie_naar_afspraak_of_gebruik -->
             <!-- relatie_naar ma -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9086']/hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">relatie_naar_afspraak_of_gebruik</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'relatie_naar_afspraak_of_gebruik'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>
@@ -4801,9 +4892,11 @@
             </xsl:for-each>
             <!-- relatie_naar ta -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9101']/hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">relatie_naar_afspraak_of_gebruik</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'relatie_naar_afspraak_of_gebruik'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie_23288</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie_23288'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>
@@ -4812,9 +4905,11 @@
             </xsl:for-each>
             <!-- relatie_naar gb -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9176']/hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">relatie_naar_afspraak_of_gebruik</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'relatie_naar_afspraak_of_gebruik'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie_23289</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie_23289'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>
@@ -4823,7 +4918,8 @@
             </xsl:for-each>
             <!-- reden_wijzigen_of_staken -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:code[(@code = '2' and @codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2') or (@code = '112241000146101' and @codeSystem = $oidSNOMEDCT)]]/hl7:value">
-               <xsl:variable name="elemName">reden_wijzigen_of_staken</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'reden_wijzigen_of_staken'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -4844,7 +4940,8 @@
             </xsl:for-each>
             <!-- afgesproken_geneesmiddel -->
             <xsl:for-each select="hl7:consumable/hl7:manufacturedProduct/hl7:manufacturedMaterial">
-               <xsl:variable name="elemName">afgesproken_geneesmiddel</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'afgesproken_geneesmiddel'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9070_20160618193427">
                      <xsl:with-param name="product-hl7"
@@ -4867,7 +4964,8 @@
                </aanvullende_informatie>
             </xsl:for-each>
             <!-- kopie_indicator -->
-            <xsl:variable name="elemName">kopie_indicator</xsl:variable>
+            <xsl:variable name="elemName"
+                          select="'kopie_indicator'"/>
             <xsl:call-template name="handleBL">
                <xsl:with-param name="in"
                                select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9200']/hl7:value"/>
@@ -4876,7 +4974,8 @@
             </xsl:call-template>
             <!-- toelichting -->
             <xsl:for-each select="hl7:entryRelationship/hl7:act[hl7:code[@code = '48767-8'][@codeSystem = $oidLOINC]]/hl7:text">
-               <xsl:variable name="elemName">toelichting</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'toelichting'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value"
                                  select="text()"/>
@@ -4896,13 +4995,15 @@
                  select="."/>
       <!-- medicatie_gebruik -->
       <xsl:for-each select="$in">
-         <xsl:variable name="elemName">medicatie_gebruik</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'medicatie_gebruik'"/>
          <xsl:element name="{$elemName}">
             <xsl:variable name="IVL_TS"
                           select="hl7:effectiveTime[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-org:v3', 'IVL_TS')]"/>
             <!-- gebruiksperiode_start -->
             <xsl:for-each select="$IVL_TS/hl7:low[@value]">
-               <xsl:variable name="elemName">gebruiksperiode_start</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiksperiode_start'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -4914,7 +5015,8 @@
             </xsl:for-each>
             <!-- gebruiksperiode_eind -->
             <xsl:for-each select="$IVL_TS/hl7:high[@value]">
-               <xsl:variable name="elemName">gebruiksperiode_eind</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiksperiode_eind'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -4926,7 +5028,8 @@
             </xsl:for-each>
             <!-- identificatie -->
             <xsl:for-each select="hl7:id">
-               <xsl:variable name="elemName">identificatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'identificatie'"/>
                <xsl:call-template name="handleII">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -4934,7 +5037,8 @@
             </xsl:for-each>
             <!-- registratie_datum_tijd -->
             <xsl:for-each select="hl7:author/hl7:time[@value | @nullFlavor]">
-               <xsl:variable name="elemName">registratie_datum_tijd</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'registratie_datum_tijd'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -4942,7 +5046,8 @@
             </xsl:for-each>
             <!-- gebruik_indicator -->
             <xsl:for-each select="hl7:entryRelationship/hl7:observation[hl7:code[@code = '15'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2']]/hl7:value">
-               <xsl:variable name="elemName">gebruik_indicator</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruik_indicator'"/>
                <xsl:call-template name="handleBL">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -4950,7 +5055,8 @@
             </xsl:for-each>
             <!-- volgens_afspraak_indicator -->
             <xsl:for-each select="hl7:entryRelationship/hl7:observation[hl7:code[@code = '8'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2'] or hl7:code[@code = '112221000146107'][@codeSystem = $oidSNOMEDCT]]/hl7:value">
-               <xsl:variable name="elemName">volgens_afspraak_indicator</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'volgens_afspraak_indicator'"/>
                <xsl:call-template name="handleBL">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -4958,7 +5064,8 @@
             </xsl:for-each>
             <!-- stoptype -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = $templateId-stoptype or hl7:code[@code = '274512008'][@codeSystem = $oidSNOMEDCT]]/hl7:value[@code | @nullFlavor]">
-               <xsl:variable name="elemName">stoptype</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'stoptype'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -4972,7 +5079,8 @@
             </xsl:for-each>
             <!-- gebruiks_product -->
             <xsl:for-each select="hl7:consumable/hl7:manufacturedProduct/hl7:manufacturedMaterial">
-               <xsl:variable name="elemName">gebruiks_product</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiks_product'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9070_20160618193427">
                      <xsl:with-param name="product-hl7"
@@ -4988,9 +5096,11 @@
             <!-- gerelateerde_afspraak -->
             <!-- relatie_naar ma -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9086']/hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">gerelateerde_afspraak</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gerelateerde_afspraak'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie_medicatieafspraak</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie_medicatieafspraak'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>
@@ -4999,9 +5109,11 @@
             </xsl:for-each>
             <!-- relatie_naar ta -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9101']/hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">gerelateerde_afspraak</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gerelateerde_afspraak'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie_toedieningsafspraak</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie_toedieningsafspraak'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>
@@ -5010,9 +5122,11 @@
             </xsl:for-each>
             <!-- gerelateerde_verstrekking -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:code[@code = '373784005'][@codeSystem = $oidSNOMEDCT]]/hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">gerelateerde_verstrekking</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gerelateerde_verstrekking'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>
@@ -5021,7 +5135,8 @@
             </xsl:for-each>
             <!-- voorschrijver -->
             <xsl:for-each select="hl7:entryRelationship/hl7:substanceAdministration[hl7:code[@code = $maCode][@codeSystem = $oidSNOMEDCT]]/hl7:author">
-               <xsl:variable name="elemName">voorschrijver</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'voorschrijver'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9066_20181205174210">
                      <xsl:with-param name="in"
@@ -5031,11 +5146,13 @@
             </xsl:for-each>
             <!-- informant -->
             <xsl:for-each select="hl7:informant">
-               <xsl:variable name="elemName">informant</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'informant'"/>
                <xsl:element name="{$elemName}">
                   <!-- persoon -->
                   <xsl:for-each select="hl7:relatedEntity">
-                     <xsl:variable name="elemName">persoon</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'persoon'"/>
                      <xsl:element name="{$elemName}">
                         <!-- adresgegevens -->
                         <!-- address information -->
@@ -5060,7 +5177,8 @@
                         </xsl:for-each>
                         <!-- rol_of_functie -->
                         <xsl:for-each select="hl7:code">
-                           <xsl:variable name="elemName">rol_of_functie</xsl:variable>
+                           <xsl:variable name="elemName"
+                                         select="'rol_of_functie'"/>
                            <xsl:call-template name="handleCV">
                               <xsl:with-param name="elemName"
                                               select="$elemName"/>
@@ -5070,14 +5188,16 @@
                   </xsl:for-each>
                   <!-- informant_is_patient -->
                   <xsl:for-each select="hl7:assignedEntity[hl7:code/@code = 'ONESELF']">
-                     <xsl:variable name="elemName">informant_is_patient</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'informant_is_patient'"/>
                      <xsl:element name="{$elemName}">
                         <xsl:attribute name="value">true</xsl:attribute>
                      </xsl:element>
                   </xsl:for-each>
                   <!-- informant_is_zorgverlener -->
                   <xsl:for-each select="hl7:assignedEntity[hl7:assignedPerson]">
-                     <xsl:variable name="elemName">informant_is_zorgverlener</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'informant_is_zorgverlener'"/>
                      <xsl:element name="{$elemName}">
                         <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9167_20170516000000">
                            <xsl:with-param name="in"
@@ -5089,11 +5209,13 @@
             </xsl:for-each>
             <!-- auteur -->
             <xsl:for-each select="hl7:author">
-               <xsl:variable name="elemName">auteur</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'auteur'"/>
                <xsl:element name="{$elemName}">
                   <!-- auteur_is_zorgaanbieder -->
                   <xsl:for-each select="hl7:assignedAuthor[not(hl7:assignedPerson)][not(hl7:code/@code = 'ONESELF')]/hl7:representedOrganization">
-                     <xsl:variable name="elemName">auteur_is_zorgaanbieder</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'auteur_is_zorgaanbieder'"/>
                      <xsl:element name="{$elemName}">
                         <xsl:call-template name="mp910-zorgaanbieder">
                            <xsl:with-param name="in"
@@ -5105,14 +5227,16 @@
                   </xsl:for-each>
                   <!-- auteur_is_patient -->
                   <xsl:for-each select="hl7:assignedAuthor[hl7:code/@code = 'ONESELF']">
-                     <xsl:variable name="elemName">auteur_is_patient</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'auteur_is_patient'"/>
                      <xsl:element name="{$elemName}">
                         <xsl:attribute name="value">true</xsl:attribute>
                      </xsl:element>
                   </xsl:for-each>
                   <!-- auteur_is_zorgverlener -->
                   <xsl:for-each select=".[hl7:assignedAuthor[hl7:assignedPerson]]">
-                     <xsl:variable name="elemName">auteur_is_zorgverlener</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'auteur_is_zorgverlener'"/>
                      <xsl:element name="{$elemName}">
                         <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9066_20181205174210">
                            <xsl:with-param name="in"
@@ -5126,7 +5250,8 @@
             </xsl:for-each>
             <!-- reden_gebruik -->
             <xsl:for-each select="hl7:entryRelationship/hl7:observation[hl7:code[@code = '6'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2']]/hl7:text">
-               <xsl:variable name="elemName">reden_gebruik</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'reden_gebruik'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value"
                                  select="./text()"/>
@@ -5134,14 +5259,16 @@
             </xsl:for-each>
             <!-- reden_wijzigen_of_stoppen_gebruik -->
             <xsl:for-each select="hl7:entryRelationship/hl7:observation[hl7:code[@code = '7'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2']]/hl7:value">
-               <xsl:variable name="elemName">reden_wijzigen_of_stoppen_gebruik</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'reden_wijzigen_of_stoppen_gebruik'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
                </xsl:call-template>
             </xsl:for-each>
             <!-- kopie_indicator -->
-            <xsl:variable name="elemName">kopie_indicator</xsl:variable>
+            <xsl:variable name="elemName"
+                          select="'kopie_indicator'"/>
             <xsl:call-template name="handleBL">
                <xsl:with-param name="in"
                                select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9200']/hl7:value"/>
@@ -5150,7 +5277,8 @@
             </xsl:call-template>
             <!-- toelichting -->
             <xsl:for-each select="hl7:entryRelationship/hl7:act[hl7:code[@code = '48767-8'][@codeSystem = $oidLOINC]]/hl7:text">
-               <xsl:variable name="elemName">toelichting</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'toelichting'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value"
                                  select="text()"/>
@@ -5170,13 +5298,15 @@
                  select="."/>
       <!-- toedieningsafspraak -->
       <xsl:for-each select="$in">
-         <xsl:variable name="elemName">toedieningsafspraak</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'toedieningsafspraak'"/>
          <xsl:element name="{$elemName}">
             <xsl:variable name="IVL_TS"
                           select="hl7:effectiveTime[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-org:v3', 'IVL_TS')]"/>
             <!-- gebruiksperiode_start -->
             <xsl:for-each select="$IVL_TS/hl7:low[@value | @nullFlavor]">
-               <xsl:variable name="elemName">gebruiksperiode_start</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiksperiode_start'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -5188,7 +5318,8 @@
             </xsl:for-each>
             <!-- gebruiksperiode_eind -->
             <xsl:for-each select="$IVL_TS/hl7:high[@value | @nullFlavor]">
-               <xsl:variable name="elemName">gebruiksperiode_eind</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiksperiode_eind'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -5200,7 +5331,8 @@
             </xsl:for-each>
             <!-- identificatie -->
             <xsl:for-each select="hl7:id">
-               <xsl:variable name="elemName">identificatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'identificatie'"/>
                <xsl:call-template name="handleII">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -5210,7 +5342,8 @@
             </xsl:for-each>
             <!-- afspraak_datum_tijd -->
             <xsl:for-each select="hl7:author/hl7:time">
-               <xsl:variable name="elemName">afspraak_datum_tijd</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'afspraak_datum_tijd'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -5228,14 +5361,16 @@
             </xsl:for-each>
             <!-- geannuleerd_indicator -->
             <xsl:for-each select="hl7:statusCode[@code = 'nullified']">
-               <xsl:variable name="elemName">geannuleerd_indicator</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'geannuleerd_indicator'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value">true</xsl:attribute>
                </xsl:element>
             </xsl:for-each>
             <!-- stoptype  -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = $templateId-stoptype]/hl7:value">
-               <xsl:variable name="elemName">stoptype</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'stoptype'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -5245,7 +5380,8 @@
             </xsl:for-each>
             <!-- verstrekker -->
             <xsl:for-each select="hl7:author/hl7:assignedAuthor/hl7:representedOrganization">
-               <xsl:variable name="elemName">verstrekker</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'verstrekker'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="mp910-zorgaanbieder">
                      <xsl:with-param name="in"
@@ -5255,7 +5391,8 @@
             </xsl:for-each>
             <!-- reden afspraak -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9083' or hl7:code[@code = '112231000146109'][@codeSystem = $oidSNOMEDCT]]/hl7:text">
-               <xsl:variable name="elemName">reden_afspraak</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'reden_afspraak'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value"
                                  select="./text()"/>
@@ -5263,7 +5400,8 @@
             </xsl:for-each>
             <!-- geneesmiddel_bij_toedieningsafspraak -->
             <xsl:for-each select="hl7:consumable/hl7:manufacturedProduct/hl7:manufacturedMaterial">
-               <xsl:variable name="elemName">geneesmiddel_bij_toedieningsafspraak</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'geneesmiddel_bij_toedieningsafspraak'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9070_20160618193427">
                      <xsl:with-param name="product-hl7"
@@ -5278,7 +5416,8 @@
             </xsl:call-template>
             <!-- aanvullende_informatie -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9175']/hl7:value">
-               <xsl:variable name="elemName">aanvullende_informatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'aanvullende_informatie'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -5286,14 +5425,16 @@
             </xsl:for-each>
             <!-- toelichting -->
             <xsl:for-each select="hl7:entryRelationship/hl7:act[hl7:code[@code = '48767-8'][@codeSystem = $oidLOINC]]/hl7:text">
-               <xsl:variable name="elemName">toelichting</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'toelichting'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value"
                                  select="text()"/>
                </xsl:element>
             </xsl:for-each>
             <!-- kopie_indicator -->
-            <xsl:variable name="ada-elemName">kopie_indicator</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'kopie_indicator'"/>
             <xsl:call-template name="handleBL">
                <xsl:with-param name="in"
                                select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9200']/hl7:value"/>
@@ -5302,7 +5443,8 @@
             </xsl:call-template>
             <!-- relatie_naar_medicatieafspraak -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9086']/hl7:id">
-               <xsl:variable name="elemName">relatie_naar_medicatieafspraak</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'relatie_naar_medicatieafspraak'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName">identificatie</xsl:with-param>
@@ -5319,13 +5461,15 @@
    <xsl:template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9233_20181204130547">
       <xsl:param name="ma_hl7_90"
                  select="."/>
-      <xsl:variable name="elemName">medicatieafspraak</xsl:variable>
+      <xsl:variable name="elemName"
+                    select="'medicatieafspraak'"/>
       <xsl:for-each select="$ma_hl7_90">
          <xsl:element name="{$elemName}">
             <xsl:variable name="IVL_TS"
                           select="hl7:effectiveTime[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-org:v3', 'IVL_TS')]"/>
             <!-- gebruiksperiode_start -->
-            <xsl:variable name="ada-elemName">gebruiksperiode_start</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'gebruiksperiode_start'"/>
             <xsl:call-template name="handleTS">
                <xsl:with-param name="in"
                                select="$IVL_TS/hl7:low"/>
@@ -5335,7 +5479,8 @@
                                select="true()"/>
             </xsl:call-template>
             <!-- gebruiksperiode_start -->
-            <xsl:variable name="ada-elemName">gebruiksperiode_eind</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'gebruiksperiode_eind'"/>
             <xsl:call-template name="handleTS">
                <xsl:with-param name="in"
                                select="$IVL_TS/hl7:high"/>
@@ -5345,7 +5490,8 @@
                                select="true()"/>
             </xsl:call-template>
             <!-- identificatie -->
-            <xsl:variable name="ada-elemName">identificatie</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'identificatie'"/>
             <xsl:call-template name="handleII">
                <xsl:with-param name="in"
                                select="hl7:id"/>
@@ -5353,7 +5499,8 @@
                                select="$ada-elemName"/>
             </xsl:call-template>
             <!-- afspraakdatum -->
-            <xsl:variable name="ada-elemName">afspraakdatum</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'afspraakdatum'"/>
             <xsl:call-template name="handleTS">
                <xsl:with-param name="in"
                                select="hl7:author/hl7:time"/>
@@ -5364,7 +5511,8 @@
             </xsl:call-template>
             <!-- gebruiksperiode -->
             <!-- do not use the handlePQ template since the mp ada time unit does not comply to the assumptions in that template -->
-            <xsl:variable name="ada-elemName">gebruiksperiode</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'gebruiksperiode'"/>
             <xsl:for-each select="$IVL_TS/hl7:width[@value]">
                <xsl:element name="{$ada-elemName}">
                   <xsl:attribute name="value"
@@ -5378,32 +5526,37 @@
                <geannuleerd_indicator value="{@code='nullified'}"/>
             </xsl:for-each>
             <!-- stoptype -->
-            <xsl:variable name="ada-elemName">stoptype</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'stoptype'"/>
             <xsl:call-template name="handleCV">
                <xsl:with-param name="in"
                                select="hl7:entryRelationship/*[hl7:templateId/@root = $templateId-stoptype]/hl7:value"/>
                <xsl:with-param name="elemName"
                                select="$ada-elemName"/>
             </xsl:call-template>
-            <xsl:variable name="ada-elemName">relatie_naar_afspraak_of_gebruik</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'relatie_naar_afspraak_of_gebruik'"/>
             <xsl:if test="./hl7:entryRelationship/*[hl7:templateId/@root = $template-id-rel-afspr-gebr]/hl7:id">
                <xsl:element name="{$ada-elemName}">
                   <!-- relatie naar ma -->
-                  <xsl:variable name="ada-elemName">identificatie</xsl:variable>
+                  <xsl:variable name="ada-elemName"
+                                select="'identificatie'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="in"
                                      select="hl7:entryRelationship/*[hl7:templateId/@root = $template-id-rel-ma]/hl7:id"/>
                      <xsl:with-param name="elemName"
                                      select="$ada-elemName"/>
                   </xsl:call-template>
-                  <xsl:variable name="ada-elemName">identificatie_23288</xsl:variable>
+                  <xsl:variable name="ada-elemName"
+                                select="'identificatie_23288'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="in"
                                      select="hl7:entryRelationship/*[hl7:templateId/@root = $template-id-rel-ta]/hl7:id"/>
                      <xsl:with-param name="elemName"
                                      select="$ada-elemName"/>
                   </xsl:call-template>
-                  <xsl:variable name="ada-elemName">identificatie_23289</xsl:variable>
+                  <xsl:variable name="ada-elemName"
+                                select="'identificatie_23289'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="in"
                                      select="hl7:entryRelationship/*[hl7:templateId/@root = $template-id-rel-gb]/hl7:id"/>
@@ -5418,16 +5571,19 @@
             <xsl:variable name="rel-concern"
                           select="hl7:entryRelationship[@typeCode = 'REFR']/hl7:act[hl7:code[@code = 'CONC'][@codeSystem = '2.16.840.1.113883.5.6']]"/>
             <xsl:if test="$rel-encounter or $rel-concern">
-               <xsl:variable name="ada-elemName">relaties_ketenzorg</xsl:variable>
+               <xsl:variable name="ada-elemName"
+                             select="'relaties_ketenzorg'"/>
                <xsl:element name="{$ada-elemName}">
-                  <xsl:variable name="ada-elemName">identificatie_contactmoment</xsl:variable>
+                  <xsl:variable name="ada-elemName"
+                                select="'identificatie_contactmoment'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="in"
                                      select="$rel-encounter/hl7:id"/>
                      <xsl:with-param name="elemName"
                                      select="$ada-elemName"/>
                   </xsl:call-template>
-                  <xsl:variable name="ada-elemName">identificatie_episode</xsl:variable>
+                  <xsl:variable name="ada-elemName"
+                                select="'identificatie_episode'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="in"
                                      select="$rel-concern/hl7:id"/>
@@ -5444,7 +5600,8 @@
                </xsl:call-template>
             </voorschrijver>
             <!-- reden wijzigen of staken -->
-            <xsl:variable name="ada-elemName">reden_wijzigen_of_staken</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'reden_wijzigen_of_staken'"/>
             <xsl:call-template name="handleCV">
                <xsl:with-param name="in"
                                select="hl7:entryRelationship/*[hl7:templateId/@root = $templateId-redenWijzigenOfStaken]/hl7:value"/>
@@ -5453,12 +5610,15 @@
             </xsl:call-template>
             <!-- reden van voorschrijven -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = $templateId-redenVanVoorschrijven]/hl7:value">
-               <xsl:variable name="ada-elemName">reden_van_voorschrijven</xsl:variable>
+               <xsl:variable name="ada-elemName"
+                             select="'reden_van_voorschrijven'"/>
                <xsl:element name="{$ada-elemName}">
-                  <xsl:variable name="ada-elemName">probleem</xsl:variable>
+                  <xsl:variable name="ada-elemName"
+                                select="'probleem'"/>
                   <xsl:element name="{$ada-elemName}">
                      <!-- probleem_naam -->
-                     <xsl:variable name="ada-elemName">probleem_naam</xsl:variable>
+                     <xsl:variable name="ada-elemName"
+                                   select="'probleem_naam'"/>
                      <xsl:call-template name="handleCV">
                         <xsl:with-param name="in"
                                         select="."/>
@@ -5470,7 +5630,8 @@
             </xsl:for-each>
             <!-- afgesproken_geneesmiddel -->
             <xsl:for-each select="hl7:consumable/hl7:manufacturedProduct/hl7:manufacturedMaterial">
-               <xsl:variable name="ada-elemName">afgesproken_geneesmiddel</xsl:variable>
+               <xsl:variable name="ada-elemName"
+                             select="'afgesproken_geneesmiddel'"/>
                <xsl:element name="{$ada-elemName}">
                   <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9070_20160618193427">
                      <xsl:with-param name="product-hl7"
@@ -5485,10 +5646,12 @@
             </xsl:call-template>
             <!-- lichaamslengte  -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.7.10.30'][hl7:value]">
-               <xsl:variable name="ada-elemName">lichaamslengte</xsl:variable>
+               <xsl:variable name="ada-elemName"
+                             select="'lichaamslengte'"/>
                <xsl:element name="{$ada-elemName}">
                   <!-- lengte_waarde -->
-                  <xsl:variable name="ada-elemName">lengte_waarde</xsl:variable>
+                  <xsl:variable name="ada-elemName"
+                                select="'lengte_waarde'"/>
                   <xsl:call-template name="handlePQ">
                      <xsl:with-param name="elemName"
                                      select="$ada-elemName"/>
@@ -5496,7 +5659,8 @@
                                      select="hl7:value"/>
                   </xsl:call-template>
                   <!-- lengte_datum_tijd -->
-                  <xsl:variable name="ada-elemName">lengte_datum_tijd</xsl:variable>
+                  <xsl:variable name="ada-elemName"
+                                select="'lengte_datum_tijd'"/>
                   <xsl:call-template name="handleTS">
                      <xsl:with-param name="elemName"
                                      select="$ada-elemName"/>
@@ -5509,9 +5673,11 @@
             </xsl:for-each>
             <!-- lichaamsgewicht  -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.7.10.28'][hl7:value]">
-               <xsl:variable name="ada-elemName">lichaamsgewicht</xsl:variable>
+               <xsl:variable name="ada-elemName"
+                             select="'lichaamsgewicht'"/>
                <xsl:element name="{$ada-elemName}">
-                  <xsl:variable name="ada-elemName">gewicht_waarde</xsl:variable>
+                  <xsl:variable name="ada-elemName"
+                                select="'gewicht_waarde'"/>
                   <xsl:call-template name="handlePQ">
                      <xsl:with-param name="in"
                                      select="hl7:value"/>
@@ -5519,7 +5685,8 @@
                                      select="$ada-elemName"/>
                   </xsl:call-template>
                   <!-- gewicht_datum_tijd -->
-                  <xsl:variable name="ada-elemName">gewicht_datum_tijd</xsl:variable>
+                  <xsl:variable name="ada-elemName"
+                                select="'gewicht_datum_tijd'"/>
                   <xsl:call-template name="handleTS">
                      <xsl:with-param name="in"
                                      select="hl7:effectiveTime"/>
@@ -5531,7 +5698,8 @@
                </xsl:element>
             </xsl:for-each>
             <!-- aanvullende_informatie -->
-            <xsl:variable name="ada-elemName">aanvullende_informatie</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'aanvullende_informatie'"/>
             <xsl:call-template name="handleCV">
                <xsl:with-param name="in"
                                select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9177']/hl7:value"/>
@@ -5539,7 +5707,8 @@
                                select="$ada-elemName"/>
             </xsl:call-template>
             <!-- kopie_indicator -->
-            <xsl:variable name="ada-elemName">kopie_indicator</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'kopie_indicator'"/>
             <xsl:call-template name="handleBL">
                <xsl:with-param name="in"
                                select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9200']/hl7:value"/>
@@ -5547,7 +5716,8 @@
                                select="$ada-elemName"/>
             </xsl:call-template>
             <!-- toelichting -->
-            <xsl:variable name="ada-elemName">toelichting</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'toelichting'"/>
             <xsl:call-template name="handleST">
                <xsl:with-param name="in"
                                select="hl7:entryRelationship/hl7:act[hl7:code[@code = '48767-8'][@codeSystem = $oidLOINC]]/hl7:text"/>
@@ -5584,13 +5754,15 @@
                  select="."/>
       <!-- medicatie_gebruik -->
       <xsl:for-each select="$in">
-         <xsl:variable name="elemName">medicatie_gebruik</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'medicatie_gebruik'"/>
          <xsl:element name="{$elemName}">
             <xsl:variable name="IVL_TS"
                           select="hl7:effectiveTime[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-org:v3', 'IVL_TS')]"/>
             <!-- gebruiksperiode_start -->
             <xsl:for-each select="$IVL_TS/hl7:low[@value]">
-               <xsl:variable name="elemName">gebruiksperiode_start</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiksperiode_start'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -5602,7 +5774,8 @@
             </xsl:for-each>
             <!-- gebruiksperiode_eind -->
             <xsl:for-each select="$IVL_TS/hl7:high[@value]">
-               <xsl:variable name="elemName">gebruiksperiode_eind</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiksperiode_eind'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -5614,7 +5787,8 @@
             </xsl:for-each>
             <!-- identificatie -->
             <xsl:for-each select="hl7:id">
-               <xsl:variable name="elemName">identificatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'identificatie'"/>
                <xsl:call-template name="handleII">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -5622,7 +5796,8 @@
             </xsl:for-each>
             <!-- registratie_datum -->
             <xsl:for-each select="hl7:author/hl7:time[@value | @nullFlavor]">
-               <xsl:variable name="elemName">registratiedatum</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'registratiedatum'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -5630,7 +5805,8 @@
             </xsl:for-each>
             <!-- gebruik_indicator -->
             <xsl:for-each select="hl7:entryRelationship/hl7:observation[hl7:code[@code = '15'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2']]/hl7:value">
-               <xsl:variable name="elemName">gebruik_indicator</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruik_indicator'"/>
                <xsl:call-template name="handleBL">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -5638,7 +5814,8 @@
             </xsl:for-each>
             <!-- volgens_afspraak_indicator -->
             <xsl:for-each select="hl7:entryRelationship/hl7:observation[hl7:code[@code = '8'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2'] or hl7:code[@code = '112221000146107'][@codeSystem = $oidSNOMEDCT]]/hl7:value">
-               <xsl:variable name="elemName">volgens_afspraak_indicator</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'volgens_afspraak_indicator'"/>
                <xsl:call-template name="handleBL">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -5646,7 +5823,8 @@
             </xsl:for-each>
             <!-- stoptype -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = $templateId-stoptype or hl7:code[@code = '274512008'][@codeSystem = $oidSNOMEDCT]]/hl7:value[@code | @nullFlavor]">
-               <xsl:variable name="elemName">stoptype</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'stoptype'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -5660,7 +5838,8 @@
             </xsl:for-each>
             <!-- gebruiks_product -->
             <xsl:for-each select="hl7:consumable/hl7:manufacturedProduct/hl7:manufacturedMaterial">
-               <xsl:variable name="elemName">gebruiks_product</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiks_product'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9070_20160618193427">
                      <xsl:with-param name="product-hl7"
@@ -5676,9 +5855,11 @@
             <!-- gerelateerde_afspraak -->
             <!-- relatie_naar ma -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9086']/hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">gerelateerde_afspraak</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gerelateerde_afspraak'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie_medicatieafspraak</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie_medicatieafspraak'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>
@@ -5687,9 +5868,11 @@
             </xsl:for-each>
             <!-- relatie_naar ta -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9101']/hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">gerelateerde_afspraak</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gerelateerde_afspraak'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie_toedieningsafspraak</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie_toedieningsafspraak'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>
@@ -5698,9 +5881,11 @@
             </xsl:for-each>
             <!-- gerelateerde_verstrekking -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:code[@code = '373784005'][@codeSystem = $oidSNOMEDCT]]/hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">gerelateerde_verstrekking</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gerelateerde_verstrekking'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>
@@ -5721,7 +5906,8 @@
                <informant>
                   <!-- persoon -->
                   <xsl:for-each select="hl7:relatedEntity">
-                     <xsl:variable name="elemName">persoon</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'persoon'"/>
                      <xsl:element name="{$elemName}">
                         <!-- adresgegevens -->
                         <!-- address information -->
@@ -5746,7 +5932,8 @@
                         </xsl:for-each>
                         <!-- rol_of_functie -->
                         <xsl:for-each select="hl7:code">
-                           <xsl:variable name="elemName">rol_of_functie</xsl:variable>
+                           <xsl:variable name="elemName"
+                                         select="'rol_of_functie'"/>
                            <xsl:call-template name="handleCV">
                               <xsl:with-param name="elemName"
                                               select="$elemName"/>
@@ -5756,7 +5943,8 @@
                   </xsl:for-each>
                   <!-- informant_is_patient -->
                   <xsl:for-each select="hl7:assignedEntity[hl7:code/@code = 'ONESELF']">
-                     <xsl:variable name="elemName">informant_is_patient</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'informant_is_patient'"/>
                      <xsl:element name="{$elemName}">
                         <xsl:attribute name="value">true</xsl:attribute>
                      </xsl:element>
@@ -5774,11 +5962,13 @@
             </xsl:for-each>
             <!-- auteur -->
             <xsl:for-each select="hl7:author">
-               <xsl:variable name="elemName">auteur</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'auteur'"/>
                <xsl:element name="{$elemName}">
                   <!-- auteur_is_zorgaanbieder -->
                   <xsl:for-each select="hl7:assignedAuthor[not(hl7:assignedPerson)][not(hl7:code/@code = 'ONESELF')]/hl7:representedOrganization">
-                     <xsl:variable name="elemName">auteur_is_zorgaanbieder</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'auteur_is_zorgaanbieder'"/>
                      <xsl:element name="{$elemName}">
                         <!-- zorgaanbieder with zorgaanbieder_identificatie_nummer -->
                         <xsl:call-template name="mp907-verstrekker">
@@ -5789,14 +5979,16 @@
                   </xsl:for-each>
                   <!-- auteur_is_patient -->
                   <xsl:for-each select="hl7:assignedAuthor[hl7:code/@code = 'ONESELF']">
-                     <xsl:variable name="elemName">auteur_is_patient</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'auteur_is_patient'"/>
                      <xsl:element name="{$elemName}">
                         <xsl:attribute name="value">true</xsl:attribute>
                      </xsl:element>
                   </xsl:for-each>
                   <!-- auteur_is_zorgverlener -->
                   <xsl:for-each select=".[hl7:assignedAuthor[hl7:assignedPerson]]">
-                     <xsl:variable name="elemName">auteur_is_zorgverlener</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'auteur_is_zorgverlener'"/>
                      <xsl:element name="{$elemName}">
                         <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9066_20160615212337">
                            <xsl:with-param name="author-hl7"
@@ -5808,7 +6000,8 @@
             </xsl:for-each>
             <!-- reden_gebruik -->
             <xsl:for-each select="hl7:entryRelationship/hl7:observation[hl7:code[@code = '6'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2']]/hl7:text">
-               <xsl:variable name="elemName">reden_gebruik</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'reden_gebruik'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value"
                                  select="./text()"/>
@@ -5816,14 +6009,16 @@
             </xsl:for-each>
             <!-- reden_wijzigen_of_stoppen_gebruik -->
             <xsl:for-each select="hl7:entryRelationship/hl7:observation[hl7:code[@code = '7'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2']]/hl7:value">
-               <xsl:variable name="elemName">reden_wijzigen_of_stoppen_gebruik</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'reden_wijzigen_of_stoppen_gebruik'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
                </xsl:call-template>
             </xsl:for-each>
             <!-- kopie_indicator -->
-            <xsl:variable name="elemName">kopie_indicator</xsl:variable>
+            <xsl:variable name="elemName"
+                          select="'kopie_indicator'"/>
             <xsl:call-template name="handleBL">
                <xsl:with-param name="in"
                                select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9200']/hl7:value"/>
@@ -5832,7 +6027,8 @@
             </xsl:call-template>
             <!-- toelichting -->
             <xsl:for-each select="hl7:entryRelationship/hl7:act[hl7:code[@code = '48767-8'][@codeSystem = $oidLOINC]]/hl7:text">
-               <xsl:variable name="elemName">toelichting</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'toelichting'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value"
                                  select="text()"/>
@@ -5852,11 +6048,13 @@
                  as="element()*"
                  select="."/>
       <xsl:for-each select="$in">
-         <xsl:variable name="elemName">verstrekking</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'verstrekking'"/>
          <xsl:element name="{$elemName}">
             <!-- identificatie -->
             <xsl:for-each select="hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">identificatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'identificatie'"/>
                <xsl:element name="{$elemName}">
                   <xsl:for-each select="@extension">
                      <xsl:attribute name="value"
@@ -5874,7 +6072,8 @@
             </xsl:for-each>
             <!-- datum -->
             <xsl:for-each select="hl7:effectiveTime[@value | @nullFlavor]">
-               <xsl:variable name="elemName">datum</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'datum'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -5882,7 +6081,8 @@
             </xsl:for-each>
             <!-- aanschrijfdatum -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:code[@code = '4'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2']]/hl7:value[@value | @nullFlavor]">
-               <xsl:variable name="elemName">aanschrijfdatum</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'aanschrijfdatum'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -5890,7 +6090,8 @@
             </xsl:for-each>
             <!-- verstrekker -->
             <xsl:for-each select="hl7:performer/hl7:assignedEntity/hl7:representedOrganization">
-               <xsl:variable name="elemName">verstrekker</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'verstrekker'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="mp907-verstrekker">
                      <xsl:with-param name="in"
@@ -5900,7 +6101,8 @@
             </xsl:for-each>
             <!-- verstrekte_hoeveelheid -->
             <xsl:for-each select="hl7:quantity[.//(@value | @code | @unit | @nullFlavor)]">
-               <xsl:variable name="elemName">verstrekte_hoeveelheid</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'verstrekte_hoeveelheid'"/>
                <xsl:element name="{$elemName}">
                   <aantal>
                      <xsl:for-each select="hl7:translation[@codeSystem = $oidGStandaardBST902THES2]">
@@ -5920,7 +6122,8 @@
             </xsl:for-each>
             <!-- verstrekt_geneesmiddel -->
             <xsl:for-each select="hl7:product/hl7:manufacturedProduct/hl7:manufacturedMaterial">
-               <xsl:variable name="elemName">verstrekt_geneesmiddel</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'verstrekt_geneesmiddel'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9070_20160618193427">
                      <xsl:with-param name="product-hl7"
@@ -5930,7 +6133,8 @@
             </xsl:for-each>
             <!-- verbruiksduur -->
             <xsl:for-each select="hl7:expectedUseTime[.//(@value | @unit | @nullFlavor | @code)]/hl7:width[@value | @unit]">
-               <xsl:variable name="elemName">verbruiksduur</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'verbruiksduur'"/>
                <xsl:element name="{$elemName}">
                   <xsl:for-each select="@value">
                      <xsl:attribute name="value"
@@ -5948,7 +6152,8 @@
             </xsl:for-each>
             <!-- afleverlocatie -->
             <xsl:for-each select="hl7:participant[@typeCode = 'DST']/hl7:participantRole[@classCode = 'SDLOC']/hl7:addr">
-               <xsl:variable name="elemName">afleverlocatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'afleverlocatie'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value">
                      <xsl:copy-of select="string-join(./text() | ./*, ' ')"/>
@@ -5957,7 +6162,8 @@
             </xsl:for-each>
             <!-- distributievorm -->
             <xsl:for-each select="hl7:entryRelationship/hl7:act[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9097']/hl7:code">
-               <xsl:variable name="elemName">distributievorm</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'distributievorm'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -5965,7 +6171,8 @@
             </xsl:for-each>
             <!-- aanvullende_informatie -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:code[@code = '13'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2']]/hl7:value">
-               <xsl:variable name="elemName">aanvullende_informatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'aanvullende_informatie'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -5977,9 +6184,11 @@
             </xsl:for-each>
             <!-- relatie_naar_verstrekkingsverzoek -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:code[(@code = '3' and @codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.3') or (@code = '52711000146108' and @codeSystem = $oidSNOMEDCT)]]/hl7:id[@root | @extension | @nullFlavor]">
-               <xsl:variable name="elemName">relatie_naar_verstrekkingsverzoek</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'relatie_naar_verstrekkingsverzoek'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>
@@ -6022,9 +6231,11 @@
                                                               root="{@root}"/>
                         </xsl:for-each>
                         <xsl:for-each select="hl7:assignedPerson/hl7:name">
-                           <xsl:variable name="elemName">naamgegevens</xsl:variable>
+                           <xsl:variable name="elemName"
+                                         select="'naamgegevens'"/>
                            <xsl:element name="{$elemName}">
-                              <xsl:variable name="elemName">naamgegevens</xsl:variable>
+                              <xsl:variable name="elemName"
+                                            select="'naamgegevens'"/>
                               <!-- naamgegevens -->
                               <xsl:call-template name="handleENtoNameInformation">
                                  <xsl:with-param name="in"
@@ -6152,13 +6363,15 @@
                  select="."/>
       <!-- toedieningsafspraak -->
       <xsl:for-each select="$in">
-         <xsl:variable name="elemName">toedieningsafspraak</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'toedieningsafspraak'"/>
          <xsl:element name="{$elemName}">
             <xsl:variable name="IVL_TS"
                           select="hl7:effectiveTime[resolve-QName(xs:string(@xsi:type), .) = QName('urn:hl7-org:v3', 'IVL_TS')]"/>
             <!-- gebruiksperiode_start -->
             <xsl:for-each select="$IVL_TS/hl7:low[@value | @nullFlavor]">
-               <xsl:variable name="elemName">gebruiksperiode_start</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiksperiode_start'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -6170,7 +6383,8 @@
             </xsl:for-each>
             <!-- gebruiksperiode_eind -->
             <xsl:for-each select="$IVL_TS/hl7:high[@value | @nullFlavor]">
-               <xsl:variable name="elemName">gebruiksperiode_eind</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'gebruiksperiode_eind'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -6182,7 +6396,8 @@
             </xsl:for-each>
             <!-- identificatie -->
             <xsl:for-each select="hl7:id">
-               <xsl:variable name="elemName">identificatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'identificatie'"/>
                <xsl:call-template name="handleII">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -6192,7 +6407,8 @@
             </xsl:for-each>
             <!-- afspraak_datum_tijd -->
             <xsl:for-each select="hl7:author/hl7:time">
-               <xsl:variable name="elemName">afspraakdatum</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'afspraakdatum'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -6210,14 +6426,16 @@
             </xsl:for-each>
             <!-- geannuleerd_indicator -->
             <xsl:for-each select="hl7:statusCode[@code = 'nullified']">
-               <xsl:variable name="elemName">geannuleerd_indicator</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'geannuleerd_indicator'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value">true</xsl:attribute>
                </xsl:element>
             </xsl:for-each>
             <!-- stoptype  -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = $templateId-stoptype]/hl7:value">
-               <xsl:variable name="elemName">stoptype</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'stoptype'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="in"
                                   select="."/>
@@ -6227,7 +6445,8 @@
             </xsl:for-each>
             <!-- verstrekker -->
             <xsl:for-each select="hl7:author/hl7:assignedAuthor/hl7:representedOrganization">
-               <xsl:variable name="elemName">verstrekker</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'verstrekker'"/>
                <xsl:element name="{$elemName}">
                   <zorgaanbieder>
                      <xsl:call-template name="handleII">
@@ -6253,7 +6472,8 @@
             </xsl:for-each>
             <!-- reden afspraak -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9083' or hl7:code[@code = '112231000146109'][@codeSystem = $oidSNOMEDCT]]/hl7:text">
-               <xsl:variable name="elemName">reden_afspraak</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'reden_afspraak'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value"
                                  select="./text()"/>
@@ -6261,7 +6481,8 @@
             </xsl:for-each>
             <!-- geneesmiddel_bij_toedieningsafspraak -->
             <xsl:for-each select="hl7:consumable/hl7:manufacturedProduct/hl7:manufacturedMaterial">
-               <xsl:variable name="elemName">geneesmiddel_bij_toedieningsafspraak</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'geneesmiddel_bij_toedieningsafspraak'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9070_20160618193427">
                      <xsl:with-param name="product-hl7"
@@ -6276,7 +6497,8 @@
             </xsl:call-template>
             <!-- aanvullende_informatie -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9175']/hl7:value">
-               <xsl:variable name="elemName">aanvullende_informatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'aanvullende_informatie'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -6284,14 +6506,16 @@
             </xsl:for-each>
             <!-- toelichting -->
             <xsl:for-each select="hl7:entryRelationship/hl7:act[hl7:code[@code = '48767-8'][@codeSystem = $oidLOINC]]/hl7:text">
-               <xsl:variable name="elemName">toelichting</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'toelichting'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value"
                                  select="text()"/>
                </xsl:element>
             </xsl:for-each>
             <!-- kopie_indicator -->
-            <xsl:variable name="ada-elemName">kopie_indicator</xsl:variable>
+            <xsl:variable name="ada-elemName"
+                          select="'kopie_indicator'"/>
             <xsl:call-template name="handleBL">
                <xsl:with-param name="in"
                                select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9200']/hl7:value"/>
@@ -6300,7 +6524,8 @@
             </xsl:call-template>
             <!-- relatie_naar_medicatieafspraak -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9086']/hl7:id">
-               <xsl:variable name="elemName">relatie_naar_medicatieafspraak</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'relatie_naar_medicatieafspraak'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName">identificatie</xsl:with-param>
@@ -6347,7 +6572,8 @@
                  as="element(hl7:supply)*"
                  select="."/>
       <xsl:for-each select="$in">
-         <xsl:variable name="elemName">verstrekkingsverzoek</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'verstrekkingsverzoek'"/>
          <xsl:element name="{$elemName}">
             <!-- te_verstrekken_hoeveelheid -->
             <xsl:for-each select="hl7:quantity[.//(@value | @code | @unit | @nullFlavor)]">
@@ -6421,7 +6647,8 @@
             </xsl:for-each>
             <!-- toelichting -->
             <xsl:for-each select="hl7:entryRelationship/hl7:act[hl7:code[@code = '48767-8'][@codeSystem = $oidLOINC]]/hl7:text">
-               <xsl:variable name="elemName">toelichting</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'toelichting'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value"
                                  select="./text()"/>
@@ -6578,11 +6805,13 @@
                  as="element()*"
                  select="."/>
       <xsl:for-each select="$in">
-         <xsl:variable name="elemName">verstrekking</xsl:variable>
+         <xsl:variable name="elemName"
+                       select="'verstrekking'"/>
          <xsl:element name="{$elemName}">
             <!-- identificatie -->
             <xsl:for-each select="hl7:id[@extension | @root | @nullFlavor]">
-               <xsl:variable name="elemName">identificatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'identificatie'"/>
                <xsl:element name="{$elemName}">
                   <xsl:for-each select="@extension">
                      <xsl:attribute name="value"
@@ -6600,7 +6829,8 @@
             </xsl:for-each>
             <!-- datum -->
             <xsl:for-each select="hl7:effectiveTime[@value | @nullFlavor]">
-               <xsl:variable name="elemName">datum</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'datum'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -6608,7 +6838,8 @@
             </xsl:for-each>
             <!-- aanschrijfdatum -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:code[@code = '4'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2']]/hl7:value[@value | @nullFlavor]">
-               <xsl:variable name="elemName">aanschrijfdatum</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'aanschrijfdatum'"/>
                <xsl:call-template name="handleTS">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -6616,7 +6847,8 @@
             </xsl:for-each>
             <!-- verstrekker -->
             <xsl:for-each select="hl7:performer/hl7:assignedEntity/hl7:representedOrganization">
-               <xsl:variable name="elemName">verstrekker</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'verstrekker'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="mp910-zorgaanbieder">
                      <xsl:with-param name="in"
@@ -6626,7 +6858,8 @@
             </xsl:for-each>
             <!-- verstrekte_hoeveelheid -->
             <xsl:for-each select="hl7:quantity[.//(@value | @code | @unit | @nullFlavor)]">
-               <xsl:variable name="elemName">verstrekte_hoeveelheid</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'verstrekte_hoeveelheid'"/>
                <xsl:element name="{$elemName}">
                   <aantal>
                      <xsl:for-each select="hl7:translation[@codeSystem = $oidGStandaardBST902THES2]">
@@ -6646,7 +6879,8 @@
             </xsl:for-each>
             <!-- verstrekt_geneesmiddel -->
             <xsl:for-each select="hl7:product/hl7:manufacturedProduct/hl7:manufacturedMaterial">
-               <xsl:variable name="elemName">verstrekt_geneesmiddel</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'verstrekt_geneesmiddel'"/>
                <xsl:element name="{$elemName}">
                   <xsl:call-template name="template_2.16.840.1.113883.2.4.3.11.60.20.77.10.9070_20160618193427">
                      <xsl:with-param name="product-hl7"
@@ -6656,7 +6890,8 @@
             </xsl:for-each>
             <!-- verbruiksduur -->
             <xsl:for-each select="hl7:expectedUseTime[.//(@value | @unit | @nullFlavor | @code)]/hl7:width[@value | @unit]">
-               <xsl:variable name="elemName">verbruiksduur</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'verbruiksduur'"/>
                <xsl:element name="{$elemName}">
                   <xsl:for-each select="@value">
                      <xsl:attribute name="value"
@@ -6674,7 +6909,8 @@
             </xsl:for-each>
             <!-- afleverlocatie -->
             <xsl:for-each select="hl7:participant[@typeCode = 'DST']/hl7:participantRole[@classCode = 'SDLOC']/hl7:addr">
-               <xsl:variable name="elemName">afleverlocatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'afleverlocatie'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value">
                      <xsl:copy-of select="string-join(./text() | ./*, ' ')"/>
@@ -6683,7 +6919,8 @@
             </xsl:for-each>
             <!-- distributievorm -->
             <xsl:for-each select="hl7:entryRelationship/hl7:act[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9097']/hl7:code">
-               <xsl:variable name="elemName">distributievorm</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'distributievorm'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -6691,7 +6928,8 @@
             </xsl:for-each>
             <!-- aanvullende_informatie -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:code[@code = '13'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2']]/hl7:value">
-               <xsl:variable name="elemName">aanvullende_informatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'aanvullende_informatie'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -6703,9 +6941,11 @@
             </xsl:for-each>
             <!-- relatie_naar_verstrekkingsverzoek -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:code[(@code = '3' and @codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.3') or (@code = '52711000146108' and @codeSystem = $oidSNOMEDCT)]]/hl7:id[@root | @extension | @nullFlavor]">
-               <xsl:variable name="elemName">relatie_naar_verstrekkingsverzoek</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'relatie_naar_verstrekkingsverzoek'"/>
                <xsl:element name="{$elemName}">
-                  <xsl:variable name="elemName">identificatie</xsl:variable>
+                  <xsl:variable name="elemName"
+                                select="'identificatie'"/>
                   <xsl:call-template name="handleII">
                      <xsl:with-param name="elemName"
                                      select="$elemName"/>

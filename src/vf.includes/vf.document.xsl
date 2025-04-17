@@ -26,7 +26,7 @@
     <!--
     versionXSLT = versienummer van DEZE transformatie, default de versie van dit bestand
     -->
-    <xsl:variable name="vf:versionXSLT" as="xs:string">0.1.0</xsl:variable>
+    <xsl:variable name="vf:versionXSLT" as="xs:string">0.1.1</xsl:variable>
 
     <xsl:variable name="transformation">
         <xsl:call-template name="addTransformationCode">
@@ -102,7 +102,7 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <xsl:variable name="ActText" select="./hl7:act/hl7:text"/>
+        <xsl:variable name="ActText" select="normalize-space(./hl7:act/hl7:text)"/>
         <xsl:variable name="Sender" select="./hl7:act/hl7:participant[@typeCode='DIST']"/>
         <xsl:variable name="EncounterRoot"
             select="./hl7:act/hl7:entryRelationship/hl7:encounter/hl7:id/@root"/>
@@ -269,7 +269,7 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
-        <xsl:variable name="ActText" select="./hl7:act/hl7:text"/>
+        <xsl:variable name="ActText" select="normalize-space(./hl7:act/hl7:text)"/>
         <xsl:variable name="Sender" select="./hl7:act/hl7:participant[@typeCode='DIST']"/>
         <xsl:variable name="EncounterRoot"
             select="./hl7:act/hl7:entryRelationship/hl7:encounter/hl7:id/@root"/>

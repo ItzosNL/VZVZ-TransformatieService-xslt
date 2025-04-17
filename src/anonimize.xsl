@@ -9,7 +9,7 @@
     version="3.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
-            <xd:p>Try to anonimize asmuch as possible, not just the patient but also the XIS vendor and the healthcare provider</xd:p>
+            <xd:p>Try to anonimize as much as possible, not just the patient but also the XIS vendor and the healthcare provider</xd:p>
             
             <xd:p><xd:b>Created on:</xd:b> Nov 13, 2024</xd:p>
             <xd:p><xd:b>Author:</xd:b> helma</xd:p>

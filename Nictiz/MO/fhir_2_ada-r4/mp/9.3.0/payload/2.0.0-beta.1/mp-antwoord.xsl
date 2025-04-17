@@ -1,26 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/fhir_2_ada-r4/mp/9.3.0/payload/2.0.0-beta.1/mp-antwoord.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/fhir-2-ada-r4/env/mp/9.3.0/payload/2.0.0-beta.1/mp-antwoord.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:util="urn:hl7:utilities"
                 xmlns:f="http://hl7.org/fhir"
                 xmlns:nf="http://www.nictiz.nl/functions"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
                 xmlns:local="urn:fhir:stu3:functions">
+   <!-- ================================================================== -->
+   <!--
+        TBD
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
    <xsl:output indent="yes"
                omit-xml-declaration="yes"/>
-   <xd:doc>
-      <xd:desc>Base template for the main interaction.</xd:desc>
-      <xd:param name="adaAntwoordElementName">The ada element name for the coded answer. Is different in ada, depending on transaction. Defaults to antwoord_medicatieafspraak</xd:param>
-   </xd:doc>
+   <!-- ================================================================== -->
    <xsl:template match="f:Communication"
                  mode="mp-antwoord">
+      <!-- Base template for the main interaction. -->
       <xsl:param name="adaAntwoordElementName"
-                 as="xs:string">antwoord_medicatieafspraak</xsl:param>
+                 as="xs:string"
+                 select="'antwoord_medicatieafspraak'">
+         <!-- The ada element name for the coded answer. Is different in ada, depending on transaction. Defaults to antwoord_medicatieafspraak -->
+      </xsl:param>
       <antwoord>
          <!-- identificatie -->
          <xsl:for-each select="f:identifier">

@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/ada_2_fhir-r4/mp/9.3.0/payload/2.0.0-beta.2/_ada2resourceType.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
-<xsl:stylesheet exclude-result-prefixes="xs"
+<!-- == Provenance: YATC-internal/ada-2-fhir-r4/env/mp/9.3.0/payload/2.0.0-beta.2/_ada2resourceType.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
+<xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                xmlns:local="#local.2024102208231507996710200"
                 xmlns:nm="http://www.nictiz.nl/mappings">
+   <!-- ================================================================== -->
+   <!--
+        TBD
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
    <!--
         The ada2resourceType variable defined in 2_fhir_fhir_include.xsl maps ADA elements to profile canonicals.
         This file is used across all versions of the package, but mp9 2.0.0-beta.1 introduces a breaking change in the way ada 'farmaceutisch_product' is handled (from nl-core-PharmaceuticalProduct to mp-PharmaceuticalProduct) To override the default behaviour, the static ada2resourceType defined
@@ -242,4 +263,5 @@
               resource="Practitioner"
               profile="nl-core-HealthProfessional-Practitioner"/>
    </xsl:variable>
+   <!-- ================================================================== -->
 </xsl:stylesheet>

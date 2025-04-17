@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/fhir_2_ada-r4/mp/9.3.0/payload/2.0.0-beta.5/mp-MedicationUse2.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/fhir-2-ada-r4/env/mp/9.3.0/payload/2.0.0-beta.5/mp-MedicationUse2.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:util="urn:hl7:utilities"
                 xmlns:f="http://hl7.org/fhir"
                 xmlns:nf="http://www.nictiz.nl/functions"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
                 xmlns:local="urn:fhir:stu3:functions">
-   <xd:doc>
-      <xd:desc>Template to convert f:MedicationStatement to ADA medicatie_gebruik</xd:desc>
-   </xd:doc>
+   <!-- ================================================================== -->
+   <!--
+        TBD
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
    <xsl:template match="f:MedicationStatement"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:MedicationStatement to ADA medicatie_gebruik -->
       <medicatiegebruik>
-         <!--ext-StopType-->
          <!-- identificatie  -->
          <xsl:apply-templates select="f:identifier"
                               mode="#current"/>
@@ -70,11 +87,8 @@
          <xsl:apply-templates select="f:reasonCode"
                               mode="#current"/>
          <!-- reden_wijzigen_of_stoppen_gebruik -->
-         <!--            <xsl:apply-templates select="f:extension[@url = $zib-MedicationUse-ReasonForChangeOrDiscontinuationOfUse]" mode="#current"/>-->
          <xsl:apply-templates select="f:statusReason"
                               mode="#current"/>
-         <!-- reden_wijzigen_of_stoppen_gebruik -->
-         <!--            <xsl:apply-templates select="f:extension[@url = $zib-MedicationUse-ReasonForChangeOrDiscontinuationOfUse]" mode="#current"/>-->
          <!-- kopie_indicator -->
          <xsl:apply-templates select="f:extension[@url = $urlExtCopyIndicator]"
                               mode="ext-CopyIndicator"/>
@@ -83,18 +97,16 @@
                               mode="#current"/>
       </medicatiegebruik>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:identifier to identificatie</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:identifier"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:identifier to identificatie -->
       <xsl:call-template name="Identifier-to-identificatie"/>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:effectivePeriod to gebruiksperiode</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:effectivePeriod"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:effectivePeriod to gebruiksperiode -->
       <gebruiksperiode>
          <xsl:apply-templates select="f:start"
                               mode="#current"/>
@@ -104,78 +116,49 @@
                               mode="mp-MedicationUse2"/>
       </gebruiksperiode>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert urlExtTimeInterval-Duration to tijds_duur</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:extension[@url eq $urlExtTimeIntervalDuration]"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert urlExtTimeInterval-Duration to tijds_duur -->
       <xsl:variable name="code-value"
                     select="f:valueDuration/f:code/@value"/>
       <tijds_duur value="{f:valueDuration/f:value/@value}"
                   unit="{nf:convertTime_UCUM_FHIR2ADA_unit($code-value)}"/>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:start to gebruiksperiode_start</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:start"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:start to gebruiksperiode_start -->
       <xsl:call-template name="datetime-to-datetime">
          <xsl:with-param name="adaElementName">start_datum_tijd</xsl:with-param>
          <xsl:with-param name="adaDatatype">datetime</xsl:with-param>
       </xsl:call-template>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:end to gebruiksperiode_eind</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:end"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:end to gebruiksperiode_eind -->
       <xsl:call-template name="datetime-to-datetime">
          <xsl:with-param name="adaElementName">eind_datum_tijd</xsl:with-param>
          <xsl:with-param name="adaDatatype">datetime</xsl:with-param>
       </xsl:call-template>
    </xsl:template>
-   <!--xxxwim        <xd:doc>
-        <xd:desc>Template to convert f:start to gebruiksperiode_start</xd:desc>
-    </xd:doc>
-    <xsl:template match="f:start" mode="mp-MedicationUse2">
-        <gebruiksperiode_start>
-            <xsl:attribute name="value">
-                <xsl:call-template name="format2ADADate">
-                    <xsl:with-param name="dateTime" select="@value"/>
-                </xsl:call-template>
-            </xsl:attribute>
-            <!-\-<xsl:attribute name="datatype">datetime</xsl:attribute>-\->
-        </gebruiksperiode_start>
-    </xsl:template>
-    
-    <xd:doc>
-        <xd:desc>Template to convert f:end to gebruiksperiode_eind</xd:desc>
-    </xd:doc>
-    <xsl:template match="f:end" mode="mp-MedicationUse2">
-        <gebruiksperiode_eind>
-            <xsl:attribute name="value">
-                <xsl:call-template name="format2ADADate">
-                    <xsl:with-param name="dateTime" select="@value"/>
-                </xsl:call-template>
-            </xsl:attribute>
-            <!-\-<xsl:attribute name="datatype">datetime</xsl:attribute>-\->
-        </gebruiksperiode_eind>
-    </xsl:template>-->
-   <xd:doc>
-      <xd:desc>Template to convert f:dateAsserted to registratiedatum</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:dateAsserted"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:dateAsserted to registratiedatum -->
       <xsl:call-template name="datetime-to-datetime">
          <xsl:with-param name="adaElementName">medicatiegebruik_datum_tijd</xsl:with-param>
          <xsl:with-param name="adaDatatype">datetime</xsl:with-param>
       </xsl:call-template>
    </xsl:template>
-   <xd:doc>
-      <xd:desc> Template to convert f:status to stoptype. Only the FHIR status values that map to a ADA stoptype value are mapped. Template to convert f:status to gebruik_indicator Note: the values below are not fully implemented in the xml schema. See MedicationStatement.status documentation. not-taken &gt; false on-hold &gt; false stopped &gt; false completed &gt; false active &gt; true unknown &gt; unknown (invalid ADA) </xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:status"
                  mode="mp-MedicationUse2">
+      <!--  Template to convert f:status to stoptype. 
+            Only the FHIR status values that map to a ADA stoptype value are mapped. 
+            Template to convert f:status to gebruik_indicator Note: the values below are not fully implemented in the xml schema. 
+            See MedicationStatement.status documentation. not-taken > false on-hold > false stopped > false completed > false active > true unknown > unknown (invalid ADA)  -->
       <xsl:choose>
          <xsl:when test="@value eq 'on-hold'">
             <gebruik_indicator>
@@ -216,11 +199,11 @@
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
-   <xd:doc>
-      <xd:desc> Template to convert f:status to stoptype when the modifierExtension for stoptype is not present. It uses the stoptypeMap-mapping for version 930 and is done for only two status: on-hold &gt; onderbroken stopped &gt; stopgezet </xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:status"
                  mode="mp-MedUseStopType">
+      <!--  Template to convert f:status to stoptype when the modifierExtension for stoptype is not present. 
+            It uses the stoptypeMap-mapping for version 930 and is done for only two status: on-hold > onderbroken stopped > stopgezet  -->
       <xsl:choose>
          <xsl:when test="@value eq 'on-hold'">
             <medicatiegebruik_stop_type code="{$stoptypeMap[@stoptype = 'onderbroken' and @version='930']/@code}"
@@ -235,41 +218,37 @@
          </xsl:when>
       </xsl:choose>
    </xsl:template>
-   <xd:doc>
-      <xd:desc> Template to convert f:statusReason to reden_wijzigen_of_stoppen_gebruik. </xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:statusReason"
                  mode="mp-MedicationUse2">
+      <!--  Template to convert f:statusReason to reden_wijzigen_of_stoppen_gebruik.  -->
       <reden_wijzigen_of_stoppen_gebruik code="{f:coding/f:code/@value}"
                                          codeSystem="2.16.840.1.113883.6.96"
                                          displayName="{f:coding/f:display/@value}"/>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:valueCodeableConcept to stoptype.</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:valueCodeableConcept"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:valueCodeableConcept to stoptype. -->
       <xsl:call-template name="CodeableConcept-to-code">
          <xsl:with-param name="in"
                          select="."/>
          <xsl:with-param name="adaElementName">medicatiegebruik_stop_type</xsl:with-param>
       </xsl:call-template>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:medicationReference to gebruiks_product</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:medicationReference"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:medicationReference to gebruiks_product -->
       <gebruiksproduct>
          <farmaceutisch_product value="{nf:process-reference-2NCName(f:reference/@value,ancestor::f:entry/f:fullUrl/@value)}"
                                 datatype="reference"/>
       </gebruiksproduct>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:informationSource to informant</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:informationSource"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:informationSource to informant -->
       <xsl:variable name="referenceValue"
                     select="nf:process-reference(f:reference/@value, ancestor::f:entry/f:fullUrl/@value)"/>
       <xsl:variable name="referenceValuePractitionerRole"
@@ -307,114 +286,173 @@
          </xsl:choose>
       </informant>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:derivedFrom to gerelateerde_afspraak and gerelateerde_verstrekking</xd:desc>
-      <xd:desc>First try to revolve reference.reference within Bundle, then try to use the reference.identifier based on identifier.type and lastly try to resolve based on identifier within the Bundle.</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:derivedFrom"
                  mode="mp-MedicationUse2">
-      <xsl:variable name="resource"
+      <!-- Template to convert f:derivedFrom 
+            Try to resolve reference within Bundle using nf:resolveRefInBundle and 
+            first use the resolved reference to determine the type of reference
+            then try to use the reference.identifier based on identifier.type and/or the extension for the category 
+            finally we may have to assume a type of reference, which we think is better than to delete whatever was in derivedFrom/identifier -->
+      <xsl:variable name="resolvedResource"
                     select="nf:resolveRefInBundle(.)"/>
       <xsl:choose>
-         <xsl:when test="f:identifier">
-            <xsl:choose>
-               <xsl:when test="matches(f:identifier/f:value/@value, '_MA$') or matches(f:display/@value, 'relatie.*medicatieafspraak')">
-                  <relatie_medicatieafspraak>
-                     <identificatie value="{f:identifier/f:value/@value}"
-                                    root="{replace(f:identifier/f:system/@value, 'urn:oid:', '')}"/>
-                  </relatie_medicatieafspraak>
-               </xsl:when>
-               <xsl:when test="matches(f:identifier/f:value/@value, '_TA$') or matches(f:display/@value, 'relatie.*toedieningsafspraak')">
-                  <relatie_toedieningsafspraak>
-                     <identificatie value="{f:identifier/f:value/@value}"
-                                    root="{replace(f:identifier/f:system/@value, 'urn:oid:', '')}"/>
-                  </relatie_toedieningsafspraak>
-               </xsl:when>
-               <xsl:otherwise>
-                  <xsl:call-template name="util:logMessage">
-                     <xsl:with-param name="level"
-                                     select="$logERROR"/>
-                     <xsl:with-param name="msg">
-                        <xsl:value-of select="./local-name()"/>
-                        <xsl:text> with system/value '</xsl:text>
-                        <xsl:value-of select="f:system/f:value/@value"/>
-                        <xsl:text>' relatie_medicatieafspraak nor relatie_toedieningsafspraak could be established. Therefore information  will be lost.</xsl:text>
-                     </xsl:with-param>
-                  </xsl:call-template>
-               </xsl:otherwise>
-            </xsl:choose>
-         </xsl:when>
-         <xsl:when test="f:type/@value = 'MedicationRequest' or $resource[f:MedicationRequest/f:identifier]">
+         <xsl:when test="$resolvedResource[f:MedicationRequest[f:identifier][f:category/f:coding/f:code/@value = $maCode]]">
+            <!-- MA -->
             <relatie_medicatieafspraak>
                <xsl:call-template name="Identifier-to-identificatie">
                   <xsl:with-param name="in"
-                                  select="(f:identifier | $resource/f:MedicationRequest/f:identifier)[1]"/>
+                                  select="($resolvedResource/f:MedicationRequest/f:identifier)[1]"/>
                   <xsl:with-param name="adaElementName">identificatie</xsl:with-param>
                </xsl:call-template>
             </relatie_medicatieafspraak>
          </xsl:when>
-         <xsl:when test="f:type/@value = 'MedicationDispense' or $resource[f:MedicationDispense/f:identifier]">
+         <xsl:when test="$resolvedResource[f:MedicationDispense[f:identifier][f:category/f:coding/f:code/@value = $taCode]]">
+            <!-- TA -->
+            <relatie_toedieningsafspraak>
+               <xsl:call-template name="Identifier-to-identificatie">
+                  <xsl:with-param name="in"
+                                  select="($resolvedResource/f:MedicationDispense/f:identifier)[1]"/>
+                  <xsl:with-param name="adaElementName">identificatie</xsl:with-param>
+               </xsl:call-template>
+            </relatie_toedieningsafspraak>
+         </xsl:when>
+         <xsl:when test="$resolvedResource[f:MedicationDispense[f:identifier][f:category/f:coding/f:code/@value = $mveCode]]">
+            <!-- MVE -->
+            <relatie_medicatieverstrekking>
+               <xsl:call-template name="Identifier-to-identificatie">
+                  <xsl:with-param name="in"
+                                  select="($resolvedResource/f:MedicationDispense/f:identifier)[1]"/>
+                  <xsl:with-param name="adaElementName">identificatie</xsl:with-param>
+               </xsl:call-template>
+            </relatie_medicatieverstrekking>
+         </xsl:when>
+         <xsl:when test="(f:identifier and (f:type/@value = 'MedicationRequest' or f:extension/f:valueCodeableConcept/f:coding/f:code/@value = $maCode)) or $resolvedResource[f:MedicationRequest/f:identifier]">
+            <relatie_medicatieafspraak>
+               <xsl:call-template name="Identifier-to-identificatie">
+                  <xsl:with-param name="in"
+                                  select="(f:identifier | $resolvedResource/f:MedicationRequest/f:identifier)[1]"/>
+                  <xsl:with-param name="adaElementName">identificatie</xsl:with-param>
+               </xsl:call-template>
+            </relatie_medicatieafspraak>
+         </xsl:when>
+         <xsl:when test="(f:identifier and f:extension/f:valueCodeableConcept/f:coding/f:code/@value = $taCode)">
+            <relatie_toedieningsafspraak>
+               <xsl:call-template name="Identifier-to-identificatie">
+                  <xsl:with-param name="in"
+                                  select="(f:identifier | $resolvedResource/f:MedicationDispense/f:identifier)[1]"/>
+                  <xsl:with-param name="adaElementName">identificatie</xsl:with-param>
+               </xsl:call-template>
+            </relatie_toedieningsafspraak>
+         </xsl:when>
+         <xsl:when test="(f:identifier and f:extension/f:valueCodeableConcept/f:coding/f:code/@value = $mveCode)">
+            <relatie_medicatieverstrekking>
+               <xsl:call-template name="Identifier-to-identificatie">
+                  <xsl:with-param name="in"
+                                  select="(f:identifier | $resolvedResource/f:MedicationDispense/f:identifier)[1]"/>
+                  <xsl:with-param name="adaElementName">identificatie</xsl:with-param>
+               </xsl:call-template>
+            </relatie_medicatieverstrekking>
+         </xsl:when>
+         <xsl:when test="(f:identifier and f:type/@value = 'MedicationDispense') or $resolvedResource[f:MedicationDispense/f:identifier]">
+            <!-- we don't know if this is a TA or a MVE, let's find out using the extension -->
             <xsl:choose>
-               <!-- TODO this extension not yet defined in profile -->
-               <xsl:when test="f:extension/f:valueCode/@value = 'ta'">
+               <xsl:when test="f:extension/f:valueCodeableConcept/f:coding/f:code/@value = $taCode">
                   <relatie_toedieningsafspraak>
                      <xsl:call-template name="Identifier-to-identificatie">
                         <xsl:with-param name="in"
-                                        select="(f:identifier | $resource/f:MedicationDispense/f:identifier)[1]"/>
+                                        select="(f:identifier | $resolvedResource/f:MedicationDispense/f:identifier)[1]"/>
                         <xsl:with-param name="adaElementName">identificatie</xsl:with-param>
                      </xsl:call-template>
                   </relatie_toedieningsafspraak>
                </xsl:when>
-               <xsl:when test="f:extension/f:valueCode/@value = 'mve'">
+               <xsl:when test="f:extension/f:valueCodeableConcept/f:coding/f:code/@value = $mveCode">
                   <relatie_medicatieverstrekking>
                      <xsl:call-template name="Identifier-to-identificatie">
                         <xsl:with-param name="in"
-                                        select="(f:identifier | $resource/f:MedicationDispense/f:identifier)[1]"/>
+                                        select="(f:identifier | $resolvedResource/f:MedicationDispense/f:identifier)[1]"/>
                         <xsl:with-param name="adaElementName">identificatie</xsl:with-param>
                      </xsl:call-template>
                   </relatie_medicatieverstrekking>
                </xsl:when>
                <xsl:otherwise>
-                  <!-- let's assume a TA -->
-                  <xsl:call-template name="util:logMessage">
-                     <xsl:with-param name="level"
-                                     select="$logERROR"/>
-                     <xsl:with-param name="msg">
-                        <xsl:value-of select="parent::f:resource/f:*/local-name()"/>
-                        <xsl:text> with fullUrl '</xsl:text>
-                        <xsl:value-of select="parent::f:resource/f:*/parent::f:resource/preceding-sibling::f:fullUrl/@value"/>
-                        <xsl:text>' could not determine if reference was to administration agreement or medication dispense, assuming administration agreement.</xsl:text>
-                     </xsl:with-param>
-                  </xsl:call-template>
+                  <!-- assume TA, but we don't like this -->
+                  <xsl:variable name="message"
+                                as="xs:string*">
+                     <xsl:value-of select="ancestor::f:resource/f:*/local-name()"/>
+                     <xsl:text> with fullUrl '</xsl:text>
+                     <xsl:value-of select="ancestor::f:resource/preceding-sibling::f:fullUrl/@value"/>
+                     <xsl:text>' has a derivedFrom. We could not determine if the reference was to administration agreement or medication dispense, we have assumed administration agreement (relatie_toedieningsafspraak), that assumption may not be correct. Please investigate: maybe the extension stating the resourceCategory is missing.</xsl:text>
+                  </xsl:variable>
+                  <xsl:comment>
+                     <xsl:value-of select="$message"/>
+                  </xsl:comment>
                   <relatie_toedieningsafspraak>
                      <xsl:call-template name="Identifier-to-identificatie">
                         <xsl:with-param name="in"
-                                        select="(f:identifier | $resource/f:MedicationDispense/f:identifier)[1]"/>
+                                        select="(f:identifier | $resolvedResource/f:MedicationDispense/f:identifier)[1]"/>
                         <xsl:with-param name="adaElementName">identificatie</xsl:with-param>
                      </xsl:call-template>
                   </relatie_toedieningsafspraak>
+                  <xsl:call-template name="util:logMessage">
+                     <xsl:with-param name="level"
+                                     select="$logERROR"/>
+                     <xsl:with-param name="msg"
+                                     select="$message"/>
+                  </xsl:call-template>
                </xsl:otherwise>
             </xsl:choose>
+         </xsl:when>
+         <xsl:when test="f:identifier">
+            <!-- assume MA, but we don't like this -->
+            <xsl:variable name="message"
+                          as="xs:string*">
+               <xsl:value-of select="ancestor::f:resource/f:*/local-name()"/>
+               <xsl:text> with fullUrl '</xsl:text>
+               <xsl:value-of select="ancestor::f:resource/preceding-sibling::f:fullUrl/@value"/>
+               <xsl:text>' has a derivedFrom. The derivedFrom reference cannot be resolved within the Bundle nor can the type of reference be determined. We have however assumed a medication agreement (relatie_medicatieafspraak), that assumption may not be correct.</xsl:text>
+            </xsl:variable>
+            <xsl:comment>
+               <xsl:value-of select="$message"/>
+            </xsl:comment>
+            <relatie_medicatieafspraak>
+               <xsl:call-template name="Identifier-to-identificatie">
+                  <xsl:with-param name="in"
+                                  select="f:identifier"/>
+                  <xsl:with-param name="adaElementName">identificatie</xsl:with-param>
+               </xsl:call-template>
+            </relatie_medicatieafspraak>
+            <xsl:call-template name="util:logMessage">
+               <xsl:with-param name="level"
+                               select="$logERROR"/>
+               <xsl:with-param name="msg">
+                  <xsl:value-of select="$message"/>
+                  <xsl:text> derivedFrom identifier system: '</xsl:text>
+                  <xsl:value-of select="f:identifier/f:system/@value"/>
+                  <xsl:text>' and value '</xsl:text>
+                  <xsl:value-of select="f:identifier/f:value/@value"/>
+                  <xsl:text>'.</xsl:text>
+               </xsl:with-param>
+            </xsl:call-template>
          </xsl:when>
          <xsl:otherwise>
             <xsl:call-template name="util:logMessage">
                <xsl:with-param name="level"
                                select="$logERROR"/>
                <xsl:with-param name="msg">
-                  <xsl:value-of select="parent::f:resource/f:*/local-name()"/>
+                  <xsl:value-of select="ancestor::f:resource/f:*/local-name()"/>
                   <xsl:text> with fullUrl '</xsl:text>
-                  <xsl:value-of select="parent::f:resource/f:*/parent::f:resource/preceding-sibling::f:fullUrl/@value"/>
-                  <xsl:text>' reference cannot be resolved within the Bundle nor can the type of reference be determined by the identifier. Therefore information (potentially the relation to medication agreeement, administration agreement or medication dispense) will be lost.</xsl:text>
+                  <xsl:value-of select="ancestor::f:resource/preceding-sibling::f:fullUrl/@value"/>
+                  <xsl:text>' has a derivedFrom. The derivedFrom reference cannot be resolved within the Bundle nor can the type of reference be determined. Therefore information (potentially the relation to medication agreeement, administration agreement or medication dispense) will be lost.</xsl:text>
                </xsl:with-param>
             </xsl:call-template>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:extension with extension url ext-MedicationUse.Author to auteur</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:extension[@url = $urlExtMedicationUseAuthor]"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:extension with extension url ext-MedicationUse.Author to auteur -->
       <xsl:variable name="referenceValue"
                     select="nf:process-reference(f:valueReference/f:reference/@value, ancestor::f:entry/f:fullUrl/@value)"
                     as="xs:string"/>
@@ -467,38 +505,34 @@
          </xsl:choose>
       </auteur>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:extension with f:extension ext-MedicationUse2.Prescriber to voorschrijver</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:extension[@url = $urlExtMedicationUse2Prescriber]"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:extension with f:extension ext-MedicationUse2.Prescriber to voorschrijver -->
       <voorschrijver>
          <zorgverlener value="{nf:process-reference-2NCName(f:valueReference/f:reference/@value,ancestor::f:entry/f:fullUrl/@value)}"
                        datatype="reference"/>
       </voorschrijver>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:extension with extension url "$asAgreedIndicator-url" to volgens_afspraak_indicator</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:extension[@url = $urlExtAsAgreedIndicator]"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:extension with extension url "$asAgreedIndicator-url" to volgens_afspraak_indicator -->
       <volgens_afspraak_indicator>
          <xsl:attribute name="value"
                         select="f:valueBoolean/@value"/>
       </volgens_afspraak_indicator>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:reasonCode to reden_gebruik</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:reasonCode"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:reasonCode to reden_gebruik -->
       <reden_gebruik value="{f:text/@value}"/>
    </xsl:template>
-   <xd:doc>
-      <xd:desc>Template to convert f:note to toelichting.</xd:desc>
-   </xd:doc>
+   <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
    <xsl:template match="f:note"
                  mode="mp-MedicationUse2">
+      <!-- Template to convert f:note to toelichting. -->
       <toelichting value="{f:text/@value}"/>
    </xsl:template>
 </xsl:stylesheet>

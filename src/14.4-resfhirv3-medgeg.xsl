@@ -41,7 +41,7 @@ The full text of the license is available at http://www.gnu.org/copyleft/lesser.
     
     <!-- versionXSLT = versienummer van DEZE combo -->
     
-    <xsl:variable name="versionXSLT" as="xs:string">0.3.0</xsl:variable>
+    <xsl:variable name="versionXSLT" as="xs:string">0.3.1</xsl:variable>
     <xsl:variable name="transformationCode" as="xs:string" select="'14.4'"/>
     
     
@@ -113,7 +113,7 @@ The full text of the license is available at http://www.gnu.org/copyleft/lesser.
         <!-- find out if it's an OK message or an error -->
         <xsl:variable name="acknowledgement">
             <xsl:choose>
-                <xsl:when test="$ackResultObj//f:Bundle/f:type[@value='transaction-response']">
+                <xsl:when test="local-name($ackResultObj/node()) = 'Bundle' and $ackResultObj/node()/f:type[@value='transaction-response']">
                     <!-- it's ok -->
                     <acknowledgement typeCode="AA">
                         <targetMessage>
@@ -122,11 +122,24 @@ The full text of the license is available at http://www.gnu.org/copyleft/lesser.
                     </acknowledgement>
                     
                 </xsl:when>
-                <xsl:when test="$ackResultObj//f:OperationOutcome">
+                <xsl:when test="local-name($ackResultObj/node()) = 'OperationOutcome'">
+                    <xsl:variable name="errorText">
+                        <xsl:choose>
+                            <xsl:when test="exists($ackResultObj//f:OperationOutcome/f:issue[1]/f:details/f:text)">
+                                <xsl:value-of select="$ackResultObj//f:OperationOutcome/f:issue[1]/f:details/f:text/@value"/>
+                            </xsl:when>
+                            <xsl:when test="exists($ackResultObj//f:OperationOutcome/f:issue[1]/f:diagnostics)">
+                                <xsl:value-of select="$ackResultObj//f:OperationOutcome/f:issue[1]/f:diagnostics/@value"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:text>No error information found</xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
                     <acknowledgement typeCode="CE">
                         <acknowledgementDetail>
                             <code xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" code="SYN105" codeSystem="2.16.840.1.113883.5.1100" displayName="Required element missing" xsi:type="CV"/>
-                            <text><xsl:value-of select="$ackResultObj//f:OperationOutcome/f:issue[1]/f:details/f:text/@value"/></text>
+                            <text><xsl:value-of select="$errorText"/></text>
                         </acknowledgementDetail>
                         <targetMessage>
                             <xsl:sequence select="$targetMessageID"/>

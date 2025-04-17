@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/hl7_2_ada/zibs2020/payload/uni-Gebruiksinstructie.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/hl7-2-ada/env/zibs/2020/payload/uni-Gebruiksinstructie.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -15,7 +15,7 @@
                 xmlns:uuid="http://www.uuid.org"
                 xmlns:local="urn:fhir:stu3:functions"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-   <xsl:import href="fhir_2_ada_fhir_include-d913e283.xsl"/>
+   <xsl:import href="fhir_2_ada_fhir_include-d551e117.xsl"/>
    <xsl:output method="xml"
                indent="yes"/>
    <xsl:strip-space elements="*"/>
@@ -159,7 +159,8 @@
             <xsl:call-template name="routeCode2toedieningsweg"/>
             <!-- aanvullende_instructie -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9085']/hl7:code">
-               <xsl:variable name="elemName">aanvullende_instructie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'aanvullende_instructie'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -191,7 +192,8 @@
                   </xsl:for-each>
                   <!-- dosering -->
                   <xsl:for-each select="hl7:substanceAdministration">
-                     <xsl:variable name="elemName">dosering</xsl:variable>
+                     <xsl:variable name="elemName"
+                                   select="'dosering'"/>
                      <dosering>
                         <!-- keerdosis -->
                         <xsl:for-each select="hl7:doseQuantity">

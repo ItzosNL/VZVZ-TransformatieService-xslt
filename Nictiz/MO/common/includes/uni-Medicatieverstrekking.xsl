@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/hl7_2_ada/zibs2020/payload/uni-Medicatieverstrekking.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/hl7-2-ada/env/zibs/2020/payload/uni-Medicatieverstrekking.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -91,7 +91,8 @@
             </xsl:for-each>
             <!-- verbruiksduur -->
             <xsl:for-each select="hl7:expectedUseTime[.//(@value | @unit | @nullFlavor | @code)]/hl7:width[@value | @unit]">
-               <xsl:variable name="elemName">verbruiksduur</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'verbruiksduur'"/>
                <xsl:element name="{$elemName}">
                   <xsl:for-each select="@value">
                      <xsl:attribute name="value"
@@ -109,7 +110,8 @@
             </xsl:for-each>
             <!-- afleverlocatie -->
             <xsl:for-each select="hl7:participant[@typeCode = 'DST']/hl7:participantRole[@classCode = 'SDLOC']/hl7:addr">
-               <xsl:variable name="elemName">afleverlocatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'afleverlocatie'"/>
                <xsl:element name="{$elemName}">
                   <xsl:attribute name="value">
                      <xsl:copy-of select="string-join(./text() | ./*, ' ')"/>
@@ -118,7 +120,8 @@
             </xsl:for-each>
             <!-- distributievorm -->
             <xsl:for-each select="hl7:entryRelationship/hl7:act[hl7:templateId/@root = '2.16.840.1.113883.2.4.3.11.60.20.77.10.9097']/hl7:code">
-               <xsl:variable name="elemName">distributievorm</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'distributievorm'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName"
                                   select="$elemName"/>
@@ -126,7 +129,8 @@
             </xsl:for-each>
             <!-- aanvullende_informatie -->
             <xsl:for-each select="hl7:entryRelationship/*[hl7:code[@code = '13'][@codeSystem = '2.16.840.1.113883.2.4.3.11.60.20.77.5.2']]/hl7:value">
-               <xsl:variable name="elemName">aanvullende_informatie</xsl:variable>
+               <xsl:variable name="elemName"
+                             select="'aanvullende_informatie'"/>
                <xsl:call-template name="handleCV">
                   <xsl:with-param name="elemName">medicatieverstrekking_aanvullende_informatie</xsl:with-param>
                </xsl:call-template>

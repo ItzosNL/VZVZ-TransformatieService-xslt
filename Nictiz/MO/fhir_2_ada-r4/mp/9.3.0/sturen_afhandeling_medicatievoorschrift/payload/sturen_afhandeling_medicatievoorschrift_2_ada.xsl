@@ -1,23 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- == Provenance: HL7-mappings/fhir_2_ada-r4/mp/9.3.0/sturen_afhandeling_medicatievoorschrift/payload/sturen_afhandeling_medicatievoorschrift_2_ada.xsl == -->
-<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.7; 2025-01-17T18:03:28.04+01:00 == -->
+<!-- == Provenance: YATC-internal/fhir-2-ada-r4/env/mp/9.3.0/sturen_afhandeling_medicatievoorschrift/payload/sturen_afhandeling_medicatievoorschrift_2_ada.xsl == -->
+<!-- == Distribution: MP9-Medicatieproces-9.3.0; 1.0.10; 2025-04-16T18:06:20.52+02:00 == -->
 <xsl:stylesheet exclude-result-prefixes="#all"
                 version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:util="urn:hl7:utilities"
                 xmlns:f="http://hl7.org/fhir"
                 xmlns:nf="http://www.nictiz.nl/functions"
+                xmlns:yatcs="https://nictiz.nl/ns/YATC-shared"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
                 xmlns:local="urn:fhir:stu3:functions">
+   <!-- ================================================================== -->
+   <!--
+        TBD
+    -->
+   <!-- ================================================================== -->
+   <!--
+        Copyright © Nictiz
+        
+        This program is free software; you can redistribute it and/or modify it under the terms of the
+        GNU Lesser General Public License as published by the Free Software Foundation; either version
+        2.1 of the License, or (at your option) any later version.
+        
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU Lesser General Public License for more details.
+        
+        The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+    -->
+   <!-- ================================================================== -->
    <xsl:import href="../../payload/mp9_latest_package.xsl"/>
    <xsl:output indent="yes"
                omit-xml-declaration="yes"/>
-   <xd:doc>
-      <xd:desc>Base template for the main interaction.</xd:desc>
-   </xd:doc>
+   <!-- ================================================================== -->
    <xsl:template match="/">
+      <!-- Base template for the main interaction. -->
       <xsl:variable name="bouwstenen"
                     as="element()*">
          <!--  contactpersoon -->
@@ -29,6 +48,11 @@
          <!-- zorgverlener -->
          <xsl:apply-templates select="f:Bundle/f:entry/f:resource/f:PractitionerRole"
                               mode="resolve-HealthProfessional-PractitionerRole"/>
+         <!-- zorgverlener only present in Practitioner and not referenced from PractitionerRole -->
+         <xsl:variable name="allEntries"
+                       select="f:Bundle/f:entry"/>
+         <xsl:apply-templates select="f:Bundle/f:entry/f:resource/f:Practitioner[not(../preceding-sibling::f:fullUrl/@value = $allEntries//f:reference[ancestor::f:PractitionerRole]/@value)][../preceding-sibling::f:fullUrl/@value = $allEntries//f:reference/@value]"
+                              mode="nl-core-HealthProfessional-Practitioner"/>
          <!-- zorgaanbieder -->
          <xsl:apply-templates select="f:Bundle/f:entry/f:resource/f:Organization"
                               mode="nl-core-HealthcareProvider-Organization"/>
