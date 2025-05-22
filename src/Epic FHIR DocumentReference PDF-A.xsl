@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Copyright © VZVZ (standaardisatie@vzvz.nl)
+Copyright © VZVZ
 
-This program is free software; you can redistribute it and/or modify it under the terms of the
-GNU Lesser General Public License as published by the Free Software Foundation; either version
-2.1 of the License, or (at your option) any later version.
+This program is free software; you can redistribute and/or modify it under the terms of 
+the GNU General Public License as published by the Free Software Foundation; version 3 
+of the License, and no later version.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU Lesser General Public License for more details.
+We make every effort to ensure the files are as error-free as possible, but we take 
+no responsibility for any consequences arising from errors during usage.
 
-The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0.html
 -->
-<xsl:stylesheet xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" exclude-result-prefixes="#all" xmlns:nf="http://www.nictiz.nl/functions" xmlns:fhir="http://hl7.org/fhir" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<xsl:stylesheet xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" 
+  exclude-result-prefixes="#all" 
+  xmlns:nf="http://www.nictiz.nl/functions" 
+  xmlns:fhir="http://hl7.org/fhir" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output method="xml" indent="yes"/>
-    <!-- Dit is een conversie van de FHIR output voor PDF/A (DocumentReference) zoals die door Epic wordt opgeleverd naar het formaat dat Nictiz vereist voor kwalificatie. -->
+    <!-- 
+      Dit is een conversie van de FHIR output voor PDF/A (DocumentReference) 
+      zoals die door Epic wordt opgeleverd naar het formaat dat Nictiz vereist voor kwalificatie. 
+    -->
 
     <xsl:template match="fhir:DocumentReference">
         <DocumentReference xmlns="http://hl7.org/fhir">

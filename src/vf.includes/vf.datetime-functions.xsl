@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Copyright © VZVZ
+
+This program is free software; you can redistribute and/or modify it under the terms of 
+the GNU General Public License as published by the Free Software Foundation; version 3 
+of the License, and no later version.
+
+We make every effort to ensure the files are as error-free as possible, but we take 
+no responsibility for any consequences arising from errors during usage.
+
+The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0.html
+-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"

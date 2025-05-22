@@ -2,15 +2,14 @@
 <!--
 Copyright © VZVZ
 
-This program is free software; you can redistribute it and/or modify it under the terms of the
-GNU Lesser General Public License as published by the Free Software Foundation; either version
-2.1 of the License, or (at your option) any later version.
+This program is free software; you can redistribute and/or modify it under the terms of 
+the GNU General Public License as published by the Free Software Foundation; version 3 
+of the License, and no later version.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU Lesser General Public License for more details.
+We make every effort to ensure the files are as error-free as possible, but we take 
+no responsibility for any consequences arising from errors during usage.
 
-The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0.html
 -->
 <xsl:stylesheet xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:hl7="urn:hl7-org:v3"
     xmlns:hl7nl="urn:hl7-nl:v3" xmlns:fhir="http://hl7.org/fhir"

@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Copyright © VZVZ
+
+This program is free software; you can redistribute and/or modify it under the terms of 
+the GNU General Public License as published by the Free Software Foundation; version 3 
+of the License, and no later version.
+
+We make every effort to ensure the files are as error-free as possible, but we take 
+no responsibility for any consequences arising from errors during usage.
+
+The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0.html
+-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" 
@@ -22,7 +34,7 @@
     <!-- 2025-01-21 remove original query param because the necessary ids are part of the metadata, so this file becomes backwards incompatible
         with the previous version
     -->
-    <xsl:variable name="vf:versionXSLT" as="xs:string">1.0.0</xsl:variable>
+    <xsl:variable name="vf:versionXSLT" as="xs:string">1.0.1</xsl:variable>
     <xsl:variable name="transformationCode" select="'dummy'"/>
 
 
@@ -64,6 +76,11 @@
                             <xsl:with-param name="device" select="$author"/>
                         </xsl:call-template>
                     </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:call-template name="buildAssignedDevice">
+                        <xsl:with-param name="device" select="$author"/>
+                      </xsl:call-template>                      
+                    </xsl:otherwise>
                 </xsl:choose>
             </participant>
         </authorOrPerformer>
@@ -185,42 +202,47 @@
     <xsl:template name="buildAssignedDevice">
         <xsl:param name="device"/>
         <xsl:param name="elementName" select="'AssignedDevice'"/>
-
         <xsl:element name="{$elementName}" namespace="urn:hl7-org:v3">
-            <xsl:for-each select="$device/ID">
+          <xsl:choose>
+            <xsl:when test="$device/ID">
+              <xsl:for-each select="$device/ID">
                 <xsl:call-template name="splitMetaOID">
                     <xsl:with-param name="oid" select="."/>
                 </xsl:call-template>
-            </xsl:for-each>
-            <!-- AOF-2380 add a dummy UZI nummer systemen because it matches v3 messages in production
+              </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+              <!-- AOF-2380 add a dummy UZI nummer systemen because it matches v3 messages in production
                 although we think it's not used
-            -->
-            <id root="2.16.528.1.1007.3.2" extension="123412345"/>
-            <Organization xmlns="urn:hl7-org:v3">
-                <xsl:call-template name="splitMetaOID">
-                    <xsl:with-param name="oid" select="$device/Org/ID"/>
-                </xsl:call-template>
-                <xsl:choose>
-                    <xsl:when test="exists($device/Org/Name)">
-                        <name><xsl:value-of select="$device/Org/Name"/></name>                        
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <name>N/A</name>
-                    </xsl:otherwise>
-                </xsl:choose>
-                <xsl:choose>
-                    <xsl:when test="exists($device/Org/Place)">
-                        <addr>
-                            <city><xsl:value-of select="$device/Org/Place"/></city>
-                        </addr>                        
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <addr>
-                            <city>N/A</city>
-                        </addr>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </Organization>
+              -->              
+              <id root="2.16.528.1.1007.3.2" extension="123412345"/>
+            </xsl:otherwise>
+          </xsl:choose>
+          <Organization xmlns="urn:hl7-org:v3">
+              <xsl:call-template name="splitMetaOID">
+                  <xsl:with-param name="oid" select="$device/Org/ID"/>
+              </xsl:call-template>
+              <xsl:choose>
+                  <xsl:when test="exists($device/Org/Name)">
+                      <name><xsl:value-of select="$device/Org/Name"/></name>                        
+                  </xsl:when>
+                  <xsl:otherwise>
+                      <name>N/A</name>
+                  </xsl:otherwise>
+              </xsl:choose>
+              <xsl:choose>
+                  <xsl:when test="exists($device/Org/Place)">
+                      <addr>
+                          <city><xsl:value-of select="$device/Org/Place"/></city>
+                      </addr>                        
+                  </xsl:when>
+                  <xsl:otherwise>
+                      <addr>
+                          <city>N/A</city>
+                      </addr>
+                  </xsl:otherwise>
+              </xsl:choose>
+          </Organization>
         </xsl:element>
 
     </xsl:template>

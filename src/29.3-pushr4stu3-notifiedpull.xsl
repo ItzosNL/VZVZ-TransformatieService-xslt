@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Copyright © VZVZ
+
+This program is free software; you can redistribute and/or modify it under the terms of 
+the GNU General Public License as published by the Free Software Foundation; version 3 
+of the License, and no later version.
+
+We make every effort to ensure the files are as error-free as possible, but we take 
+no responsibility for any consequences arising from errors during usage.
+
+The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0.html
+-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:math="http://www.w3.org/2005/xpath-functions/math"
@@ -23,7 +35,7 @@
   <xsl:output indent="yes"/>
 
   <xsl:variable name="transformationCode">29.3</xsl:variable>
-  <xsl:variable name="versionXSLT">0.1.2</xsl:variable>
+  <xsl:variable name="versionXSLT">0.1.3</xsl:variable>
   <xsl:variable name="fhirVersion" select="'STU3'"/>
 
   <xd:doc>
@@ -51,8 +63,11 @@
       </xsl:choose>
       
       <!-- convert the instantiatesUri -->
+      <!-- 2025-05-22 convert it to definitionReference as defined in Twiin TA specs -->
       <xsl:if test="exists(f:instantiatesUri)">
-          <definitionUri value="{f:instantiatesUri/@value}"/>
+          <definitionReference>
+            <reference value="{f:instantiatesUri/@value}"/>
+           </definitionReference>
       </xsl:if>
       
       <!-- get or create the groupIdentifier -->

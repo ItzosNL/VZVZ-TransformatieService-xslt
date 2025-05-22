@@ -1,3 +1,9 @@
+# 2025-05-22 v1.6.1
+
+- opgeloste issues:
+  - BTDOV-478/AOF-5801
+  - BTDOV-491
+
 # 2025-04-16 v1.6.0
 
 - Nictiz MO distributie v1.0.10
@@ -30,30 +36,3 @@
 - known issue:
   - regressie m.b.t. leeg adres (MP-1749)
   - [MOPOC-216] 'ontbrekende relaties' leidt tot foutmelding in de log en dus incomplete transformatie
-
-# 2024-11-21 v1.4.3
-
-- Nictiz ketenzorg distributie v1.4.29
-- opgeloste issues: 
-  - BTDOV-112
-  - AOF-3516
-  - BTDOV-113
-
-# 2024-11-11 v1.4.2
-
-- Nictiz MO distributie v.1.0.5
-- opgeloste issues:
-  - AOF-4053
-
-# 2024-11-08 v1.4.1
-
-- opgelost issue: BTDOV-85
-
-# 2024-11-08 v1.4.0
-
-- Nictiz MO distributie v1.0.4
-- BTDOV-30-GTK - incomplete implementatie
-- BTDOV-9-LSP+ - incomplete implementatie
-- opgeloste issues:
-  - BTDOV-110/MP-1681/MOPOC-200
-  - BTDOV-111

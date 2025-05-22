@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:math="http://exslt.org/math" 
 	xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" 
@@ -24,7 +25,7 @@
 	</xsl:function>
 	
     <xd:doc>
-        <xd:desc> internal aux. fu with saxon, this creates a more-unique result with generate-id then when just using a variable containing 
+        <xd:desc> internal aux. function with saxon, this creates a more-unique result with generate-id than just using a variable containing 
             a node </xd:desc>
     </xd:doc>
     <xsl:function name="uuid:_get-node">
