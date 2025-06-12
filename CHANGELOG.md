@@ -1,3 +1,8 @@
+# 2025-06-11 v1.6.2 
+
+- opgeloste issues:
+  - BTDOV-498
+  
 # 2025-05-22 v1.6.1
 
 - opgeloste issues:

@@ -30,7 +30,7 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
     <xsl:import href="vf.includes/vf.datetime-functions.xsl"/>
 
     <xsl:variable name="transformationCode">29.1</xsl:variable>
-    <xsl:variable name="versionXSLT">0.1.3</xsl:variable>
+    <xsl:variable name="versionXSLT">0.1.4</xsl:variable>
 
     <xsl:param name="consentToken" select="saxon:string-to-base64Binary('dummy token', 'UTF8')"/>
     <xd:doc>
@@ -83,6 +83,10 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
                                 <xsl:when test="not($ura = 'the-ura')">
                                     <value value="{$ura}"/>                                    
                                 </xsl:when>
+                              <xsl:when test="exists(/f:Task/f:requester/f:onBehalfOf/f:identifier[f:system/@value='http://fhir.nl/fhir/NamingSystem/ura'])">
+                                <xsl:variable name="tmp" select="/f:Task/f:requester/f:onBehalfOf/f:identifier[f:system/@value='http://fhir.nl/fhir/NamingSystem/ura']/f:value/@value"/>
+                                <value value="{$tmp}"/>
+                              </xsl:when>
                                 <xsl:when test="exists(/f:Task/f:owner/f:identifier[f:system/@value='http://fhir.nl/fhir/NamingSystem/ura'])">
                                     <xsl:variable name="tmp" select="/f:Task/f:owner/f:identifier[f:system/@value='http://fhir.nl/fhir/NamingSystem/ura']/f:value/@value"/>
                                     <value value="{$tmp}"/>

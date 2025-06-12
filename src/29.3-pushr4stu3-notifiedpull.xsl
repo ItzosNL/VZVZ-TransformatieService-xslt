@@ -35,7 +35,7 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
   <xsl:output indent="yes"/>
 
   <xsl:variable name="transformationCode">29.3</xsl:variable>
-  <xsl:variable name="versionXSLT">0.1.3</xsl:variable>
+  <xsl:variable name="versionXSLT">0.1.4</xsl:variable>
   <xsl:variable name="fhirVersion" select="'STU3'"/>
 
   <xd:doc>
@@ -61,15 +61,15 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
           </identifier>
         </xsl:otherwise>
       </xsl:choose>
-      
+
       <!-- convert the instantiatesUri -->
-      <!-- 2025-05-22 convert it to definitionReference as defined in Twiin TA specs -->
+      <!-- 2025-05-22 BTDOV-491: convert it to definitionReference as defined in Twiin TA specs -->
       <xsl:if test="exists(f:instantiatesUri)">
-          <definitionReference>
-            <reference value="{f:instantiatesUri/@value}"/>
-           </definitionReference>
+        <definitionReference>
+          <reference value="{f:instantiatesUri/@value}"/>
+        </definitionReference>
       </xsl:if>
-      
+
       <!-- get or create the groupIdentifier -->
       <xsl:choose>
         <xsl:when test="exists(f:groupIdentifier)">
@@ -82,10 +82,11 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
           </groupIdentifier>
         </xsl:otherwise>
       </xsl:choose>
-      <xsl:apply-templates select="f:status | f:intent | f:code | f:for | f:requester | f:owner | f:restriction"/>
+      <xsl:apply-templates
+        select="f:status | f:intent | f:code | f:for | f:requester | f:owner | f:restriction"/>
 
-      <xsl:apply-templates select="f:input[f:type/f:coding/f:code/@value='consent_token']"/>
-      <xsl:apply-templates select="f:input[f:type/f:coding/f:code/@value='query_string']"/>
+      <xsl:apply-templates select="f:input[f:type/f:coding/f:code/@value = 'consent_token']"/>
+      <xsl:apply-templates select="f:input[f:type/f:coding/f:code/@value = 'query_string']"/>
     </Task>
   </xsl:template>
 
@@ -225,12 +226,12 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
   <xd:doc>
     <xd:desc>Convert consent-token to authorization-base</xd:desc>
   </xd:doc>
-  <xsl:template match="f:input[f:type/f:coding/f:code/@value='consent_token']">
+  <xsl:template match="f:input[f:type/f:coding/f:code/@value = 'consent_token']">
     <input>
       <type xmlns="http://hl7.org/fhir">
         <coding>
-          <system value="http://fhir.nl/fhir/NamingSystem/TaskParameter" />
-          <code value="authorization-base" />
+          <system value="http://fhir.nl/fhir/NamingSystem/TaskParameter"/>
+          <code value="authorization-base"/>
         </coding>
       </type>
       <!-- 2024-11-14 See mail to Ron, Tom and Maarten B.
@@ -253,8 +254,8 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
     <xd:desc>Convert AORTA query-string to Twiin query</xd:desc>
   </xd:doc>
   <!-- 2024-09-04 HvdL according to the v1.2 Twiin specs I can use a generic parameter coding  -->
-  <xsl:template match="f:input[f:type/f:coding/f:code/@value='query_string']">
-<!--    <xsl:variable name="id">
+  <xsl:template match="f:input[f:type/f:coding/f:code/@value = 'query_string']">
+    <!--    <xsl:variable name="id">
       <xsl:sequence select="replace(f:valueString/@value, '([a-zA-Z]*)[\?/].*', '$1')"/>
     </xsl:variable>
     <xsl:variable name="code">
@@ -279,49 +280,68 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
     <!-\-    <xsl:comment>found: <xsl:value-of select="$id"/>
  with code: <xsl:value-of select="$code"/>
   </xsl:comment>
--->  
+-->
     <xsl:variable name="action">
-    <xsl:choose>
-      <xsl:when test="contains(f:valueString/@value, '?')">
-        <xsl:value-of select="'search-resource'"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="'read-resource'"/>
-      </xsl:otherwise>
-    </xsl:choose>
+      <xsl:choose>
+        <xsl:when test="contains(f:valueString/@value, '?')">
+          <xsl:value-of select="'search-resource'"/>
+        </xsl:when>
+        <!-- 2025-05-27 according to BTDOV-498: only Document related resources are read -->
+        <xsl:when test="
+            contains(f:valueString/@value, 'DocumentManifest/')
+            or contains(f:valueString/@value, 'DocumentReference/')
+            or contains(f:valueString/@value, 'Binary/')">
+          <xsl:value-of select="'read-resource'"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="'search-resource'"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:variable>
     <input>
-<!--      <xsl:sequence select="$mapAORTA2GTK[@element=$id and @code=$code]/f:type"
+      <!--      <xsl:sequence select="$mapAORTA2GTK[@element=$id and @code=$code]/f:type"
         xmlns='http://hl7.org/fhir'/>
 -->
       <type>
         <coding>
-          <system value="http://fhir.nl/fhir/NamingSystem/TaskParameter" />
-          <code value="{$action}" />
+          <system value="http://fhir.nl/fhir/NamingSystem/TaskParameter"/>
+          <code value="{$action}"/>
         </coding>
       </type>
-      <xsl:sequence select="f:valueString"/>
+      <!-- 2025-06-11 BTDOV-498: 
+        according to Twiin 1.3.1 (https://twiin-afsprakenstelsel.public.vzvz.nl/ta131/10-3-1-twiin-01-send-notification-task)
+        should have 'valueReference' not 'valueString'
+      -->
+      <xsl:choose>
+        <xsl:when test="$action = 'read-resource'">
+          <valueReference>
+            <reference value="{f:valueString/@value}"/>
+          </valueReference> 
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:sequence select="f:valueString"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </input>
-</xsl:template>
+  </xsl:template>
 
-<xd:doc>
-  <xd:desc>fallback template</xd:desc>
-</xd:doc>
-<xsl:template match="@* | node()">
-  <xsl:copy>
-    <xsl:apply-templates select="@* | node()"/>
-  </xsl:copy>
-</xsl:template>
+  <xd:doc>
+    <xd:desc>fallback template</xd:desc>
+  </xd:doc>
+  <xsl:template match="@* | node()">
+    <xsl:copy>
+      <xsl:apply-templates select="@* | node()"/>
+    </xsl:copy>
+  </xsl:template>
 
-<xd:doc>
-  <xd:desc>
-    <xd:p>Mapping table going from AORTA to Twiin</xd:p>
-    <xd:p>NOTE: the valueStrings are only added for reference, and possible use in the future, but
-                are currently not used
-    </xd:p>
-  </xd:desc>
-</xd:doc>
-<!--
+  <xd:doc>
+    <xd:desc>
+      <xd:p>Mapping table going from AORTA to Twiin</xd:p>
+      <xd:p>NOTE: the valueStrings are only added for reference, and possible use in the future, but
+        are currently not used </xd:p>
+    </xd:desc>
+  </xd:doc>
+  <!--
     <xsl:variable xmlns="" name="mapAORTA2GTK" as="element(map)+">
   <map element="Patient" code="Patient">
     <type xmlns="http://hl7.org/fhir">

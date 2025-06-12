@@ -40,6 +40,7 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
     <xsl:variable name="buildingBlock" select="'dummy'"/>
     <xsl:variable name="xslDebug" as="xs:boolean" select="false()"/>
     <xsl:variable name="zorgToepassing" as="xs:string" select="'MO'"/>
+    <xsl:variable name="fhirVersion" select="'R4B'"/>
 
     <xsl:variable name="nictizVersion">
         <!-- over welke distributie hebben we het -->
@@ -92,6 +93,11 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
         <map version="930 93 default" usecase="raadplegen_medicatiegegevens" buildingblock="MTD" interactionId="QUTD_IN000003NL01" queryInteractionId="QUTD_IN000001NL01" organizerTemplateId="2.16.840.1.113883.2.4.3.11.60.20.77.10.9408"/>
     </xsl:variable>
            
+    <xsl:variable name="mapTransformationCodeSystem" as="element(map)+">
+      <map version="R4" system="http://terminology.hl7.org/CodeSystem/v3-ObservationValue"/>
+      <map version="R4B" system="http://terminology.hl7.org/CodeSystem/v3-ObservationValue"/>
+      <map version="STU3" system="http://hl7.org/fhir/v3/ObservationValue"/>
+    </xsl:variable>
 
     <xd:doc>
         <xd:desc>Add transformationcode info depending on the type</xd:desc>
@@ -107,6 +113,10 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
         <xsl:param name="type"/>
         <xsl:param name="transformationCode"/>
         <xsl:param name="versionXSLT" select="$vf:versionXSLT"/>
+      
+        <xsl:variable name="transformationCodeSystem">
+          <xsl:value-of select="$mapTransformationCodeSystem[@version = $fhirVersion]/@system"/>
+        </xsl:variable>
 
         <xsl:variable name="transformationInformation">
             <xsl:choose>
@@ -124,7 +134,7 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
             <xsl:when test="$type = 'f' or $type = 'fhir'">
                 <meta xmlns="http://hl7.org/fhir">
                     <security>
-                        <system value="http://hl7.org/fhir/v3/ObservationValue"/>
+                      <system value="{$transformationCodeSystem}"/>
                         <code value="SYNTAC"/>
                     </security>
                     <tag>
