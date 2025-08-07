@@ -266,7 +266,7 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
 <!--                <input>
                     <type>
                         <coding>
-                            <system value="http://fhir.nl/fhir/NamingSystem/TaskParameter"/>
+                            <system value="http://fhir.nl/fhir/CodeSystem/TaskParameter"/>
                             <code value="get-workflow-task"/>
                         </coding>
                     </type>

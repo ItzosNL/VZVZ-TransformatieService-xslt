@@ -96,7 +96,7 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
   <xsl:template match="/f:Task/f:code">
     <code>
       <coding>
-        <system value="http://fhir.nl/fhir/NamingSystem/TaskCode"/>
+        <system value="http://fhir.nl/fhir/CodeSystem/TaskCode"/>
         <code value="pull-notification"/>
       </coding>
     </code>
@@ -230,7 +230,7 @@ The full text of the license is available at http://www.gnu.org/licenses/gpl-3.0
     <input>
       <type xmlns="http://hl7.org/fhir">
         <coding>
-          <system value="http://fhir.nl/fhir/NamingSystem/TaskParameter"/>
+          <system value="http://fhir.nl/fhir/CodeSystem/TaskParameter"/>
           <code value="authorization-base"/>
         </coding>
       </type>

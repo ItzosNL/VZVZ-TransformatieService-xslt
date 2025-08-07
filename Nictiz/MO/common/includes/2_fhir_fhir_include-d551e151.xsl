@@ -631,9 +631,9 @@
                  select="'2.16.840.1.113883.2.4.3.11.60.40.1'"/>
    <xsl:param name="fhirVersion"
               select="'R4'"/>
-   <xsl:param name="patientTokensXml"
+<!--   <xsl:param name="patientTokensXml"
               select="document('../../../ada-2-fhir/env/fhir/QualificationTokens.xml')"/>
-   <xsl:param name="fhirMetadata"
+-->   <xsl:param name="fhirMetadata"
               as="element()*">
       <xsl:call-template name="buildFhirMetadata">
          <xsl:with-param name="in"

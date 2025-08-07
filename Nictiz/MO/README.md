@@ -11,3 +11,7 @@ Created: 2025-04-16 18:06:20
 
 This distribution was created by the YATC distribute component.
 
+2025-07-17 Helma van der Linden
+- MP-1931, remove redundant dependency on QualificationTokens.xml
+
+Hernoemd naar version 1.0.10a
