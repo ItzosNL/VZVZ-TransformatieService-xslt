@@ -1,3 +1,10 @@
+# 2025-08-07 v1.6.4
+
+- Nictiz MO distributie v1.0.10a
+- opgeloste issues:
+  - BTDOV-537/AOF-6110 onterechte xml namespace declaration (soap) in transformatie 14.4
+  - BTDOV-538/AOF-6109 onterecht acknowledgement typeCode AA in transformaties van pushberichten naar v3
+
 # 2025-07-17 v1.6.3
 
 - Nictiz MO distributie v1.0.10a
